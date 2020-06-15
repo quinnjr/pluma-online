@@ -1,0 +1,91 @@
+version: "3.8"
+
+services:
+  nginx:
+    container_name: pluma-nginx
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+      cache_from:
+        - alpine:latest
+        - fiubiorg/nginx:latest
+      labels:
+        com.pluma-nginx.description: "Custom NGINX container for PluMA Online"
+        com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
+      args:
+        - NGINX_VERSION=1.19.0
+    image: fiubiorg/nginx:latest
+    volumes:
+      - type: volume
+        source: web
+        target: /srv/http
+        read_only: true
+        volume:
+          nocopy: true
+        consistency: cached
+      - type: bind
+        source: ./etc/nginx
+        target: /etc/nginx
+        read_only: true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - web
+    restart: unless-stopped
+
+  php-fpm:
+    container_name: pluma-php-fpm
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile.php-fpm
+      cache_from:
+        - alpine:latest
+      labels:
+        com.pluma-nginx.description: "PHP-FPM container for PluMA Online"
+        com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
+    networks:
+      - web
+    volumes:
+      - type: bind
+        source: ./etc/php7
+        target: /etc/php7
+    restart: unless-stopped
+
+  database:
+    container_name: biorg-database
+    image: postgres:alpine
+
+  frontend:
+    container_name: pluma-backend
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile.application
+      cache_from:
+        - alpine:latest
+      labels:
+        com.pluma-nginx.description: "Backend container for PluMA Online"
+        com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
+      # depends_on:
+      #   - database
+    networks:
+      - web
+    volumes:
+      - type: volume
+        source: web
+        target: /srv/http
+      - type: bind
+        source: /var/run/docker.sock
+        target: /docker.sock
+    restart: unless-stopped
+
+volumes:
+  web:
+
+networks:
+  web:
+  # bridge:
+  #   external: true
