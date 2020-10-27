@@ -35,31 +35,12 @@ services:
       - web
     restart: unless-stopped
 
-  php-fpm:
-    container_name: pluma-php-fpm
-    env_file: .env
-    build:
-      context: .
-      dockerfile: Dockerfile.php-fpm
-      cache_from:
-        - alpine:latest
-      labels:
-        com.pluma-nginx.description: "PHP-FPM container for PluMA Online"
-        com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
-    networks:
-      - web
-    volumes:
-      - type: bind
-        source: ./etc/php7
-        target: /etc/php7
-    restart: unless-stopped
-
   database:
     container_name: biorg-database
     image: postgres:alpine
 
-  frontend:
-    container_name: pluma-backend
+  pluma:
+    container_name: pluma
     env_file: .env
     build:
       context: .
@@ -68,7 +49,7 @@ services:
         - alpine:latest
       labels:
         com.pluma-nginx.description: "Backend container for PluMA Online"
-        com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
+        com.pluma-nginx.maintainer: "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"
       # depends_on:
       #   - database
     networks:

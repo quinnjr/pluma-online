@@ -1,9 +1,0 @@
-[submodule "pluma-online-frontend"]
-	path = pluma-online-frontend
-	url = git@github.com:quinnjr/pluma-online-frontend.git
-[submodule "pluma-online-backend"]
-	path = pluma-online-backend
-	url = git@github.com:quinnjr/pluma-online-backend.git
-[submodule "pluma-online-nginx"]
-	path = pluma-online-nginx
-	url = git@github.com:quinnjr/pluma-online-nginx.git

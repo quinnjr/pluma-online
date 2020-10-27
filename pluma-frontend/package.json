@@ -1,0 +1,13 @@
+{
+    "name": "frontend-yew",
+    "version": "0.1.0",
+    "description": "The frontend to the PLuMA Online Application",
+    "main": "index.js",
+    "private": true,
+    "author": "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "bulma": "^0.9.1",
+        "bulmaswatch": "^0.8.1"
+    }
+}

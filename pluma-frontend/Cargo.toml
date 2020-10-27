@@ -1,0 +1,27 @@
+[package]
+name = "pluma-frontend"
+description = "Frontend to the PluMA Online system."
+version = "0.1.0"
+authors = ["Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+failure = "0.1.8"
+serde = { version = "1.0.117", features = [ "derive" ] }
+serde_json = "1.0.59"
+wasm-bindgen = "0.2.68"
+wasm-logger = "0.2.0"
+ybc = "0.1.6"
+yew = "0.17.4"
+yew-router = "0.14.0"
+wee_alloc = "0.4.5"
+
+[dev-dependencies]
+wasm-bindgen-cli = "0.2.68"
+trunk = "0.7.4"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+opt-level = "z"
+lto = true
