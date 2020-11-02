@@ -1,8 +1,6 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-use wasm_bindgen::prelude::*;
-
 // Use `wee-alloc` as the global allocator.
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;

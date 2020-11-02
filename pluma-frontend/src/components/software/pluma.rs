@@ -3,9 +3,10 @@
 
 use serde::Deserialize;
 use yew::{
-    agent::Bridged, 
+    agent::Bridged,
     html,
     Bridge,
+    Children,
     Component,
     ComponentLink,
     Html,
@@ -36,7 +37,9 @@ pub enum PlumaMsg {
 #[derive(Clone, Properties, PartialEq)]
 pub struct PlumaProps {
     #[prop_or_default]
-    pub route: Option<PlumaRoute>,
+    pub children: Children,
+    // #[prop_or_default]
+    // pub route: Option<PlumaRoute>,
 }
 
 pub struct PlumaComponent {

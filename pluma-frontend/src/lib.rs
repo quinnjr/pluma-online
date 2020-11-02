@@ -128,7 +128,7 @@ impl Component for Application {
                                 },
                                 AppRoute::Pluma(pluma_route) => {
                                     html!{
-                                        <PlumaComponent route=pluma_route />
+                                        <PlumaComponent />
                                     }
                                 }
                             }

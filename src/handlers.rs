@@ -3,6 +3,6 @@
 
 use actix_web::Responder;
 
-pub async fn hello_world() -> impl Responder {
-  format!("hello world")
+pub async fn index() -> impl Responder {
+    format!("Here be dragons")
 }
