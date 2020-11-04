@@ -82,6 +82,7 @@ table! {
         id -> Int4,
         email -> Text,
         password_hash -> Text,
+        roles -> Array<Int2>,
         created_at -> Timestamp,
         updated_at -> Timestamp,
     }

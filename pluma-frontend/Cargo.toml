@@ -6,23 +6,27 @@ authors = ["Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"]
 edition = "2018"
 
 [dependencies]
-failure = "0.1.8"
-serde = { version = "1.0.117", features = [ "derive" ] }
-serde_json = "1.0.59"
 # wasm-bindgen = "0.2.68"
-wasm-logger = "0.2.0"
 # ybc = "0.1.6"
-ybc = { git = "https://github.com/quinnjr/ybc", branch = "feature/add-ids" }
+anyhow = "1.0.33"
+base64 = "0.13.0"
+log = "0.4.11"
+serde = { version = "1.0.117", features = ["derive"] }
+serde_json = "1.0.59"
+thiserror = "1.0.21"
+wasm-logger = "0.2.0"
+wee_alloc = "0.4.5"
+ybc = { git = "https://github.com/quinnjr/ybc", branch = "feature/add-ids", features = ["router"] }
 yew = "0.17.4"
 yew-router = "0.14.0"
-wee_alloc = "0.4.5"
+wasm-bindgen = { version = "0.2.68", features = ["serde-serialize"] }
+js-sys = "0.3.45"
+wasm-bindgen-futures = "0.4.18"
+web-sys = { version = "0.3.45", features = ["CryptoKey", "JsonWebKey", "SubtleCrypto", "Window"] }
+lazy_static = "1.4.0"
+hmac = "0.10.1"
+sha2 = "0.9.2"
 
 [dev-dependencies]
-wasm-bindgen-cli = "0.2.68"
+# wasm-bindgen-cli = "0.2.68"
 trunk = "0.7.4"
-
-[profile.release]
-panic = "abort"
-codegen-units = 1
-opt-level = "z"
-lto = true

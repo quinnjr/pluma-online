@@ -1,5 +1,4 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-pub mod api;
-pub mod auth;
+pub const SECRET: &[u8] = include_bytes!("../../secret.key");

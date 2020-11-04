@@ -3,4 +3,4 @@ target = "src/index.html"
 dist = "dist"
 
 [serve]
-port = 9001
+port = 3000

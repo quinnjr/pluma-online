@@ -8,19 +8,30 @@ use yew_router::prelude::*;
 /// App routes
 #[derive(Switch, Clone, PartialEq)]
 pub enum AppRoute {
-    #[to="/pluma"]
+    #[to = "/auth{*:sub_route}"]
+    Auth(AuthRoute),
+    #[to = "/pluma{*:sub_route}"]
     Pluma(PlumaRoute),
-    #[to="/!"]
+    #[to = "/!"]
     Index,
+}
+
+// Sub-routes for authentication
+#[derive(Switch, Clone, PartialEq)]
+pub enum AuthRoute {
+    #[to = "/login"]
+    Login,
+    #[to = "/register"]
+    Register,
 }
 
 /// PluMA routes
 #[derive(Switch, Clone, PartialEq)]
 pub enum PlumaRoute {
-    #[to="/plugins"]
+    #[to = "/plugins"]
     Plugins,
-    #[to="/pipelines"]
+    #[to = "/pipelines"]
     Pipelines,
-    #[to="/!"]
+    #[to = "/!"]
     Index,
 }

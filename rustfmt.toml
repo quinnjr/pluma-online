@@ -1,0 +1,9 @@
+binop_separator = "Front"
+blank_lines_lower_bound = 0
+max_width = 80
+reorder_imports = true
+tab_spaces = 4
+unstable_features = true
+wrap_comments = true
+
+ignore = ["pluma-frontend/src/schema.rs"]

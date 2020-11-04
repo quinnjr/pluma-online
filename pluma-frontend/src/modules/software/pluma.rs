@@ -3,15 +3,8 @@
 
 use serde::Deserialize;
 use yew::{
-    agent::Bridged,
-    html,
-    Bridge,
-    Children,
-    Component,
-    ComponentLink,
-    Html,
-    Properties,
-    ShouldRender
+    agent::Bridged, html, Bridge, Children, Component, ComponentLink, Html,
+    Properties, ShouldRender,
 };
 use yew_router::prelude::*;
 
@@ -38,8 +31,8 @@ pub enum PlumaMsg {
 pub struct PlumaProps {
     #[prop_or_default]
     pub children: Children,
-    // #[prop_or_default]
-    // pub route: Option<PlumaRoute>,
+    /* #[prop_or_default]
+     * pub route: Option<PlumaRoute>, */
 }
 
 pub struct PlumaComponent {
@@ -56,9 +49,13 @@ impl Component for PlumaComponent {
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let router_agent = RouteAgent::bridge(link.callback(PlumaMsg::Route));
+
         let route_service = RouteService::new();
+
         let mut route = route_service.get_route();
+
         fix_fragment_routes(&mut route);
+
         Self {
             categories: Vec::new(),
             current_route: PlumaRoute::switch(route),
