@@ -1,0 +1,33 @@
+<nav class="navbar has-shadow" id="navbar-main" role="navigation"
+  aria-label="main navigation" style="margin-bottom: 1rem;">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <img src="/assets/images/logo.png" alt="FIU BioRG" />
+    </a>
+    <a class="navbar-burger burger" #navbarBurger
+      (click)="toggleNavbar()" role="button" aria-lable="menu"
+      aria-expand="false" data-target="navbar-main">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu" #navbarMenu>
+    <div class="navbar-start">
+      <a class="navbar-item" routerLink="/home" routerLinkActive="active">Home</a>
+      <a class="navbar-item" routerLink="/people">People</a>
+      <a class="navbar-item" routerLink="/publications">Publications</a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <span class="navbar-link">Software</span>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" routerLink="/software">Jasper</a>
+          <a class="navbar-item" routerLink="/software">Flint</a>
+          <a class="navbar-item" routerLink="/software/pluma">PluMA</a>
+        </div>
+      </div>
+      <a class="navbar-item" routerLink="/research">Research</a>
+      <a class="navbar-item" routerLink="/teaching">Teaching</a>
+      <a class="navbar-item" routerLink="/contact">Contact</a>
+    </div>
+  </div>
+</nav>

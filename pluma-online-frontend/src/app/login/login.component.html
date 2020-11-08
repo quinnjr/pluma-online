@@ -1,0 +1,38 @@
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+    <section class="section content">
+      <div class="box">
+        <h2>Login</h2>
+        <form class="form" id="loginForm" [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()">
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input class="input" type="email" placeholder="jdoe@fiu.edu"
+                formControlName="email"
+                [ngClass]="{ 'is-danger': isSubmitted && loginForm.get('emails').errors }" required />
+            </div>
+            <div *ngIf="loginForm.dirty && loginForm.get('email').hasError('required')">
+              <p class="help is-danger">Email address is required.</p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password"
+                formControlName="password"
+                [ngClass]="{ 'is-danger': isSubmitted && loginForm.get('password').errors }"
+                required />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary" type="submit"
+                [disabled]="!loginForm.valid">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

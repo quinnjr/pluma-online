@@ -1,0 +1,76 @@
+<div class="columns">
+  <div class="column is-three-quarters">
+    <section class="section content" id="header">
+      <h2>Plugin Pool</h2>
+      <p>These plugins have been tested and are compatible with the latest version of PluMA. You can download just the ones you wish to use.</p>
+      <p>The easiest way to install them is to place them in the plugins/ directory of the PluMA source tree, however you can install them elsewhere by setting the environment variable <code>PLUMA_PLUGIN_PATH.</code></p>
+      <p>Have a new plugin that you would like to add to the pool? Please send your source code and a description to Trevor Cickovski. All plugins in the pool will be added as test cases for future releases of PluMA, giving you automatic forward compatibility!</p>
+    </section>
+    <section class="section" id="plugins">
+      <div class="columns">
+        <div class="column is-4">
+          <aside class="menu">
+            <p class="menu-label">PluMA Plugin Repositories</p>
+            <ul class="menu-list">
+              <li *ngFor="let category of getCategories()">
+                <a [ngClass]="{ 'is-active': isLinkActive(category.id) }"
+                  (click)="setLinkActive(category.id)">{{ category.name }}</a>
+              </li>
+            </ul>
+          </aside>
+        </div>
+        <div class="column">
+          <table class="table is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Language</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plugin of getPlugins()">
+                <td>
+                  <span class="panel-block">
+                    <span class="panel-icon">
+                      <i class="fas fa-book" aria-hidden="true"></i>
+                    </span>
+                    <a href="{{ plugin.git_url }}">{{ plugin.name }}</a>
+                  </span>
+                </td>
+                <td>
+                  <span class="panel-block">{{ plugin.description }}</span>
+                </td>
+                <td>
+                  <span class="panel-block">{{ plugin.primary_language }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="column is-one-quarter">
+    <aside class="menu">
+      <p class="menu-label">Download PluMA</p>
+      <ul class="menu-list">
+        <li>
+          <a routerLink="/software/pluma">PluMA Home</a>
+        </li>
+        <li>
+          <a href="https://github.com/FIUBioRG/PluMA" target="_blank">PluMA Github Site</a>
+        </li>
+        <li>
+          <a href="#">PluMA Userguide</a>
+        </li>
+        <li>
+          <a routerLink="/software/pluma/plugins">PluMA Plugin Pool</a>
+        </li>
+        <li>
+          <a routerLink="/software/pluma/pipelines">PluMA Pipeline Pool</a>
+        </li>
+      </ul>
+    </aside>
+  </div>
+</div>

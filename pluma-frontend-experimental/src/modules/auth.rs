@@ -75,7 +75,7 @@ impl Component for AuthComponent {
 
     fn view(&self) -> Html {
         html! {
-            <ybc::Column classes="is-three-fifths is-offset-one-fifth">
+            <ybc::Column classes="is-half is-offset-one-quarter">
                 <ybc::Box>
                      <ybc::Tabs classes="is-fullwidth is-toggle">
                         <li class="is-active">

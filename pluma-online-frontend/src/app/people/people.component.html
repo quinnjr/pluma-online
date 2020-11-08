@@ -1,0 +1,145 @@
+<div class="columns" style="margin-top: 1rem;">
+  <div class="column is-10 is-offset-1 content">
+    <section class="section box" id="faculty">
+      <h2>Faculty Members</h2>
+      <div class="tile">
+        <div class="tile is-3" *ngFor="let person of getByRole(1)">
+          <div class="card">
+            <div class="card-image">
+              <a href="{{ person.url }}">
+                <figure class="image is-128x128">
+                  <img src="{{ person.profile_picture }}" />
+                </figure>
+              </a>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <p><strong>{{ person.name }}</strong></p>
+                <p>{{ person.title }}</p>
+                <p><em>{{ person.speciality }}</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section box" id="graduateStudents">
+      <h2>Graduate Students</h2>
+      <div class="tile">
+        <div class="tile is-3" *ngFor="let person of getByRole(2)">
+          <div class="card">
+            <div class="card-image">
+              <a href="{{ person.url }}">
+                <figure class="image is-128x128">
+                  <img src="{{ person.profile_picture }}" />
+                </figure>
+              </a>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <p><strong>{{ person.name }}</strong></p>
+                <p>{{ person.title }}</p>
+                <p><em>{{ person.speciality }}</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section box" id="undergraduateStudents">
+      <h2>Undergraduate Students</h2>
+      <div class="tile">
+        <div class="tile is-3" *ngFor="let person of getByRole(3)">
+          <div class="card">
+            <div class="card-image">
+              <a href="{{ person.url }}">
+                <figure class="image is-128x128">
+                  <img src="{{ person.profile_picture }}" />
+                </figure>
+              </a>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <p><strong>{{ person.name }}</strong></p>
+                <p>{{ person.title }}</p>
+                <p><em>{{ person.speciality }}</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section box" id="volunteers">
+      <h2>Volunteers</h2>
+      <div class="tile">
+        <div class="tile is-3" *ngFor="let person of getByRole(4)">
+          <div class="card">
+            <div class="card-image">
+              <a href="{{ person.url }}">
+                <figure class="image is-128x128">
+                  <img src="{{ person.profile_picture }}" />
+                </figure>
+              </a>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <p><strong>{{ person.name }}</strong></p>
+                <p>{{ person.title }}</p>
+                <p><em>{{ person.speciality }}</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section box" id="alumni">
+      <h2>Alumni</h2>
+      <div class="tile">
+        <div class="tile is-3" *ngFor="let person of getByRole(5)">
+          <div class="card">
+            <div class="card-image">
+              <a href="{{ person.url }}">
+                <figure class="image is-128x128">
+                  <img src="{{ person.profile_picture }}" />
+                </figure>
+              </a>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <p><strong>{{ person.name }}</strong></p>
+                <p>{{ person.title }}</p>
+                <p><em>{{ person.speciality }}</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="section">
+        <h2>In Memorium</h2>
+      </section>
+    </section>
+    <section class="section box" id="collaborators">
+      <h2>Collaborators</h2>
+      <div class="tile">
+        <div class="tile is-3" *ngFor="let person of getByRole(6)">
+          <div class="card">
+            <div class="card-image">
+              <a href="{{ person.url }}">
+                <figure class="image is-128x128">
+                  <img src="{{ person.profile_picture }}" />
+                </figure>
+              </a>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <p><strong>{{ person.name }}</strong></p>
+                <p>{{ person.title }}</p>
+                <p><em>{{ person.speciality }}</em></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

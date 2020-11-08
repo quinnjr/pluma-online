@@ -1,0 +1,39 @@
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
+import { Component, OnInit } from '@angular/core';
+import { moveItemInArray, transferArrayItem, CdkDragDrop } from '@angular/cdk/drag-drop';
+
+import { Plugin } from './plugin';
+
+@Component({
+  selector: 'biorg-pluma-pipeline',
+  templateUrl: './pipeline.component.html'
+})
+export class AppComponent implements OnInit {
+  private _title = 'PLuMA Online';
+
+  private plugins: Plugin[] = [];
+  private pluginsEnabled: Plugin[] = [];
+
+  ngOnInit() {
+
+  }
+
+  public onDrop(event: CdkDragDrop<Plugin[]>) {
+    if(event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
+}

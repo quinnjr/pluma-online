@@ -1,0 +1,16 @@
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+// Project customizations
+$fiu-blue: hsl(216, 77%, 14%);
+$fiu-gold: hsl(39, 61%, 44%);
+
+$bulmaswatch-import-font: false;
+
+$family-sans-serif: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Montserrat, Arial, "Lucida Grande", sans-serif;
+$family-primary: $family-sans-serif;
+
+@import '~bulma';
+@import '~bulmaswatch/lumen/bulmaswatch';

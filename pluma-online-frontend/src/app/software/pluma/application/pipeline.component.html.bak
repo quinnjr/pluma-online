@@ -1,0 +1,38 @@
+<section class="section" id="plugin-available-list">
+  <span class="title">Available Plugins</span>
+  <div class="box"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    #pluginsList="cdkDropList"
+    [cdkDropListData]="plugins"
+    [cdkDropListConnectedTo]="[pluginsEnabledList]"
+    (cdkDropListDropped)="onDrop($event)">
+    <div class="message is-small" *ngFor="let plugin of plugins" cdkDrag>
+      <div class="message-header" [style.background-color]="plugin.color">
+        <p>{{ plugin.name }}</p>
+      </div>
+      <div class="message-body">
+        <p>{{ plugin.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="plugin-active-list">
+  <span class="title">Enabled Plugins</span>
+  <div class="box"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    #pluginsEnabledList="cdkDropList"
+    [cdkDropListData]="pluginsEnabled"
+    [cdkDropListConnectedTo]="[pluginsList]"
+    (cdkDropListDropped)="onDrop($event)">
+    <div class="message is-small" *ngFor="let plugin of pluginsEnabled" cdkDrag>
+      <div class="message-header" [style.background-color]="plugin.color">
+        <p>{{ plugin.name }}</p>
+      </div>
+      <div class="message-body">
+        <p>{{ plugin.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
