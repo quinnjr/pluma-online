@@ -4,7 +4,7 @@ ENV CC=/usr/bin/clang
 ENV CXX=/usr/bin/clang++
 
 ARG NGINX_VERSION
-ENV NGINX_VERSION ${NGINX_VERSION:-1.19.0}
+ENV NGINX_VERSION ${NGINX_VERSION:-1.19.10}
 
 ENV CFLAGS '-std=c11 -pedantic -pipe -fPIC -fstack-protector -O3 -Wall -Wextra -Wpointer-arith -Wconditional-uninitialized -Wno-unused-parameter -Wno-deprecated-declarations -mtune=native'
 
@@ -122,9 +122,11 @@ RUN sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
   rm -rf /var/cache/apk/* && \
   find /etc/nginx -type f \( -name "*.defaults" \
     -o -name '*gi*' \
-    -o -name "mime.types" \) -exec rm -f {} \;
+    -o -name "mime.types" \) -exec rm -f {} \; && \
+  ln -sf /dev/stdout /var/log/nginx/access.log && \
+  ln -sf /dev/stderr /var/log/nginx/error.log
 
-VOLUME [ "/etc/nginx", "/etc/acme", "/srv/http" ]
+VOLUME [ "/etc/nginx", "/srv/http" ]
 
 EXPOSE 80
 EXPOSE 443
@@ -132,6 +134,6 @@ EXPOSE 443
 HEALTHCHECK --interval=30m --timeout=10s --start-period=50s \
   CMD curl -f https://127.0.0.1 || exit 1
 
-STOPSIGNAL SIGTERM
+STOPSIGNAL SIGQUIT
 
-CMD [ "nginx", "-g", "'daemon off; error_log /dev/stderr;'" ]
+CMD [ "nginx", "-g", "daemon off;" ]

@@ -1,6 +1,0 @@
-[build]
-target = "src/index.html"
-dist = "dist"
-
-[serve]
-port = 3000

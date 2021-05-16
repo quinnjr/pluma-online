@@ -1,0 +1,20 @@
+FROM node:lts-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install pnpm && \
+  pnpm install -g @nestjs/cli && \
+  chown -R node:node /app
+
+USER node
+
+RUN pnpm install -g @nestjs/cli && \
+  pnpm install --no-optional
+
+VOLUME [ "/app" ]
+
+EXPOSE 3000
+
+CMD [ "pnpm", "run", "start:dev" ]

@@ -13,7 +13,7 @@ if (environment.production) {
   enableProdMode();
 } else {
   // @ts-ignore
-  require('zone.js/dist/zone-error');
+  require('zone.js/plugins/zone-error');
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)

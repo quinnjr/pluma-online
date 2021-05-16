@@ -3,10 +3,8 @@ version: "3.8"
 services:
   nginx:
     container_name: pluma-nginx
-    env_file: .env
     build:
-      context: .
-      dockerfile: Dockerfile.nginx
+      context: ./nginx
       cache_from:
         - alpine:latest
         - fiubiorg/nginx:latest
@@ -14,20 +12,12 @@ services:
         com.pluma-nginx.description: "Custom NGINX container for PluMA Online"
         com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
       args:
-        - NGINX_VERSION=1.19.0
+        - NGINX_VERSION=1.19.10
     image: fiubiorg/nginx:latest
     volumes:
-      - type: volume
-        source: web
-        target: /srv/http
-        read_only: true
-        volume:
-          nocopy: true
-        consistency: cached
-      - type: bind
-        source: ./etc/nginx
-        target: /etc/nginx
-        read_only: true
+      - web:/src/http
+      - ./nginx/etc/nginx:/etc/nginx
+      - ./nginx/server-configs-nginx/h5bp:/etc/nginx/h5bp
     ports:
       - "80:80"
       - "443:443"
@@ -36,37 +26,40 @@ services:
     restart: unless-stopped
 
   database:
-    container_name: biorg-database
+    container_name: pluma-database
     image: postgres:alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
 
-  pluma:
-    container_name: pluma
-    env_file: .env
-    build:
-      context: .
-      dockerfile: Dockerfile.application
-      cache_from:
-        - alpine:latest
-      labels:
-        com.pluma-nginx.description: "Backend container for PluMA Online"
-        com.pluma-nginx.maintainer: "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"
-      # depends_on:
-      #   - database
-    networks:
-      - web
-    volumes:
-      - type: volume
-        source: web
-        target: /srv/http
-      - type: bind
-        source: /var/run/docker.sock
-        target: /docker.sock
-    restart: unless-stopped
+  # backend:
+  #   container_name: pluma-backend
+  #   build:
+  #     context: ./pluma-online-backend
+  #     dockerfile: Dockerfile
+  #     cache_from:
+  #       - alpine:latest
+  #     labels:
+  #       com.pluma-nginx.description: "Backend container for PluMA Online"
+  #       com.pluma-nginx.maintainer: "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - web
+  #   volumes:
+  #     - type: volume
+  #       source: web
+  #       target: /srv/http
+  #     - type: bind
+  #       source: /var/run/docker.sock
+  #       target: /docker.sock
+  #   restart: unless-stopped
+  #   environment:
+  #     JWT_SECRET: ${JWT_SECRET}
 
 volumes:
   web:
 
 networks:
   web:
-  # bridge:
-  #   external: true
