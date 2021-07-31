@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// model Category {
+//     id Int @id @default(autoincrement())
+//     name String @unique
+//     plugins Plugin[]
+//     createdAt DateTime @default(now())
+//     updatedAt DateTime @updatedAt
+//     @@map("categories")
+// }
+
+enum Category {
+    FileConverters
+    StatsVisualizations
+    Transformations
+    Dissimilarity
+    Correlation
+    Centrality
+    Clustering
+    TimeSeries
+    ExternalTools
+    Miscellaneous
+}
+
+enum Language {
+    CXX
+    Python
+    Perl
+    CUDA
+}
+
+model Plugin {
+    id String @id @default(uuid()) @db.Uuid
+    name String @unique
+    // category Category @relation(fields: [categoryId], references: [id])
+    category Category
+    categoryId Int
+    description String
+    githubUrl String @unique
+    language Language
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@map("plugins")
+}
+
+enum Role {
+    Admin
+    User
+}
+
+model User {
+    id String @id @default(uuid()) @db.Uuid
+    email String @unique
+    passwordHash String
+    role Role @default(User)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@map("users")
+}
