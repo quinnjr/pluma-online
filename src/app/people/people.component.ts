@@ -8,7 +8,7 @@ import { Person } from './person';
 import { Roles } from './roles';
 
 @Component({
-  selector: 'biorg-people',
+  selector: 'pluma-people',
   templateUrl: './people.component.html'
 })
 export class PeopleComponent implements OnInit {

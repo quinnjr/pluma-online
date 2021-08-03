@@ -4,7 +4,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'biorg-home',
+  selector: 'pluma-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent {  }

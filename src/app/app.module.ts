@@ -37,15 +37,13 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    // Internal modules
-    SoftwareModule,
-    AppRouterModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      // Register the ServiceWorker as soon as the app is stable
-      // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    // Internal modules
+    SoftwareModule,
+    AppRouterModule
   ],
   declarations: [
     AppComponent,
@@ -70,9 +68,9 @@ import { environment } from '../environments/environment';
           })
         };
       },
-      deps: [ HttpLink ]
+      deps: [HttpLink]
     }
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'biorg-admin',
+  selector: 'pluma-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })

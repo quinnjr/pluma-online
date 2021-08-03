@@ -1,15 +1,14 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { Router, Event, NavigationStart } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'biorg-root',
+  selector: 'pluma-app',
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent {
 
-  constructor(private router: Router) {  }
+  constructor() {}
 }

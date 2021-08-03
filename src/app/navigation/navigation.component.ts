@@ -5,7 +5,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router, Event, NavigationStart } from '@angular/router';
 
 @Component({
-  selector: 'biorg-navigation',
+  selector: 'pluma-navigation',
   templateUrl: './navigation.component.html'
 })
 export class NavigationComponent {

@@ -1,3 +1,6 @@
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';

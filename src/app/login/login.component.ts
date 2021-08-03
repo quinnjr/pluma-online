@@ -9,7 +9,7 @@ import { AuthService } from '../auth/auth.service';
 import { BackendService, BackendResponse } from '../backend.service';
 
 @Component({
-  selector: 'biorg-login',
+  selector: 'pluma-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

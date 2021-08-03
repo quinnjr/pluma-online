@@ -1,11 +1,14 @@
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
 import { Injectable } from '@nestjs/common';
 import { Ability, AbilityBuilder, AbilityClass, ExtractSubjectType, InferSubjects } from '@casl/ability';
+import { User } from '@prisma/client';
 
-import { User } from "../users/dto/user";
 import { Action } from './action';
 
 type Subjects = InferSubjects<
-  typeof User
+  User
 > | 'all';
 
 export type AppAbility = Ability<[Action, Subjects]>
@@ -22,7 +25,7 @@ export class CaslAbilityFactory {
     }
 
     return build({
-      detectSubjectType: item => item.constructor as ExtractSubjectType<Subjects>
+      detectSubjectType: item => item.constructor as unknown as  ExtractSubjectType<Subjects>
     });
   }
 }

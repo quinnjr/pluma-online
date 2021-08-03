@@ -4,7 +4,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'biorg-pluma-sidebar',
+  selector: 'pluma-pluma-sidebar',
   template:`
     <aside class="menu">
       <p class="menu-label">Download PluMA</p>

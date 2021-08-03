@@ -1,3 +1,6 @@
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
 import { join } from 'path';
 
 import { CacheModule, Module } from '@nestjs/common';
@@ -12,22 +15,23 @@ import { AppServerModule } from '../src/main.server';
 
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
-import { CategoriesModule } from './categories/categories.module';
-import { DatabaseModule } from './database/database.module';
-import { LanguagesModule } from './languages/languages.module';
-import { PeopleModule } from './people/people.module';
-import { PluginsModule } from './plugins/plugins.module';
-import { UsersModule } from './users/users.module';
+import { DatabaseService } from './database/database.service';
+
+import { CategoriesResolver } from './categories/categories.resolver';
+import { LanguagesResolver } from './languages/languages.resolver';
+import { PeopleResolver } from './people/people.resolver';
+import { PluginsResolver } from './plugins/plugins.resolver';
+import { UsersResolver } from './users/users.resolver';
 
 import { validate } from './env.validation';
 
-const isDev = (process.env.ENV === 'development');
+const isDev = process.env.ENV === 'development';
 
 @Module({
   imports: [
     AngularUniversalModule.forRoot({
       bootstrap: AppServerModule,
-      viewsPath: join(process.cwd(), 'dist/frontend/browser')
+      viewsPath: join(process.cwd(), 'dist/pluma-online/browser')
     }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -46,21 +50,20 @@ const isDev = (process.env.ENV === 'development');
       }
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: true,
       sortSchema: true,
-      debug: isDev,
-      playground: isDev
+      debug: isDev
     }),
-    AuthModule,
-    CategoriesModule,
-    DatabaseModule,
-    LanguagesModule,
-    PeopleModule,
-    PluginsModule,
-    UsersModule
+    AuthModule
   ],
-  controllers: [
-    AppController
+  controllers: [AppController],
+  providers: [
+    DatabaseService,
+    CategoriesResolver,
+    LanguagesResolver,
+    PeopleResolver,
+    PluginsResolver,
+    UsersResolver
   ]
 })
 export class AppModule {}

@@ -4,7 +4,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'biorg-pluma',
+  selector: 'pluma-pluma',
   templateUrl: './pluma.component.html',
   styleUrls: [ './pluma.component.scss' ]
 })

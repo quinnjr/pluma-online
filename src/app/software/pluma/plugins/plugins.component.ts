@@ -14,8 +14,9 @@ import { Plugin } from '../plugin';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
-  selector: 'biorg-pluma-plugins',
-  templateUrl: './plugins.component.html'
+  selector: 'pluma-pluma-plugins',
+  /*templateUrl: './plugins.component.html'*/
+  template: ``
 })
 export class PluginsComponent implements OnInit {
 
@@ -30,43 +31,7 @@ export class PluginsComponent implements OnInit {
   ) {  }
 
   public ngOnInit() {
-    this.$storage.get<Category[]>('categories', { type: 'string' })
-      .pipe(
-        map((obj: string) => (JSON.parse(obj))
-      )
-      .subscribe((categories: Category[]) {
-
-      })
-    const categories: Category[] = this.session.get('categories');
-
-    if (!categories) {
-      this.backend.get('/categories')
-        .subscribe((response: BackendResponse<Category[]>) => {
-          this.session.set('categories', {
-            expiry: DateTime.utc().plus({ minutes: 2 }).toISO(),
-            data: response.payload
-          });
-          this.categories = List(response.payload);
-        });
-    } else {
-      console.log(categories);
-      this.categories = List(categories);
-    }
-
-    const plugins: Plugin[] = this.session.get('plugins');
-
-    if (!plugins) {
-      this.backend.get('/plugins')
-        .subscribe((response: BackendResponse<Plugin[]>) => {
-          this.session.set('plugins', {
-            expiry: DateTime.utc().plus({ minutes: 1 }).toISO(),
-            data: response.payload
-          });
-          this.plugins = List(response.payload);
-        });
-    } else {
-      this.plugins = List(plugins);
-    }
+    //@TODO: Fix me
   }
 
   public getCategories(): List<Category> {

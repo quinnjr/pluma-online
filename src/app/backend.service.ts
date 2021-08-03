@@ -18,11 +18,10 @@ export interface BackendResponse<T> {
   providedIn: 'root'
 })
 export class BackendService {
-
   //@ts-ignore
-  private apiEntry = process.env.API_ENTRYPOINT;
+  private apiEntry!: string = process.env.API_ENTRYPOINT;
 
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient) {}
 
   /**
    *

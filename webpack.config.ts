@@ -1,7 +1,6 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-import glob from 'glob';
 import { join } from 'path';
 
 import { CustomWebpackBrowserSchema, TargetOptions } from'@angular-builders/custom-webpack';
@@ -12,19 +11,17 @@ import {
   IgnorePlugin
 } from 'webpack';
 // @ts-ignore
-import DotenvPlugin from 'dotenv-webpack';
-// @ts-ignore
 import * as WebpackAssetsManifest from 'webpack-assets-manifest';
-// @ts-ignore
-import nodeExternals from 'webpack-node-externals';
 
+const nodeExternals = require('webpack-node-externals');
 const SriPlugin = require('webpack-subresource-integrity');
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
+const glob = require('glob');
+const DotenvPlugin = require('dotenv-webpack');
 
 import * as pkg from './package.json';
 
 const HASHES = ['sha256', 'sha384']
-
 
 export default (
   config: Configuration,
@@ -32,16 +29,7 @@ export default (
   targetOptions: TargetOptions
 ) => {
 
-  if (!process || !process.env) {
-    throw new Error('Failed to load environment');
-  }
-
   config.output!.crossOriginLoading = 'anonymous';
-
-  config.module!.rules!.push({
-    test: /\.md$/,
-    use: ['html-loader', 'markdown-loader']
-  });
 
   config.plugins!.push(
     new DotenvPlugin({
@@ -63,20 +51,27 @@ export default (
   });
 
   if (targetOptions.target === 'browser') {
-    config.plugins!.push(
-      new PurgeCSSPlugin({
-        paths: glob.sync(`${join(__dirname, 'src')}**/*.html`, { nodir: true })
-      }),
-      new SriPlugin({
-        enabled: process.env.ENV === 'production',
-        hashFuncNames: HASHES
-      }),
-      new WebpackAssetsManifest({
-        enabled: process.env.ENV === 'production',
-        integrity: true,
-        integrityHashes: HASHES
-      })
-    )
+    config.module!.rules!.push({
+      test: /\.md$/,
+      use: ['html-loader', 'markdown-loader']
+    });
+
+    if (process.env.ENV === 'production') {
+      config.plugins!.push(
+        new PurgeCSSPlugin({
+          paths: glob.sync(`${join(__dirname, 'src')}**/*.html`, { nodir: true })
+        }),
+        new SriPlugin({
+          enabled: process.env.ENV === 'production',
+          hashFuncNames: HASHES
+        }),
+        new WebpackAssetsManifest({
+          enabled: process.env.ENV === 'production',
+          integrity: true,
+          integrityHashes: HASHES
+        })
+      );
+    }
   }
 
   if (['server', 'serve-ssr'].includes(targetOptions.target)) {
@@ -88,7 +83,10 @@ export default (
       type: 'javascript/auto'
     });
 
+    config.externalsPresets = { node: true };
+
     config.externals = [
+      ...config.externals as Array<string>,
       nodeExternals({
         allowlist: [/^(?!(livereload|concurrently|fsevents)).*/]
       })

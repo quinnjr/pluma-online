@@ -1,0 +1,21 @@
+FROM node:lts-alpine as builder
+
+ENV ENV development
+ENV API_ENDPOINT /api
+ENV PATH /app/node_modules/.bin:/usr/local/bin:$PATH
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install -g @angular/cli @nestjs/cli pnpm && \
+  npm cache clean --force && \
+  chown -R node:node /app
+
+USER node
+RUN pnpm install --no-optional && \
+  pnpx prisma generate
+
+EXPOSE 4200
+
+ENTRYPOINT ["./docker-entry.sh"]

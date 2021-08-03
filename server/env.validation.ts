@@ -1,3 +1,6 @@
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
 import { plainToClass } from 'class-transformer';
 import { IsEnum, IsNumber, validateSync } from 'class-validator';
 
@@ -10,19 +13,17 @@ enum Environment {
 
 class EnvironmentVariables {
   @IsEnum(Environment)
-  NODE_ENV: Environment;
+  public ENV: Environment = Environment.Development;
 }
 
 export function validate(config: Record<string, unknown>) {
-  const validateConfig = plainToClass(
-    EnvironmentVariables,
-    config,
-    { enableImplicitConversion: true }
-  );
+  const validateConfig = plainToClass(EnvironmentVariables, config, {
+    enableImplicitConversion: true
+  });
 
   const errors = validateSync(validateConfig, { skipMissingProperties: false });
 
-  if(errors.length > 0) {
+  if (errors.length > 0) {
     throw new Error(errors.toString());
   }
 

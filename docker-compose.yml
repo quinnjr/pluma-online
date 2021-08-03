@@ -25,8 +25,7 @@ services:
       - web
     restart: unless-stopped
     depends_on:
-      - backend
-      - frontend
+      - webapp
 
   database:
     container_name: pluma-database
@@ -35,14 +34,21 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5432:5432
+    networks:
+      - web
 
   redis:
     container_name: pluma-redis
     image: redis:alpine
+    networks:
+      - web
 
   webapp:
     container_name: pluma-online
     build:
+      context: ./
       dockerfile: Dockerfile
       cache_from:
         - node:lts-alpine

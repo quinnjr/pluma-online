@@ -4,7 +4,8 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "jest",
-      "node"
+      "node",
+      "cypress"
     ]
   },
   "files": [
@@ -12,6 +13,8 @@
   ],
   "include": [
     "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "server/**/*.spec.ts",
+    "server/**/*.d.ts"
   ]
 }

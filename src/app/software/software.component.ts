@@ -4,7 +4,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'biorg-software',
+  selector: 'pluma-software',
   templateUrl: './software.component.html'
 })
 export class SoftwareComponent {  }

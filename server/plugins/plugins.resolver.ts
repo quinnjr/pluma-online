@@ -1,40 +1,43 @@
-import { Resolver, Query, Mutation, Args, ResolveField,
-  Root, Context, Int, InputType,
-  Field, registerEnumType } from '@nestjs/graphql';
-import { Prisma } from '@prisma/client';
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
+import {
+  Resolver,
+  Query,
+  Args,
+  Context,
+  Int,
+  registerEnumType
+} from '@nestjs/graphql';
 
 import { DatabaseService, SortOrder } from '../database/database.service';
-import { Plugin } from './plugin';
+import { Plugin } from '../@generated/prisma-graphql/plugin/plugin.model';
+import { PluginOrderByInput } from '../@generated/prisma-graphql/plugin/plugin-order-by.input'
 
-registerEnumType(SortOrder, {
-  name: 'SortOrder'
-})
-@Resolver(Plugin)
+@Resolver((of) => Plugin)
 export class PluginsResolver {
-  constructor(
-    private readonly $database: DatabaseService
-  ) {}
+  constructor(private readonly $database: DatabaseService) {}
 
-  @Query(returns => Plugin, { nullable: true })
-  public async pluginById(
-    @Args('id') id: string
-  ) {
+  @Query((returns) => Plugin, { nullable: true })
+  public async getPluginById(
+    @Args('id', { type: () => String }) id: string
+  ): Promise<Plugin | null> {
     return this.$database.plugin.findUnique({
       where: { id }
-    })
+    }) as Promise<Plugin | null>;
   }
 
-  @Query(returns => [Plugin])
-  public async plugins(
-    @Args('skip', { nullable: true }) skip: number,
-    @Args('take', { nullable: true }) take: number,
-    @Args('orderBy', { nullable: true }) orderBy: Prisma.PluginOrderByInput,
-    @Context() ctx
-  ) {
+  @Query((returns) => [Plugin], { nullable: true })
+  public async getPlugins(
+    @Args('skip', { type: () => Int, nullable: true }) skip: number,
+    @Args('take', { type: () => Int, nullable: true }) take: number,
+    @Args('orderBy', { type: () => PluginOrderByInput, nullable: true })
+    orderBy: PluginOrderByInput
+  ): Promise<Plugin[] | null> {
     return this.$database.plugin.findMany({
-      take: take || undefined,
-      skip: skip || undefined,
-      orderBy: orderBy || undefined
-    })
+      take,
+      skip,
+      orderBy
+    }) as Promise<Plugin[] | null>;
   }
 }

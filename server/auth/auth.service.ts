@@ -1,18 +1,25 @@
+// Copyright (c) 2019-2020 FIUBioRG
+// SPDX-License-Identifier: MIT
+
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 
-import { UsersService } from '../users/users.service';
-import { User } from '../users/dto/user';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly $usersService: UsersService,
+    private readonly $databaseService: DatabaseService,
     private readonly $jwtService: JwtService
   ) {}
 
   public async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.$usersService.findOne(username);
+    const user = await this.$databaseService.user.findUnique({
+      where: {
+        email: username
+      }
+    });
 
     if(user) {
       const { passwordHash, ...result } = user;

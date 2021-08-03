@@ -24,7 +24,8 @@
             "customWebpackConfig": {
               "path": "./webpack.config.ts",
               "mergeStrategies": {
-                "externals": "append"
+                "externals": "merge",
+                "rules": "append"
               }
             },
             "outputPath": "dist/pluma-online/browser",
@@ -71,6 +72,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
@@ -80,7 +89,8 @@
             "customWebpackConfig": {
               "path": "./webpack.config.ts",
               "mergeRules": {
-                "externals": "append"
+                "externals": "merge",
+                "rules": "append"
               }
             },
             "browserTarget": "pluma-online:build"
@@ -88,6 +98,9 @@
           "configurations": {
             "production": {
               "browserTarget": "pluma-online:build:production"
+            },
+            "development": {
+              "browserTarget": "pluma-online:build:development"
             }
           }
         },
@@ -118,7 +131,8 @@
             "customWebpackConfig": {
               "path": "./webpack.config.ts",
               "mergeRules": {
-                "externals": "append"
+                "externals": "merge",
+                "rules": "prepend"
               }
             },
             "outputPath": "dist/pluma-online/server",
@@ -129,7 +143,21 @@
               "@nestjs/microservices/microservices-module",
               "@nestjs/websockets",
               "@nestjs/websockets/socket-module",
-              "cache-manager"
+              "cache-manager",
+              "prisma",
+              "@prisma/client",
+              "_http_common",
+              "@nestjs/common",
+              "@nestjs/config",
+              "@nestjs/core",
+              "@nestjs/graphql",
+              "@nestjs/platform-express",
+              "apollo-server-express",
+              "class-transformer",
+              "class-validator",
+              "express",
+              "graphql",
+              "graphql-tools"
             ]
           },
           "configurations": {
@@ -144,15 +172,30 @@
               "optimization": false,
               "sourceMap": false,
               "extractLicenses": true
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {
             "configPath": "./jest.config.json",
-            "tsConfig": "./tsconfig.spec.json"
+            "tsConfig": "./tsconfig.spec.json",
+            "polyfills": "./src/polyfills.ts",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": []
           }
         },
         "serve-ssr": {

@@ -4,7 +4,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'biorg-root',
+  selector: 'app-page-not-found',
   template: ``
 })
 export class PageNotFoundComponent {  }
