@@ -4,11 +4,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'pluma-app',
+  selector: 'pluma-online-app',
   templateUrl: './app.component.html',
-  styleUrls: [ './app.component.scss' ]
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
   constructor() {}
 }

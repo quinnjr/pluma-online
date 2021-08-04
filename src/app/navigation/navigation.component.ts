@@ -5,7 +5,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router, Event, NavigationStart } from '@angular/router';
 
 @Component({
-  selector: 'pluma-navigation',
+  selector: 'pluma-online-navigation',
   templateUrl: './navigation.component.html'
 })
 export class NavigationComponent {
@@ -15,11 +15,7 @@ export class NavigationComponent {
   @ViewChild('navbarMenu')
   private navbarMenu!: ElementRef;
 
-  constructor(
-    private readonly router: Router
-  ) {
-
-  }
+  constructor(private readonly router: Router) {}
 
   public ngOnInit() {
     this.router.events.subscribe((event: Event) => {

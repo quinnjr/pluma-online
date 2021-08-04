@@ -1,15 +1,13 @@
 {
-  "automock": true,
   "bail": 1,
   "clearMocks": true,
   "collectCoverage": false,
-  "testPathDirs": [ "<rootDir>/src" ],
-  "testRegex": ".*\\.spec\\.ts$",
+  "roots": [ "<rootDir>/src" ],
   "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
+    "^.+\\.(t|j)s$": "jest-preset-angular"
   },
   "preset": "jest-preset-angular",
-  "setupFilesAfterEnv": ["<rootDir>/src/setupJest.ts"],
   "moduleFileExtensions": ["js", "json", "ts"],
-  "testEnvironment": "browser"
+  "testEnvironment": "jsdom",
+  "setupFilesAfterEnv": ["<rootDir>/setup-jest.ts"]
 }

@@ -7,12 +7,17 @@ import {
   Args,
   Context,
   Int,
-  registerEnumType
+  registerEnumType,
+  Mutation
 } from '@nestjs/graphql';
 
 import { DatabaseService, SortOrder } from '../database/database.service';
 import { Plugin } from '../@generated/prisma-graphql/plugin/plugin.model';
-import { PluginOrderByInput } from '../@generated/prisma-graphql/plugin/plugin-order-by.input'
+import { PluginOrderByInput } from '../@generated/prisma-graphql/plugin/plugin-order-by.input';
+import { Category } from '../@generated/prisma-graphql/prisma/category.enum';
+import { Language } from '../@generated/prisma-graphql/prisma/language.enum';
+import { PluginCreateInput } from '../@generated/prisma-graphql/plugin/plugin-create.input';
+import { PluginUpdateInput } from 'server/@generated/prisma-graphql/plugin/plugin-update.input';
 
 @Resolver((of) => Plugin)
 export class PluginsResolver {
@@ -39,5 +44,27 @@ export class PluginsResolver {
       skip,
       orderBy
     }) as Promise<Plugin[] | null>;
+  }
+
+  @Mutation((returns) => Plugin)
+  async createPlugin(
+    @Args('pluginData') pluginPostData: PluginCreateInput
+  ): Promise<Plugin> {
+    return this.$database.plugin.create({
+      data: pluginPostData
+    });
+  }
+
+  @Mutation((returns) => Plugin)
+  async updatePlugin(
+    @Args({ name: 'id', type: () => String }) id: string,
+    @Args('pluginData') pluginPostData: PluginUpdateInput
+  ): Promise<Plugin> {
+    return this.$database.plugin.update({
+      where: {
+        id
+      },
+      data: pluginPostData
+    });
   }
 }

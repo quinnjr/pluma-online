@@ -7,14 +7,12 @@ import { Observable, Subscriber, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DateTime } from 'luxon';
 
-import { BackendService, BackendResponse } from '../../../backend.service';
-
 import { Category } from '../category';
 import { Plugin } from '../plugin';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
-  selector: 'pluma-pluma-plugins',
+  selector: 'pluma-online-pluma-plugins',
   /*templateUrl: './plugins.component.html'*/
   template: ``
 })
@@ -25,10 +23,7 @@ export class PluginsComponent implements OnInit {
 
   public linkActive: number = 1;
 
-  constructor(
-    private backend: BackendService,
-    private readonly $storage: StorageMap,
-  ) {  }
+  constructor(private readonly $storage: StorageMap) {}
 
   public ngOnInit() {
     //@TODO: Fix me
@@ -39,17 +34,16 @@ export class PluginsComponent implements OnInit {
   }
 
   public getPlugins(): List<Plugin> {
-    return this.plugins
-      .filter((plugin: Plugin) => {
-        if (plugin.category_id === this.linkActive) {
-          return true;
-        } else if (this.linkActive === this.plugins.size) {
-          // Mischellaneous will always be plugins.size
-          return true
-        } else {
-          return false;
-        }
-      });
+    return this.plugins.filter((plugin: Plugin) => {
+      if (plugin.category_id === this.linkActive) {
+        return true;
+      } else if (this.linkActive === this.plugins.size) {
+        // Mischellaneous will always be plugins.size
+        return true
+      } else {
+        return false;
+      }
+    });
   }
 
   public isLinkActive(n: number): boolean {

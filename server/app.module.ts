@@ -52,7 +52,9 @@ const isDev = process.env.ENV === 'development';
     GraphQLModule.forRoot({
       autoSchemaFile: true,
       sortSchema: true,
-      debug: isDev
+      debug: isDev,
+      // @ts-ignore
+      playground: isDev
     }),
     AuthModule
   ],

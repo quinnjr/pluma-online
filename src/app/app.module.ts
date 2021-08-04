@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { BrowserModule } from '@angular/platform-browser';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
@@ -26,8 +27,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 import { AuthService } from './auth/auth.service';
-import { BackendService } from './backend.service';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -57,7 +56,6 @@ import { environment } from '../environments/environment';
   ],
   providers: [
     AuthService,
-    BackendService,
     {
       provide: APOLLO_OPTIONS,
       useFactory: (httpLink: HttpLink) => {

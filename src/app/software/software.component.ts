@@ -4,7 +4,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'pluma-software',
+  selector: 'pluma-online-software',
   templateUrl: './software.component.html'
 })
-export class SoftwareComponent {  }
+export class SoftwareComponent {}

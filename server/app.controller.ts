@@ -8,7 +8,7 @@ export class AppController {
   constructor() {}
 
   @Get()
-  getHello(): string {
-    return '';
+  langing(): string {
+    return 'here be dragons';
   }
 }

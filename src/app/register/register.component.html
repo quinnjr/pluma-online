@@ -10,9 +10,9 @@
             <div class="control">
               <input class="input" type="email" placeholder="jdoe@fiu.edu"
                 formControlName="email"
-                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('emails').errors }" required />
+                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('emails')?.errors }" required />
             </div>
-            <div *ngIf="registerForm.dirty && registerForm.get('email').hasError('required')">
+            <div *ngIf="registerForm.dirty && registerForm.get('email')?.hasError('required')">
               <p class="help is-danger">Email address is required.</p>
             </div>
           </div>
@@ -21,7 +21,7 @@
             <div class="control">
               <input class="input" type="password"
                 formControlName="password"
-                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('password').errors }"
+                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('password')?.errors }"
                 required />
             </div>
           </div>

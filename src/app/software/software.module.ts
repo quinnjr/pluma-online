@@ -11,14 +11,9 @@ import { JasperComponent } from './jasper/jasper.component';
 import { SoftwareRouterModule } from './software-router.module';
 
 @NgModule({
-  declarations: [ SoftwareComponent, JasperComponent ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    PlumaModule,
-    SoftwareRouterModule
-  ],
+  declarations: [SoftwareComponent, JasperComponent],
+  imports: [CommonModule, HttpClientModule, PlumaModule, SoftwareRouterModule],
   providers: [],
-  exports: [ SoftwareComponent, JasperComponent ]
+  exports: [SoftwareComponent, JasperComponent]
 })
 export class SoftwareModule { }
