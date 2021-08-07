@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LanguagesResolver } from './languages.resolver';
+import { PipelinesResolver } from './pipelines.resolver';
 
-describe('LanguagesResolver', () => {
-  let resolver: LanguagesResolver;
+describe('PipelinesResolver', () => {
+  let resolver: PipelinesResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [LanguagesResolver],
+      providers: [PipelinesResolver],
     }).compile();
 
-    resolver = module.get<LanguagesResolver>(LanguagesResolver);
+    resolver = module.get<PipelinesResolver>(PipelinesResolver);
   });
 
   it('should be defined', () => {

@@ -15,15 +15,6 @@ generator nestgraphql {
   output = "../server/@generated/prisma-graphql"
 }
 
-// model Category {
-//     id Int @id @default(autoincrement())
-//     name String @unique
-//     plugins Plugin[]
-//     createdAt DateTime @default(now())
-//     updatedAt DateTime @updatedAt
-//     @@map("categories")
-// }
-
 enum Category {
   FileConverters
   StatsVisualizations
@@ -45,14 +36,14 @@ enum Language {
 }
 
 model Plugin {
-  id String @id @default(uuid()) @db.Uuid
+  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name String @unique
   category Category
   description String
   githubUrl String @unique
   language Language
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+  updatedAt DateTime @updatedAt @default(now()) @db.Timestamp(3)
   @@map("plugins")
 }
 
@@ -62,11 +53,27 @@ enum Role {
 }
 
 model User {
-  id String @id @default(uuid()) @db.Uuid
+  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   email String @unique
   passwordHash String
   role Role @default(User)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+  updatedAt DateTime @updatedAt @default(now()) @db.Timestamp(3)
   @@map("users")
+}
+
+enum PipelineStatus {
+  Completed
+  InProgress
+}
+
+model Pipeline {
+  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name String
+  description String
+  githubUrl String
+  status PipelineStatus @default(Completed)
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+  updatedAt DateTime @updatedAt @default(now()) @db.Timestamp(3)
+  @@map("pipelines")
 }

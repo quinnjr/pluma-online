@@ -1,6 +1,7 @@
 .env
 *.key
 server/@generated
+server/schema.graphql
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 

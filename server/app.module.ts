@@ -5,7 +5,7 @@ import { join } from 'path';
 
 import { CacheModule, Module } from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { BullModule } from '@nestjs/bull';
 // @ts-ignore
@@ -17,18 +17,18 @@ import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseService } from './database/database.service';
 
-import { CategoriesResolver } from './categories/categories.resolver';
-import { LanguagesResolver } from './languages/languages.resolver';
 import { PeopleResolver } from './people/people.resolver';
 import { PluginsResolver } from './plugins/plugins.resolver';
 import { UsersResolver } from './users/users.resolver';
 
 import { validate } from './env.validation';
+import { PipelinesResolver } from './pipelines/pipelines.resolver';
 
 const isDev = process.env.ENV === 'development';
 
 @Module({
   imports: [
+    // Vendor Modules
     AngularUniversalModule.forRoot({
       bootstrap: AppServerModule,
       viewsPath: join(process.cwd(), 'dist/pluma-online/browser')
@@ -38,34 +38,41 @@ const isDev = process.env.ENV === 'development';
       cache: true,
       validate
     }),
-    CacheModule.register({
-      store: redisStore,
-      host: 'redis',
-      port: 6379
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        store: redisStore,
+        host: configService.get<string>('REDIS_HOST'),
+        port: configService.get<number>('REDIS_PORT')
+      }),
+      inject: [ConfigService]
     }),
-    BullModule.forRoot({
-      redis: {
-        host: 'redis',
-        port: 6379
-      }
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        redis: {
+          host: configService.get<string>('REDIS_HOST'),
+          port: configService.get<number>('REDIS_PORT')
+        }
+      }),
+      inject: [ConfigService]
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: true,
+      autoSchemaFile: join(__dirname, 'schema.graphql'),
       sortSchema: true,
-      debug: isDev,
-      // @ts-ignore
-      playground: isDev
+      debug: isDev
     }),
+    // Application Modules
     AuthModule
   ],
   controllers: [AppController],
   providers: [
+    // Application providers
     DatabaseService,
-    CategoriesResolver,
-    LanguagesResolver,
     PeopleResolver,
     PluginsResolver,
-    UsersResolver
+    UsersResolver,
+    PipelinesResolver
   ]
 })
 export class AppModule {}

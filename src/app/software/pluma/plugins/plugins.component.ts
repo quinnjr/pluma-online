@@ -2,14 +2,28 @@
 // SPDX-License-Identifier: MIT
 
 import { Component, OnInit } from '@angular/core';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 import { Observable, Subscriber, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DateTime } from 'luxon';
 
-import { Category } from '../category';
-import { Plugin } from '../plugin';
 import { StorageMap } from '@ngx-pwa/local-storage';
+
+import { Plugin } from '../../../../../server/@generated/prisma-graphql/plugin/plugin.model';
+import { Category } from '../../../../../server/@generated/prisma-graphql/prisma/category.enum';
+
+const Colors = Map([
+  [Category.FileConverters, '#FF6347'],
+  [Category.StatsVisualizations, '#FF7F50'],
+  [Category.Transformations, '#FFFF00'],
+  [Category.Dissimilarity, '#00FF7F'],
+  [Category.Correlation, '#66CDAA'],
+  [Category.Centrality, '#6495ED'],
+  [Category.Clustering, '#DDA0DD'],
+  [Category.TimeSeries, '#F5DEB3'],
+  [Category.ExternalTools, '#DAA520'],
+  [Category.Miscellaneous, '#C0C0C0']
+]);
 
 @Component({
   selector: 'pluma-online-pluma-plugins',
@@ -17,8 +31,6 @@ import { StorageMap } from '@ngx-pwa/local-storage';
   template: ``
 })
 export class PluginsComponent implements OnInit {
-
-  private categories: List<Category> = List([]);
   private plugins: List<Plugin> = List();
 
   public linkActive: number = 1;
@@ -29,21 +41,8 @@ export class PluginsComponent implements OnInit {
     //@TODO: Fix me
   }
 
-  public getCategories(): List<Category> {
-    return this.categories;
-  }
-
   public getPlugins(): List<Plugin> {
-    return this.plugins.filter((plugin: Plugin) => {
-      if (plugin.category_id === this.linkActive) {
-        return true;
-      } else if (this.linkActive === this.plugins.size) {
-        // Mischellaneous will always be plugins.size
-        return true
-      } else {
-        return false;
-      }
-    });
+    //@TODO: fix me
   }
 
   public isLinkActive(n: number): boolean {

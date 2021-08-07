@@ -17,7 +17,7 @@ import { PluginOrderByInput } from '../@generated/prisma-graphql/plugin/plugin-o
 import { Category } from '../@generated/prisma-graphql/prisma/category.enum';
 import { Language } from '../@generated/prisma-graphql/prisma/language.enum';
 import { PluginCreateInput } from '../@generated/prisma-graphql/plugin/plugin-create.input';
-import { PluginUpdateInput } from 'server/@generated/prisma-graphql/plugin/plugin-update.input';
+import { PluginUpdateInput } from '../@generated/prisma-graphql/plugin/plugin-update.input';
 
 @Resolver((of) => Plugin)
 export class PluginsResolver {
