@@ -1,14 +1,8 @@
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
-export enum SortOrder {
-  Asc = 'asc',
-  Desc = 'desc'
-}
-
 @Injectable()
-export class DatabaseService extends PrismaClient
-  implements OnModuleInit {
+export class DatabaseService extends PrismaClient implements OnModuleInit {
   public async onModuleInit(): Promise<void> {
     await this.$connect();
   }

@@ -1,15 +1,14 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { Router, Event, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'pluma-online-navigation',
   templateUrl: './navigation.component.html'
 })
-export class NavigationComponent {
-
+export class NavigationComponent implements OnInit {
   @ViewChild('navbarBurger')
   private navbarBurger!: ElementRef;
   @ViewChild('navbarMenu')

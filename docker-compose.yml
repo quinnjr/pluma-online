@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   nginx:
-    container_name: pluma-nginx
+    container_name: pluma-online-nginx
     build:
       context: ./nginx
       cache_from:
@@ -21,14 +21,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    networks:
-      - web
     restart: unless-stopped
     depends_on:
       - webapp
 
   database:
-    container_name: pluma-database
+    container_name: pluma-online-database
     image: postgres:alpine
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -36,17 +34,13 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - 5432:5432
-    networks:
-      - web
 
   redis:
     container_name: pluma-redis
     image: redis:alpine
-    networks:
-      - web
 
   webapp:
-    container_name: pluma-online
+    container_name: pluma-online-webapp
     build:
       context: ./
       dockerfile: Dockerfile
@@ -58,8 +52,6 @@ services:
     depends_on:
       - database
       - redis
-    networks:
-      - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
@@ -68,7 +60,4 @@ services:
       DATABASE_URL: ${DATABASE_URL}
 
 volumes:
-  web:
-
-networks:
   web:

@@ -8,9 +8,8 @@ describe('PlumaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlumaComponent ]
-    })
-    .compileComponents();
+      declarations: [PlumaComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

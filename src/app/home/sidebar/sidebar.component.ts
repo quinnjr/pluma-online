@@ -4,7 +4,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'pluma-home-sidebar',
+  selector: 'pluma-online-home-sidebar',
   templateUrl: './sidebar.component.html'
 })
-export class SidebarComponent {  }
+export class SidebarComponent {}

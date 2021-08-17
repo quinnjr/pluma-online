@@ -1,0 +1,100 @@
+type Plugin {
+  id: ID!
+  name: String!
+  category: Category!
+  description: String!
+  githubUrl: String!
+  language: Language!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum Category {
+  FileConverters
+  StatsVisualizations
+  Transformations
+  Dissimilarity
+  Correlation
+  Centrality
+  Clustering
+  TimeSeries
+  ExternalTools
+  Miscellaneous
+}
+
+enum Language {
+  CXX
+  Python
+  Perl
+  CUDA
+  R
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  getPluginById(id: String!): Plugin
+  getPlugins(orderBy: PluginOrderByInput, take: Int, skip: Int): [Plugin!]
+}
+
+input PluginOrderByInput {
+  id: SortOrder
+  name: SortOrder
+  category: SortOrder
+  description: SortOrder
+  githubUrl: SortOrder
+  language: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+type Mutation {
+  createPlugin(pluginData: PluginCreateInput!): Plugin!
+  updatePlugin(pluginData: PluginUpdateInput!, id: String!): Plugin!
+}
+
+input PluginCreateInput {
+  id: String
+  name: String!
+  category: Category!
+  description: String!
+  githubUrl: String!
+  language: Language!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PluginUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  category: EnumCategoryFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  language: EnumLanguageFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input EnumCategoryFieldUpdateOperationsInput {
+  set: Category
+}
+
+input EnumLanguageFieldUpdateOperationsInput {
+  set: Language
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}

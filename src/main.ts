@@ -1,22 +1,20 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
+declare const process: any;
+
 import './styles.scss';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
 
-if (environment.production) {
+if (process.env.NODE_ENV === 'production') {
   enableProdMode();
 } else {
   // @ts-ignore
   require('zone.js/plugins/zone-error');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(console.error);
-});
+platformBrowserDynamic().bootstrapModule(AppModule).catch(console.error);

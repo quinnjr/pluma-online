@@ -3,7 +3,10 @@
 
 import { join } from 'path';
 
-import { CustomWebpackBrowserSchema, TargetOptions } from'@angular-builders/custom-webpack';
+import {
+  CustomWebpackBrowserSchema,
+  TargetOptions
+} from '@angular-builders/custom-webpack';
 import {
   Configuration,
   DefinePlugin,
@@ -28,7 +31,6 @@ export default (
   _options: CustomWebpackBrowserSchema,
   targetOptions: TargetOptions
 ) => {
-
   config.output!.crossOriginLoading = 'anonymous';
 
   config.plugins!.push(
@@ -38,19 +40,21 @@ export default (
     }),
     new DefinePlugin({
       APP_VERSION: pkg.version
-    }),
-    new EnvironmentPlugin(['ENV'])
+    })
   );
 
-  Object.assign(config, {
-    devServer: {
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    }
-  });
-
   if (targetOptions.target === 'browser') {
+    config.resolve = {
+      fallback: {
+        os: false,
+        crypto: false,
+        path: false,
+        util: false,
+        stream: false,
+        assert: false
+      }
+    };
+
     config.module!.rules!.push({
       test: /\.md$/,
       use: ['html-loader', 'markdown-loader']
@@ -59,7 +63,9 @@ export default (
     if (process.env.ENV === 'production') {
       config.plugins!.push(
         new PurgeCSSPlugin({
-          paths: glob.sync(`${join(__dirname, 'src')}**/*.html`, { nodir: true })
+          paths: glob.sync(`${join(__dirname, 'src')}**/*.html`, {
+            nodir: true
+          })
         }),
         new SriPlugin({
           enabled: process.env.ENV === 'production',
@@ -74,7 +80,7 @@ export default (
     }
   }
 
-  if (['server', 'serve-ssr'].includes(targetOptions.target)) {
+  if (targetOptions.target === 'server') {
     config.resolve!.extensions!.push('.mjs', '.graphql', '.gql');
 
     config.module!.rules!.push({
@@ -85,12 +91,11 @@ export default (
 
     config.externalsPresets = { node: true };
 
-    config.externals = [
-      ...config.externals as Array<string>,
+    (config.externals as Array<any>).push(
       nodeExternals({
         allowlist: [/^(?!(livereload|concurrently|fsevents)).*/]
       })
-    ];
+    );
 
     config.plugins!.push(
       new IgnorePlugin({
@@ -124,4 +129,4 @@ export default (
   }
 
   return config;
-}
+};

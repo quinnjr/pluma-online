@@ -9,7 +9,7 @@ import { AdminComponent } from './admin/admin.component';
 @NgModule({
   declarations: [AdminComponent],
   imports: [CommonModule],
-  providers: []
-  exports: [ AdminComponent ]
+  providers: [],
+  exports: [AdminComponent]
 })
-export class AdminRouterModule { }
+export class AdminRouterModule {}

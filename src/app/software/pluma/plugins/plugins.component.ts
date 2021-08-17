@@ -3,14 +3,25 @@
 
 import { Component, OnInit } from '@angular/core';
 import { List, Map } from 'immutable';
-import { Observable, Subscriber, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DateTime } from 'luxon';
+import { Subscription } from 'rxjs';
+import { Apollo, gql } from 'apollo-angular';
 
 import { StorageMap } from '@ngx-pwa/local-storage';
 
 import { Plugin } from '../../../../../server/@generated/prisma-graphql/plugin/plugin.model';
-import { Category } from '../../../../../server/@generated/prisma-graphql/prisma/category.enum';
+
+enum Category {
+  FileConverters = 'File Converters',
+  StatsVisualizations = 'Stats & Visualizations',
+  Transformations = 'Transformations',
+  Dissimilarity = 'Dissimilarity',
+  Correlation = 'Correlation',
+  Centrality = 'Centrality',
+  Clustering = 'Clustering',
+  TimeSeries = 'Time Series',
+  ExternalTools = 'External Tools',
+  Miscellaneous = 'Miscellaneous'
+}
 
 const Colors = Map([
   [Category.FileConverters, '#FF6347'],
@@ -27,22 +38,40 @@ const Colors = Map([
 
 @Component({
   selector: 'pluma-online-pluma-plugins',
-  /*templateUrl: './plugins.component.html'*/
-  template: ``
+  templateUrl: './plugins.component.html',
+  styleUrls: ['./plugins.component.scss']
 })
 export class PluginsComponent implements OnInit {
-  private plugins: List<Plugin> = List();
+  public loading = true;
+  public plugins?: List<Plugin>;
+  public linkActive: number = 0;
 
-  public linkActive: number = 1;
+  public categories: Category[] = Object.values(Category);
 
-  constructor(private readonly $storage: StorageMap) {}
+  private querySubscription?: Subscription;
+
+  constructor(
+    private readonly $apollo: Apollo,
+    private readonly $storage: StorageMap
+  ) {}
 
   public ngOnInit() {
-    //@TODO: Fix me
-  }
-
-  public getPlugins(): List<Plugin> {
-    //@TODO: fix me
+    this.querySubscription = this.$apollo
+      .query<{ plugins: Plugin[] }>({
+        query: gql`
+          plugins() {
+            name
+            description
+            category
+            githubUrl
+            language
+          }
+        `
+      })
+      .subscribe(({ data, loading }) => {
+        this.loading = loading;
+        this.plugins = List(data.plugins);
+      });
   }
 
   public isLinkActive(n: number): boolean {

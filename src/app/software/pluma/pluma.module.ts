@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PlumaRouterModule } from './pluma-router.module';
 
-import { PlumaComponent } from './pluma/pluma.component';
+import { PlumaComponent } from './pluma.component';
 import { ApplicationComponent } from './application/application.component';
 import { PluginsComponent } from './plugins/plugins.component';
 import { PipelinesComponent } from './pipelines/pipelines.component';
@@ -21,16 +21,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PipelinesComponent,
     SidebarComponent
   ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    PlumaRouterModule
-  ],
+  imports: [CommonModule, HttpClientModule, PlumaRouterModule],
   providers: [],
-  exports: [
-    PlumaComponent,
-    PluginsComponent,
-    PipelinesComponent
-  ]
+  exports: [PlumaComponent, PluginsComponent, PipelinesComponent]
 })
-export class PlumaModule {  }
+export class PlumaModule {}

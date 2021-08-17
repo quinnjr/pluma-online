@@ -22,13 +22,13 @@ export class AuthService {
    */
   public getToken(): Observable<string | undefined> {
     return this.$storage.get<string>('auth_token', { type: 'string' });
-      // .pipe(
-      //   // switchMap((token: string) => {
-      //   //   if(!token) {
-      //   //     return this.refreshToken();
-      //   //   }
-      //   // })
-      // ) as Observable<string>;
+    // .pipe(
+    //   // switchMap((token: string) => {
+    //   //   if(!token) {
+    //   //     return this.refreshToken();
+    //   //   }
+    //   // })
+    // ) as Observable<string>;
   }
 
   /**

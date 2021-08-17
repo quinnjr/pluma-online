@@ -13,6 +13,10 @@ generator client {
 generator nestgraphql {
   provider = "node node_modules/prisma-nestjs-graphql"
   output = "../server/@generated/prisma-graphql"
+  reExport = Directories
+  purgeOutput = true
+  fields_Validator_from = "class-validator"
+  fields_Validator_input = true
 }
 
 enum Category {
@@ -33,6 +37,7 @@ enum Language {
   Python
   Perl
   CUDA
+  R
 }
 
 model Plugin {
@@ -55,6 +60,7 @@ enum Role {
 model User {
   id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   email String @unique
+  /// @HideField()
   passwordHash String
   role Role @default(User)
   createdAt DateTime @default(now()) @db.Timestamp(3)
@@ -65,11 +71,12 @@ model User {
 enum PipelineStatus {
   Completed
   InProgress
+  Future
 }
 
 model Pipeline {
   id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name String
+  name String @unique
   description String
   githubUrl String
   status PipelineStatus @default(Completed)

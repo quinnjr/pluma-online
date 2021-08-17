@@ -7,8 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/home/home.component';
 import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found.component';
-import { PeopleComponent } from './people/people.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SidebarComponent } from './home/sidebar/sidebar.component';
 import { RegisterComponent } from './register/register.component';
 
@@ -17,19 +16,21 @@ import { AdminGuard } from './admin/admin.guard';
 const routes: Routes = [
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin-router.module').then((m) => m.AdminRouterModule),
+    loadChildren: () =>
+      import('./admin/admin-router.module')
+        .then((m) => m.AdminRouterModule)
+        .catch(console.error),
     canActivate: [AdminGuard]
   },
   {
     path: 'software',
     loadChildren: () =>
-      import('./software/software-router.module').then(
-        (m) => m.SoftwareRouterModule
-      )
+      import('./software/software-router.module')
+        .then((m) => m.SoftwareRouterModule)
+        .catch(console.error)
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'people', component: PeopleComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'graphql', redirectTo: 'not-found' },
   { path: 'not-found', component: PageNotFoundComponent },
@@ -38,12 +39,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      enableTracing: false,
-      initialNavigation: 'enabled'
-    })
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRouterModule { }
+export class AppRouterModule {}

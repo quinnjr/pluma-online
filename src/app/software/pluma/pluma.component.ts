@@ -4,8 +4,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'pluma-pluma',
+  selector: 'pluma-online-pluma-pluma',
   templateUrl: './pluma.component.html',
-  styleUrls: [ './pluma.component.scss' ]
+  styleUrls: ['./pluma.component.scss']
 })
-export class PlumaComponent {  }
+export class PlumaComponent {}

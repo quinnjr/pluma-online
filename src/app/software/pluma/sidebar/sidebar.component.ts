@@ -4,8 +4,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'pluma-pluma-sidebar',
-  template:`
+  selector: 'pluma-online-pluma-sidebar',
+  template: `
     <aside class="menu">
       <p class="menu-label">Download PluMA</p>
       <ul class="menu-list">
@@ -13,7 +13,9 @@ import { Component } from '@angular/core';
           <a routerLink="/software/pluma">PluMA Home</a>
         </li>
         <li>
-          <a href="https://github.com/FIUBioRG/PluMA" target="_blank">PluMA Github Site</a>
+          <a href="https://github.com/FIUBioRG/PluMA" target="_blank"
+            >PluMA Github Site</a
+          >
         </li>
         <li>
           <a href="#">PluMA Userguide</a>
@@ -26,6 +28,6 @@ import { Component } from '@angular/core';
         </li>
       </ul>
     </aside>
-  `,
+  `
 })
-export class SidebarComponent {  }
+export class SidebarComponent {}

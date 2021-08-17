@@ -16,7 +16,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "pluma",
+      "prefix": "pluma-online",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
@@ -40,18 +40,10 @@
             ],
             "styles": [
               "src/styles.scss"
-            ],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            ]
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -157,18 +149,13 @@
               "class-validator",
               "express",
               "graphql",
-              "graphql-tools"
+              "graphql-tools",
+              "argon2"
             ]
           },
           "configurations": {
             "production": {
               "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
               "optimization": false,
               "sourceMap": false,
               "extractLicenses": true

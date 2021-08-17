@@ -11,8 +11,6 @@ services:
     depends_on:
       - database
       - redis
-    networks:
-      - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/app

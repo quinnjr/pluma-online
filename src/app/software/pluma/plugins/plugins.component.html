@@ -12,9 +12,9 @@
           <aside class="menu">
             <p class="menu-label">PluMA Plugin Repositories</p>
             <ul class="menu-list">
-              <li *ngFor="let category of getCategories()">
-                <a [ngClass]="{ 'is-active': isLinkActive(category.id) }"
-                  (click)="setLinkActive(category.id)">{{ category.name }}</a>
+              <li *ngFor="let category of categories; index as idx">
+                <a [ngClass]="{ 'is-active': isLinkActive(idx) }"
+                  (click)="setLinkActive(idx)">{{ category }}</a>
               </li>
             </ul>
           </aside>
@@ -29,20 +29,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let plugin of getPlugins()">
+              <tr *ngFor="let plugin of plugins">
                 <td>
                   <span class="panel-block">
                     <span class="panel-icon">
                       <i class="fas fa-book" aria-hidden="true"></i>
                     </span>
-                    <a href="{{ plugin.git_url }}">{{ plugin.name }}</a>
+                    <a href="{{ plugin.githubUrl }}">{{ plugin.name }}</a>
                   </span>
                 </td>
                 <td>
                   <span class="panel-block">{{ plugin.description }}</span>
                 </td>
                 <td>
-                  <span class="panel-block">{{ plugin.primary_language }}</span>
+                  <span class="panel-block">{{ plugin.language }}</span>
                 </td>
               </tr>
             </tbody>

@@ -7,10 +7,7 @@ import { CommonModule } from '@angular/common';
 
 import { SoftwareComponent } from './software.component';
 
-import { JasperComponent } from './jasper/jasper.component';
-
 const routes: Routes = [
-  { path: 'jasper', component: JasperComponent },
   {
     path: 'pluma',
     loadChildren: () =>
