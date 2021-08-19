@@ -1,5 +1,10 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { PipelineCreateInput, PipelineUpdateInput, PipelineWhereUniqueInput } from '../@generated/prisma-graphql/pipeline';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  PipelineCreateInput,
+  PipelineOrderByInput,
+  PipelineUpdateInput,
+  PipelineWhereUniqueInput
+} from '../@generated/prisma-graphql/pipeline';
 import { DatabaseService } from '../database/database.service';
 
 import { Pipeline } from '../@generated/prisma-graphql/pipeline/pipeline.model';
@@ -9,8 +14,17 @@ export class PipelinesResolver {
   constructor(private readonly $database: DatabaseService) {}
 
   @Query((returns) => [Pipeline])
-  public async pipelines() {
-    return this.$database.pipeline.findMany();
+  public async pipelines(
+    @Args('take', { type: () => Int }) take: number,
+    @Args('skip', { type: () => Int }) skip: number,
+    @Args('orderBy', { type: () => PipelineOrderByInput })
+    orderBy: PipelineOrderByInput
+  ) {
+    return this.$database.pipeline.findMany({
+      take,
+      skip,
+      orderBy
+    });
   }
 
   @Mutation((returns) => Pipeline)

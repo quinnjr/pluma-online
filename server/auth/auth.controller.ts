@@ -1,24 +1,17 @@
-// Copyright (c) 2019-2020 FIUBioRG
-// SPDX-License-Identifier: MIT
-
 import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 
 import { LocalAuthGuard } from './local-auth.guard';
-import { Public } from './public.decorator';
+import { Public } from '../public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly $authService: AuthService
-  ) {}
+  constructor(private readonly $authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  public async login(
-    @Request() req: any
-  ): Promise<any> {
+  public async login(@Request() req: any): Promise<any> {
     return this.$authService.login(req.user);
   }
 

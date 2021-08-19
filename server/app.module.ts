@@ -23,6 +23,8 @@ import { UsersResolver } from './users/users.resolver';
 
 import { validate } from './env.validation';
 import { PipelinesResolver } from './pipelines/pipelines.resolver';
+import { CaslModule } from './casl/casl.module';
+import { LoggingPlugin } from './logging.plugin';
 
 const isDev = process.env.ENV === 'development';
 
@@ -63,7 +65,8 @@ const isDev = process.env.ENV === 'development';
       debug: isDev
     }),
     // Application Modules
-    AuthModule
+    AuthModule,
+    CaslModule
   ],
   controllers: [AppController],
   providers: [
@@ -72,7 +75,8 @@ const isDev = process.env.ENV === 'development';
     PeopleResolver,
     PluginsResolver,
     UsersResolver,
-    PipelinesResolver
+    PipelinesResolver,
+    LoggingPlugin
   ]
 })
 export class AppModule {}

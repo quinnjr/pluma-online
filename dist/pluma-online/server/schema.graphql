@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthResponse {
+  accessToken: String!
+}
+
 enum Category {
   Centrality
   Clustering
@@ -72,6 +76,7 @@ enum Language {
 type Mutation {
   createPipeline(pipelineData: PipelineCreateInput!): Pipeline!
   createPlugin(pluginData: PluginCreateInput!): Plugin!
+  register(input: UserCreateInput!, password: String!): User!
   updatePipeline(pipelineData: PipelineUpdateInput!, where: PipelineWhereUniqueInput!): Pipeline!
   updatePlugin(pluginData: PluginUpdateInput!, where: PluginWhereUniqueInput!): Plugin!
 }
@@ -164,6 +169,16 @@ type PipelineMinAggregate {
   name: String
   status: PipelineStatus
   updatedAt: DateTime
+}
+
+input PipelineOrderByInput {
+  createdAt: SortOrder
+  description: SortOrder
+  githubUrl: SortOrder
+  id: SortOrder
+  name: SortOrder
+  status: SortOrder
+  updatedAt: SortOrder
 }
 
 enum PipelineStatus {
@@ -286,10 +301,12 @@ input PluginWhereUniqueInput {
 }
 
 type Query {
-  getUserById(id: String!): User
-  pipelines: [Pipeline!]!
+  countPlugins(category: EnumCategoryFilter): Int!
+  login(password: String!, username: String!): AuthResponse!
+  pipelines(orderBy: PipelineOrderByInput!, skip: Int!, take: Int!): [Pipeline!]!
   plugin(where: PluginWhereUniqueInput!): Plugin
-  plugins(orderBy: PluginOrderByInput, skip: Int, take: Int, where: PluginWhereInput): [Plugin!]
+  plugins(orderBy: PluginOrderByInput, skip: Int, take: Int, where: PluginWhereInput): [Plugin!]!
+  user(where: UserWhereUniqueInput!): User
 }
 
 enum QueryMode {
@@ -332,4 +349,43 @@ type User {
   id: ID!
   role: Role!
   updatedAt: DateTime!
+}
+
+type UserCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  email: Int!
+  id: Int!
+  role: Int!
+  updatedAt: Int!
+}
+
+input UserCreateInput {
+  createdAt: DateTime
+  email: String!
+  id: String
+  passwordHash: String!
+  role: Role
+  updatedAt: DateTime
+}
+
+type UserMaxAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  role: Role
+  updatedAt: DateTime
+}
+
+type UserMinAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  role: Role
+  updatedAt: DateTime
+}
+
+input UserWhereUniqueInput {
+  email: String
+  id: String
 }

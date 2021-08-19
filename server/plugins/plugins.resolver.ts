@@ -1,16 +1,4 @@
-// Copyright (c) 2019-2020 FIUBioRG
-// SPDX-License-Identifier: MIT
-
-import {
-  Resolver,
-  Query,
-  Args,
-  Context,
-  Int,
-  Mutation,
-  ResolveField,
-  Parent
-} from '@nestjs/graphql';
+import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
 
 import { DatabaseService } from '../database/database.service';
 import {
@@ -20,8 +8,11 @@ import {
   PluginUpdateInput,
   PluginWhereInput,
   PluginWhereUniqueInput
-} from 'server/@generated/prisma-graphql/plugin';
-import { PipelineWhereUniqueInput } from 'server/@generated/prisma-graphql/pipeline';
+} from '../@generated/prisma-graphql/plugin';
+import {
+  Category,
+  EnumCategoryFilter
+} from '../@generated/prisma-graphql/prisma';
 
 @Resolver((of) => Plugin)
 export class PluginsResolver {
@@ -37,15 +28,17 @@ export class PluginsResolver {
     });
   }
 
-  @Query((returns) => [Plugin], { nullable: true })
+  @Query((returns) => [Plugin])
   public async plugins(
-    @Args('skip', { type: () => Int, nullable: true }) skip: number,
-    @Args('take', { type: () => Int, nullable: true }) take: number,
+    @Args('skip', { type: () => Int, nullable: true })
+    skip?: number,
+    @Args('take', { type: () => Int, nullable: true })
+    take?: number,
     @Args('orderBy', { type: () => PluginOrderByInput, nullable: true })
-    orderBy: PluginOrderByInput,
+    orderBy?: PluginOrderByInput,
     @Args('where', { type: () => PluginWhereInput, nullable: true })
-    where: PluginWhereInput
-  ): Promise<Plugin[] | null> {
+    where?: PluginWhereInput
+  ): Promise<Plugin[]> {
     return this.$database.plugin.findMany({
       take,
       skip,
@@ -54,9 +47,22 @@ export class PluginsResolver {
     });
   }
 
+  @Query((returns) => Int, { nullable: false })
+  public async countPlugins(
+    @Args('category', { type: () => EnumCategoryFilter, nullable: true })
+    category?: EnumCategoryFilter
+  ): Promise<number> {
+    return this.$database.plugin.count({
+      where: {
+        category
+      }
+    });
+  }
+
   @Mutation((returns) => Plugin)
   async createPlugin(
-    @Args('pluginData') data: PluginCreateInput
+    @Args('pluginData', { type: () => PluginCreateInput, nullable: false })
+    data: PluginCreateInput
   ): Promise<Plugin> {
     return this.$database.plugin.create({
       data
@@ -65,9 +71,9 @@ export class PluginsResolver {
 
   @Mutation((returns) => Plugin)
   async updatePlugin(
-    @Args('where', { type: () => PluginWhereUniqueInput })
-    where: PipelineWhereUniqueInput,
-    @Args('pluginData', { type: () => PluginUpdateInput })
+    @Args('where', { type: () => PluginWhereUniqueInput, nullable: false })
+    where: PluginWhereUniqueInput,
+    @Args('pluginData', { type: () => PluginUpdateInput, nullable: false })
     data: PluginUpdateInput
   ): Promise<Plugin> {
     return this.$database.plugin.update({
@@ -75,9 +81,4 @@ export class PluginsResolver {
       data
     });
   }
-
-  // @ResolveField()
-  // public async count(@Parent() plugins: Plugin[]) {
-  //   return this.$database.plugin.count();
-  // }
 }

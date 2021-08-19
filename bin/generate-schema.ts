@@ -1,3 +1,5 @@
+#!/usr/bin/env -S ts-node --compiler-options "{\"module\":\"commonjs\"}"
+
 import fs from 'fs';
 import { join } from 'path';
 
@@ -7,9 +9,10 @@ import {
   GraphQLSchemaFactory
 } from '@nestjs/graphql';
 import { printSchema } from 'graphql';
-import { PeopleResolver } from './people/people.resolver';
-import { PluginsResolver } from './plugins/plugins.resolver';
-import { PipelinesResolver } from './pipelines/pipelines.resolver';
+import { PeopleResolver } from '../server/people/people.resolver';
+import { PluginsResolver } from '../server/plugins/plugins.resolver';
+import { PipelinesResolver } from '../server/pipelines/pipelines.resolver';
+import { UsersResolver } from '../server/users/users.resolver';
 
 async function generateSchema() {
   const app = await NestFactory.create(GraphQLSchemaBuilderModule);
@@ -20,10 +23,14 @@ async function generateSchema() {
   const schema = await gqlSchemaFactory.create([
     PeopleResolver,
     PluginsResolver,
-    PipelinesResolver
+    PipelinesResolver,
+    UsersResolver
   ]);
 
-  fs.writeFileSync(join(__dirname, 'schema.graphql'), printSchema(schema));
+  fs.writeFileSync(
+    join(__dirname, '../server/schema.graphql'),
+    printSchema(schema)
+  );
 }
 
 generateSchema().catch(console.error);

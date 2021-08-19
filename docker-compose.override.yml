@@ -2,12 +2,15 @@ version: "3.8"
 
 services:
   webapp:
-    container_name: pluma-online
+    container_name: pluma-online-webapp
     build:
       context: ./
       dockerfile: Dockerfile-devel
       cache_from:
         - node:lts-alpine
+      labels:
+        com.pluma-backend.description: "Container for PluMA Online"
+        com.pluma-backend.maintainer: "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"
     depends_on:
       - database
       - redis
@@ -20,3 +23,5 @@ services:
     environment:
       JWT_SECRET: ${JWT_SECRET}
       DATABASE_URL: ${DATABASE_URL}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
