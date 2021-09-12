@@ -3,7 +3,7 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { List, Map } from 'immutable';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 
@@ -37,6 +37,23 @@ const Colors = Map([
   [Category.Miscellaneous, '#C0C0C0']
 ]);
 
+const query = gql`
+  query GetPlugins(
+    $where: PluginWhereInput,
+    $skip: Int,
+    $take: Int,
+    $orderBy: PluginOrderByInput
+  ) {
+    plugins(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+      name
+      description
+      githubUrl
+      language
+      category
+    }
+  }
+`;
+
 @Component({
   selector: 'pluma-online-pluma-plugins',
   templateUrl: './plugins.component.html',
@@ -44,91 +61,71 @@ const Colors = Map([
 })
 export class PluginsComponent implements OnInit, OnDestroy {
   public categories: Category[] = Object.values(Category);
-  public loading = true;
+  public loading = false;
   public linkActive: number = 0;
   public skip = 0;
-  public take = 50;
+  public take = 100;
 
-  private _plugins?: List<Plugin>;
+  public plugins?: List<any>;
   private categoryKeys: string[] = Object.keys(Category);
-  private pluginQuery?: QueryRef<{plugins: Plugin[]}>;
+  private pluginQuery?: QueryRef<{ plugins: Plugin[] }>;
   private pluginQuerySubscription?: Subscription;
 
-  constructor(
-    private readonly $apollo: Apollo
-  ) {}
+  constructor(private readonly $apollo: Apollo) {}
 
   public ngOnInit() {
-    this.pluginQuery = this.$apollo
-      .watchQuery<{ plugins: Plugin[] }>({
-        /* eslint prettier/prettier: off */
-        query: gql`
-          query GetPlugins(
-            $where: PluginWhereInput,
-            $skip: Int,
-            $take: Int,
-            $orderBy: PluginOrderByInput
-          ) {
-            plugins(
-              where: $where,
-              skip: $skip,
-              take: $take,
-              orderBy: $orderBy
-            ) {
-              name
-              description
-              githubUrl
-              language
-              category
-            }
+    this.pluginQuery = this.$apollo.watchQuery<{ plugins: Plugin[] }>({
+      query,
+      variables: {
+        orderBy: {
+          name: SortOrder.asc
+        },
+        where: {
+          category: {
+            equals: this.categoryKeys[this.linkActive]
           }
-        `,
-        variables: {
-          orderBy: {
-            name: SortOrder.desc
-          },
-          where: {
-            category: {
-              equals: this.categoryKeys[this.linkActive]
-            }
-          },
-          skip: this.skip,
-          take: this.take
-        }
-      });
+        },
+        skip: this.skip,
+        take: this.take
+      }
+    });
 
-    this.pluginQuerySubscription = this.pluginQuery?.valueChanges
-      .pipe(
-        tap((req: any) => {
-          console.log(req);
-        })
-      )
-      .subscribe(({ data, loading, error }: {data: {plugins: Plugin[]}, loading: any, error: any}) => {
+    this.pluginQuerySubscription = this.pluginQuery?.valueChanges.subscribe(
+      ({ data, loading, error }) => {
         if (error) console.log(error);
-
         this.loading = loading;
-        this._plugins = List(data.plugins).sort((a, b) =>
-          a.name > b.name ? 1 : -1
-        );
-      });
+        this.plugins = List(data.plugins);
+      }
+    );
   }
 
   public ngOnDestroy() {
     this.pluginQuerySubscription?.unsubscribe();
   }
 
-  public get plugins() {
-    return this._plugins?.filter(
-      (p) => p.category === this.categoryKeys[this.linkActive]
-    );
-  }
-
   public isLinkActive(n: number): boolean {
     return n === this.linkActive;
   }
 
+  public async refresh() {
+    console.log('in refresh');
+    this.pluginQuery?.refetch({
+      variables: {
+        orderBy: {
+          name: SortOrder.asc
+        },
+        where: {
+          category: {
+            equals: this.categoryKeys[this.linkActive]
+          }
+        },
+        skip: this.skip,
+        take: this.take
+      }
+    });
+  }
+
   public setLinkActive(n: number) {
     this.linkActive = n;
-    this.pluginQuery?.refetch();
   }
 }

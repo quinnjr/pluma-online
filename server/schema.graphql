@@ -1,0 +1,372 @@
+type PluginCountAggregate {
+  id: Int!
+  name: Int!
+  category: Int!
+  description: Int!
+  githubUrl: Int!
+  language: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type PluginMinAggregate {
+  id: String
+  name: String
+  category: Category
+  description: String
+  githubUrl: String
+  language: Language
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+enum Category {
+  FileConverters
+  StatsVisualizations
+  Transformations
+  Dissimilarity
+  Correlation
+  Centrality
+  Clustering
+  TimeSeries
+  ExternalTools
+  Miscellaneous
+}
+
+enum Language {
+  CXX
+  Python
+  Perl
+  CUDA
+  R
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PluginMaxAggregate {
+  id: String
+  name: String
+  category: Category
+  description: String
+  githubUrl: String
+  language: Language
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Plugin {
+  id: ID!
+  name: String!
+  category: Category!
+  description: String!
+  githubUrl: String!
+  language: Language!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PipelineCountAggregate {
+  id: Int!
+  name: Int!
+  description: Int!
+  githubUrl: Int!
+  status: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type PipelineMinAggregate {
+  id: String
+  name: String
+  description: String
+  githubUrl: String
+  status: PipelineStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+enum PipelineStatus {
+  Completed
+  InProgress
+  Future
+}
+
+type PipelineMaxAggregate {
+  id: String
+  name: String
+  description: String
+  githubUrl: String
+  status: PipelineStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type Pipeline {
+  id: ID!
+  name: String!
+  description: String!
+  githubUrl: String!
+  status: PipelineStatus!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UserCountAggregate {
+  id: Int!
+  email: Int!
+  role: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type UserMinAggregate {
+  id: String
+  email: String
+  role: Role
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+enum Role {
+  Admin
+  User
+}
+
+type UserMaxAggregate {
+  id: String
+  email: String
+  role: Role
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type User {
+  id: ID!
+  email: String!
+  role: Role!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  plugin(where: PluginWhereUniqueInput!): Plugin
+  plugins(where: PluginWhereInput, orderBy: PluginOrderByInput, take: Int, skip: Int): [Plugin!]!
+  countPlugins(category: EnumCategoryFilter): Int!
+  pipelines(orderBy: PipelineOrderByInput!, skip: Int!, take: Int!): [Pipeline!]!
+  user(where: UserWhereUniqueInput!): User
+}
+
+input PluginWhereUniqueInput {
+  id: String
+  name: String
+  githubUrl: String
+}
+
+input PluginWhereInput {
+  AND: [PluginWhereInput!]
+  OR: [PluginWhereInput!]
+  NOT: [PluginWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  category: EnumCategoryFilter
+  description: StringFilter
+  githubUrl: StringFilter
+  language: EnumLanguageFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input EnumCategoryFilter {
+  equals: Category
+  in: [Category!]
+  notIn: [Category!]
+  not: NestedEnumCategoryFilter
+}
+
+input NestedEnumCategoryFilter {
+  equals: Category
+  in: [Category!]
+  notIn: [Category!]
+  not: NestedEnumCategoryFilter
+}
+
+input EnumLanguageFilter {
+  equals: Language
+  in: [Language!]
+  notIn: [Language!]
+  not: NestedEnumLanguageFilter
+}
+
+input NestedEnumLanguageFilter {
+  equals: Language
+  in: [Language!]
+  notIn: [Language!]
+  not: NestedEnumLanguageFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input PluginOrderByInput {
+  id: SortOrder
+  name: SortOrder
+  category: SortOrder
+  description: SortOrder
+  githubUrl: SortOrder
+  language: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input PipelineOrderByInput {
+  id: SortOrder
+  name: SortOrder
+  description: SortOrder
+  githubUrl: SortOrder
+  status: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+}
+
+type Mutation {
+  createPlugin(pluginData: PluginCreateInput!): Plugin!
+  updatePlugin(pluginData: PluginUpdateInput!, where: PluginWhereUniqueInput!): Plugin!
+  createPipeline(pipelineData: PipelineCreateInput!): Pipeline!
+  updatePipeline(pipelineData: PipelineUpdateInput!, where: PipelineWhereUniqueInput!): Pipeline!
+}
+
+input PluginCreateInput {
+  id: String
+  name: String!
+  category: Category!
+  description: String!
+  githubUrl: String!
+  language: Language!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PluginUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  category: EnumCategoryFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  language: EnumLanguageFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input EnumCategoryFieldUpdateOperationsInput {
+  set: Category
+}
+
+input EnumLanguageFieldUpdateOperationsInput {
+  set: Language
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input PipelineCreateInput {
+  id: String
+  name: String!
+  description: String!
+  githubUrl: String!
+  status: PipelineStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PipelineUpdateInput {
+  id: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  status: EnumPipelineStatusFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input EnumPipelineStatusFieldUpdateOperationsInput {
+  set: PipelineStatus
+}
+
+input PipelineWhereUniqueInput {
+  id: String
+  name: String
+}

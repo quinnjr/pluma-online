@@ -15,7 +15,8 @@ import {
 } from '@angular/platform-browser';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache } from '@apollo/client/core';
+import { InMemoryCache, ApolloLink } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
@@ -79,11 +80,37 @@ const STATE_KEY = makeStateKey<any>('apollo.state');
           });
         }
 
-        return {
-          cache,
-          link: httpLink.create({
+        const basic = setContext((operation, context) => ({
+          headers: {
+            Accept: 'charset=utf-8'
+          }
+        }));
+
+        const auth = setContext((operation, context) => {
+          const token = localStorage.getItem('accessToken');
+
+          if (token === null) {
+            return {};
+          } else {
+            return {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            };
+          }
+        });
+
+        const link = ApolloLink.from([
+          basic,
+          auth,
+          httpLink.create({
             uri: '/graphql'
           })
+        ]);
+
+        return {
+          cache,
+          link
         };
       },
       deps: [HttpLink, APOLLO_CACHE, TransferState]

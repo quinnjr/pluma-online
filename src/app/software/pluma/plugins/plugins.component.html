@@ -14,7 +14,7 @@
             <ul class="menu-list">
               <li *ngFor="let category of categories; index as idx">
                 <a [ngClass]="{ 'is-active': isLinkActive(idx) }"
-                  (click)="setLinkActive(idx)">{{ category }}</a>
+                  (click)="setLinkActive(idx); refresh() ">{{ category }}</a>
               </li>
             </ul>
           </aside>
@@ -29,7 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let plugin of plugins">
+              <tr *ngFor="let plugin of plugins | async">
                 <td>
                   <span class="panel-block">
                     <span class="panel-icon">
@@ -52,25 +52,6 @@
     </section>
   </div>
   <div class="column is-one-quarter">
-    <aside class="menu">
-      <p class="menu-label">Download PluMA</p>
-      <ul class="menu-list">
-        <li>
-          <a routerLink="/software/pluma">PluMA Home</a>
-        </li>
-        <li>
-          <a href="https://github.com/FIUBioRG/PluMA" target="_blank">PluMA Github Site</a>
-        </li>
-        <li>
-          <a href="#">PluMA Userguide</a>
-        </li>
-        <li>
-          <a routerLink="/software/pluma/plugins">PluMA Plugin Pool</a>
-        </li>
-        <li>
-          <a routerLink="/software/pluma/pipelines">PluMA Pipeline Pool</a>
-        </li>
-      </ul>
-    </aside>
+    <pluma-online-pluma-sidebar></pluma-online-pluma-sidebar>
   </div>
 </div>
