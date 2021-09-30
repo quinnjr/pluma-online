@@ -40,6 +40,20 @@ async function seed() {
   }
 
   console.log(`Seeded ${pipelines.length} pipelines`);
+
+  let anonUser = {
+    name: 'Anonymous',
+    email: 'anonymous@local.domain',
+    passwordHash: '0000000'
+  }
+
+  const _anonymous = await prisma.user.upsert({
+    where: {
+      email: 'anonymous@local.domain'
+    },
+    update: anonUser,
+    create: anonUser
+  })
 }
 
 seed()

@@ -1,29 +1,29 @@
 version: "3.8"
 
 services:
-  nginx:
-    container_name: pluma-online-nginx
-    build:
-      context: ./nginx
-      cache_from:
-        - alpine:latest
-        - fiubiorg/nginx:latest
-      labels:
-        com.pluma-nginx.description: "Custom NGINX container for PluMA Online"
-        com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
-      args:
-        - NGINX_VERSION=1.19.10
-    image: fiubiorg/nginx:latest
-    volumes:
-      - web:/src/http
-      - ./nginx/etc/nginx:/etc/nginx
-      - ./nginx/server-configs-nginx/h5bp:/etc/nginx/h5bp
-    ports:
-      - "80:80"
-      - "443:443"
-    restart: unless-stopped
-    depends_on:
-      - webapp
+  # nginx:
+  #   container_name: pluma-online-nginx
+  #   build:
+  #     context: ./nginx
+  #     cache_from:
+  #       - alpine:latest
+  #       - fiubiorg/nginx:latest
+  #     labels:
+  #       com.pluma-nginx.description: "Custom NGINX container for PluMA Online"
+  #       com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
+  #     args:
+  #       - NGINX_VERSION=1.19.10
+  #   image: fiubiorg/nginx:latest
+  #   volumes:
+  #     - web:/src/http
+  #     - ./nginx/etc/nginx:/etc/nginx
+  #     - ./nginx/server-configs-nginx/h5bp:/etc/nginx/h5bp
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - webapp
 
   database:
     container_name: pluma-online-database

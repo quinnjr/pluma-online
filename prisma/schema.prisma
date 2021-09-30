@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -11,11 +11,11 @@ generator client {
 }
 
 generator nestgraphql {
-  provider = "node node_modules/prisma-nestjs-graphql"
-  output = "../server/@generated/prisma-graphql"
-  reExport = Directories
-  purgeOutput = true
-  fields_Validator_from = "class-validator"
+  provider               = "node node_modules/prisma-nestjs-graphql"
+  output                 = "../server/@generated/prisma-graphql"
+  reExport               = Directories
+  purgeOutput            = true
+  fields_Validator_from  = "class-validator"
   fields_Validator_input = true
 }
 
@@ -41,14 +41,19 @@ enum Language {
 }
 
 model Plugin {
-  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name String @unique
-  category Category
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String   @unique
+  category    Category
   description String
-  githubUrl String @unique
-  language Language
-  createdAt DateTime @default(now()) @db.Timestamp(3)
-  updatedAt DateTime @updatedAt @default(now()) @db.Timestamp(3)
+  githubUrl   String   @unique
+  language    Language
+  rating      Int      @default(0)
+  author      User?    @relation(fields: [authorId], references: [id])
+  authorId    String?  @db.Uuid
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now()) @db.Timestamp(3)
+  updatedAt   DateTime @default(now()) @updatedAt @db.Timestamp(3)
+
   @@map("plugins")
 }
 
@@ -58,14 +63,18 @@ enum Role {
 }
 
 model User {
-  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  email String @unique
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email        String   @unique
   /// @HideField()
   passwordHash String
-  role Role @default(User)
-  createdAt DateTime @default(now()) @db.Timestamp(3)
-  updatedAt DateTime @updatedAt @default(now()) @db.Timestamp(3)
+  name         String?
+  website      String?
+  role         Role     @default(User)
+  createdAt    DateTime @default(now()) @db.Timestamp(3)
+  updatedAt    DateTime @default(now()) @updatedAt @db.Timestamp(3)
+
   @@map("users")
+  Plugin Plugin[]
 }
 
 enum PipelineStatus {
@@ -75,12 +84,13 @@ enum PipelineStatus {
 }
 
 model Pipeline {
-  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name String @unique
+  id          String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String         @unique
   description String
-  githubUrl String
-  status PipelineStatus @default(Completed)
-  createdAt DateTime @default(now()) @db.Timestamp(3)
-  updatedAt DateTime @updatedAt @default(now()) @db.Timestamp(3)
+  githubUrl   String
+  status      PipelineStatus @default(Completed)
+  createdAt   DateTime       @default(now()) @db.Timestamp(3)
+  updatedAt   DateTime       @default(now()) @updatedAt @db.Timestamp(3)
+
   @@map("pipelines")
 }

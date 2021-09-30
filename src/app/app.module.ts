@@ -21,8 +21,6 @@ import { setContext } from '@apollo/client/link/context';
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
 
-import { SoftwareModule } from './software/software.module';
-
 import { HomeComponent } from './home/home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { SidebarComponent } from './home/sidebar/sidebar.component';
@@ -31,6 +29,8 @@ import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { AuthService } from './auth/auth.service';
+import { PluginService } from './plugin/plugin.service';
+import { PlumaModule } from './pluma/pluma.module';
 
 const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
 const STATE_KEY = makeStateKey<any>('apollo.state');
@@ -44,7 +44,7 @@ const STATE_KEY = makeStateKey<any>('apollo.state');
     HttpClientModule,
     ReactiveFormsModule,
     // Internal modules
-    SoftwareModule,
+    PlumaModule,
     AppRouterModule
   ],
   declarations: [
@@ -58,6 +58,7 @@ const STATE_KEY = makeStateKey<any>('apollo.state');
   ],
   providers: [
     AuthService,
+    PluginService,
     {
       provide: APOLLO_CACHE,
       useValue: new InMemoryCache()

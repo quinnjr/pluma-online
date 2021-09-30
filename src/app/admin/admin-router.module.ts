@@ -6,12 +6,15 @@ import { Route, Routes, RouterModule } from '@angular/router';
 import { List } from 'immutable';
 
 import { AdminComponent } from './admin/admin.component';
-import { AdminGuard } from './admin.guard';
+import { PluginsComponent } from './plugins/plugins.component';
 
-const routes: Routes = [];
+const routes: List<Route> = List([
+  { path: 'plugins', component: PluginsComponent },
+  { path: '', component: AdminComponent, pathMatch: 'full' }
+]);;
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes.toArray())],
   exports: [RouterModule]
 })
 export class AdminRouterModule {}

@@ -22,11 +22,7 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./webpack.config.ts",
-              "mergeStrategies": {
-                "externals": "merge",
-                "rules": "append"
-              }
+              "path": "./webpack.config.ts"
             },
             "outputPath": "dist/pluma-online/browser",
             "index": "src/index.html",
@@ -79,11 +75,7 @@
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "customWebpackConfig": {
-              "path": "./webpack.config.ts",
-              "mergeRules": {
-                "externals": "merge",
-                "rules": "append"
-              }
+              "path": "./webpack.config.ts"
             },
             "browserTarget": "pluma-online:build"
           },
@@ -100,7 +92,6 @@
           "builder": "@angular-builders/custom-webpack:extract-i18n",
           "options": {
             "customWebpackConfig": {
-              "path": "./webpack.config.ts",
               "mergeRules": {
                 "externals": "append"
               }
@@ -150,7 +141,10 @@
               "express",
               "graphql",
               "graphql-tools",
-              "argon2"
+              "argon2",
+              "@apollo/client",
+              "@apollo/gateway",
+              "react"
             ]
           },
           "configurations": {

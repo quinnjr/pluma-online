@@ -4,7 +4,7 @@ import { DatabaseService } from '../database/database.service';
 import {
   Plugin,
   PluginCreateInput,
-  PluginOrderByInput,
+  PluginOrderByWithRelationInput,
   PluginUpdateInput,
   PluginWhereInput,
   PluginWhereUniqueInput
@@ -34,8 +34,8 @@ export class PluginsResolver {
     skip?: number,
     @Args('take', { type: () => Int, nullable: true })
     take?: number,
-    @Args('orderBy', { type: () => PluginOrderByInput, nullable: true })
-    orderBy?: PluginOrderByInput,
+    @Args('orderBy', { type: () => PluginOrderByWithRelationInput, nullable: true })
+    orderBy?: PluginOrderByWithRelationInput,
     @Args('where', { type: () => PluginWhereInput, nullable: true })
     where?: PluginWhereInput
   ): Promise<Plugin[]> {

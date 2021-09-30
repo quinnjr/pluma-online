@@ -14,7 +14,7 @@
             <ul class="menu-list">
               <li *ngFor="let category of categories; index as idx">
                 <a [ngClass]="{ 'is-active': isLinkActive(idx) }"
-                  (click)="setLinkActive(idx); refresh() ">{{ category }}</a>
+                  (click)="linkActive = idx; refresh() ">{{ category }}</a>
               </li>
             </ul>
           </aside>
@@ -26,6 +26,8 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Language</th>
+                <th>Author</th>
+                <th>Rating</th>
               </tr>
             </thead>
             <tbody>
@@ -43,6 +45,12 @@
                 </td>
                 <td>
                   <span class="panel-block">{{ plugin.language }}</span>
+                </td>
+                <td>
+                  <span class="panel-block"></span>
+                </td>
+                <td>
+                  <span class="panel-block"></span>
                 </td>
               </tr>
             </tbody>

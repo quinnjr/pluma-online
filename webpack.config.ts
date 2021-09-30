@@ -109,7 +109,8 @@ export default (
             'class-transformer',
             'apollo-server-fastify',
             'bufferutil',
-            'utf-8-validate'
+            'utf-8-validate',
+            'react'
           ];
 
           if (!imports.includes(resource)) {

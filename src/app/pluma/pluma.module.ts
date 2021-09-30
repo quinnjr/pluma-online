@@ -12,6 +12,7 @@ import { ApplicationComponent } from './application/application.component';
 import { PluginsComponent } from './plugins/plugins.component';
 import { PipelinesComponent } from './pipelines/pipelines.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { PluginService } from '../plugin/plugin.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     SidebarComponent
   ],
   imports: [CommonModule, HttpClientModule, PlumaRouterModule],
-  providers: [],
+  providers: [PluginService],
   exports: [PlumaComponent, PluginsComponent, PipelinesComponent]
 })
 export class PlumaModule {}
