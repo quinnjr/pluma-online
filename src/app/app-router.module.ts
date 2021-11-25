@@ -14,12 +14,12 @@ import { RegisterComponent } from './register/register.component';
 import { AdminGuard } from './admin.guard';
 
 const routes: List<Route> = List([
- {
+  {
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module')
         .then((m) => m.AdminModule)
-        .catch(console.error),
+        .catch(console.error)
     // canActivate: [AdminGuard]
   },
   {
@@ -36,7 +36,7 @@ const routes: List<Route> = List([
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', redirectTo: 'not-found' }
-])
+]);
 
 @NgModule({
   imports: [RouterModule.forRoot(routes.toArray())],

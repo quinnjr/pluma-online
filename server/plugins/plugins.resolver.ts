@@ -34,7 +34,10 @@ export class PluginsResolver {
     skip?: number,
     @Args('take', { type: () => Int, nullable: true })
     take?: number,
-    @Args('orderBy', { type: () => PluginOrderByWithRelationInput, nullable: true })
+    @Args('orderBy', {
+      type: () => PluginOrderByWithRelationInput,
+      nullable: true
+    })
     orderBy?: PluginOrderByWithRelationInput,
     @Args('where', { type: () => PluginWhereInput, nullable: true })
     where?: PluginWhereInput

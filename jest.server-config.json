@@ -1,0 +1,14 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "preset": "ts-jest/presets/default",
+  "rootDir": "./server",
+  "testMatch": [
+    "**/+(*.)+(spec).*(ts)"
+  ],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "collectCoverage": true,
+  "coverageDirectory": "./dist/coverage-server",
+  "testEnvironment": "node"
+}

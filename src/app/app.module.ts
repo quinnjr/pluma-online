@@ -32,8 +32,8 @@ import { AuthService } from './auth/auth.service';
 import { PluginService } from './plugin/plugin.service';
 import { PlumaModule } from './pluma/pluma.module';
 
-const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
-const STATE_KEY = makeStateKey<any>('apollo.state');
+export const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
+export const STATE_KEY = makeStateKey<any>('apollo.state');
 
 @NgModule({
   imports: [
@@ -90,15 +90,13 @@ const STATE_KEY = makeStateKey<any>('apollo.state');
         const auth = setContext((operation, context) => {
           const token = localStorage.getItem('accessToken');
 
-          if (token === null) {
-            return {};
-          } else {
-            return {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            };
-          }
+          return token === null
+            ? {}
+            : {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+              };
         });
 
         const link = ApolloLink.from([

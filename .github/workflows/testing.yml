@@ -1,0 +1,61 @@
+name: Testing CI
+
+on:
+  push:
+    branches: [main, develop, feature/*]
+
+jobs:
+  webapp:
+    defaults:
+      run:
+        working-directory: ./
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+          - 16.x
+    services:
+      database:
+        image: postgres
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      SETUP_PASSWORD: ${{ secrets.SETUP_PASSWORD }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      DATABASE_URL: postgres://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@localhost:5432/${{secrets.POSTGRES_DB}}
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache pnpm modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-pnpm-modules
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
+
+    - uses: pnpm/action-setup@v2.0.0
+      with:
+        version: 6.23.2
+    - run: pnpm install
+    - run: pnpx prisma migrate deploy
+      env:
+        DATABASE_URL: ${{secrets.DATABASE_URL}}
+    - run: pnpm test -- --ci
+    - run: pnpm run test:server -- --ci

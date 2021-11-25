@@ -11,7 +11,7 @@ import { PluginsComponent } from './plugins/plugins.component';
 const routes: List<Route> = List([
   { path: 'plugins', component: PluginsComponent },
   { path: '', component: AdminComponent, pathMatch: 'full' }
-]);;
+]);
 
 @NgModule({
   imports: [RouterModule.forChild(routes.toArray())],

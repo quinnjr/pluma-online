@@ -1,0 +1,31 @@
+{
+  "recommendations": [
+    "angular.ng-template",
+    "johnpapa.angular2",
+    "hookyqr.beautify",
+    "coenraads.bracket-pair-colorizer-2",
+    "deibit.devdocs",
+    "oouo-diogo-perdigao.docthis",
+    "mikestead.dotenv",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "codezombiech.gitignore",
+    "graphql.vscode-graphql",
+    "kumar-harsh.graphql-for-vscode",
+    "abusaidm.html-snippets",
+    "ecmel.vscode-html-css",
+    "firsttris.vscode-jest-runner",
+    "ms-vsliveshare.vsliveshare",
+    "ms-vsliveshare.vsliveshare-pack",
+    "leizongmin.node-module-intellisense",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode",
+    "mohsen1.prettify-json",
+    "mblode.pretty-formatter",
+    "prisma.prisma",
+    "formulahendry.terminal",
+    "wayou.vscode-todo-highlight",
+    "visualstudioexptteam.vscodeintellicode",
+    "redhat.vscode-yaml"
+  ]
+}

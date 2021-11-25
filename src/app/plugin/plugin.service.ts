@@ -4,7 +4,7 @@ import { Apollo, Mutation, Query, gql } from 'apollo-angular';
 import { Plugin } from '../../../server/@generated/prisma-graphql/plugin';
 
 export interface Response {
-  plugins: Plugin[]
+  plugins: Plugin[];
 }
 
 @Injectable({
@@ -13,9 +13,9 @@ export interface Response {
 export class PluginService extends Query<Response> {
   public document = gql`
     query FetchPlugins(
-      $where: PluginWhereInput,
-      $skip: Int,
-      $take: Int,
+      $where: PluginWhereInput
+      $skip: Int
+      $take: Int
       $orderBy: PluginOrderByWithRelationInput
     ) {
       plugins(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {

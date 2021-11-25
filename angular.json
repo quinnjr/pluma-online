@@ -126,31 +126,20 @@
               "@nestjs/microservices/microservices-module",
               "@nestjs/websockets",
               "@nestjs/websockets/socket-module",
-              "cache-manager",
-              "prisma",
-              "@prisma/client",
               "_http_common",
-              "@nestjs/common",
-              "@nestjs/config",
-              "@nestjs/core",
-              "@nestjs/graphql",
-              "@nestjs/platform-express",
-              "apollo-server-express",
-              "class-transformer",
-              "class-validator",
-              "express",
-              "graphql",
-              "graphql-tools",
               "argon2",
-              "@apollo/client",
-              "@apollo/gateway",
-              "react"
+              "react",
+              "ws",
+              "graphql-ws"
             ]
           },
           "configurations": {
             "production": {
               "outputHashing": "media",
-              "optimization": false,
+              "optimization": {
+                "mangle": false
+              },
+              "buildOptimizer": true,
               "sourceMap": false,
               "extractLicenses": true
             },
@@ -166,17 +155,7 @@
           "builder": "@angular-builders/jest:run",
           "options": {
             "configPath": "./jest.config.json",
-            "tsConfig": "./tsconfig.spec.json",
-            "polyfills": "./src/polyfills.ts",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+            "tsConfig": "./tsconfig.spec.json"
           }
         },
         "serve-ssr": {

@@ -1,4 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# pnpm test
+pnpm run lint -- --fix
+pnpm run lint:server -- --fix
+pnpm test -- --run-in-band
+pnpm run test:server -- --run-in-band

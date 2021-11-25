@@ -40,9 +40,7 @@ export class PluginsComponent implements OnInit, OnDestroy {
   private categoryKeys: string[] = Object.keys(Category);
   private pluginQuery?: QueryRef<{ plugins: Plugin[] }>;
 
-  constructor(
-    private readonly $pluginService: PluginService
-  ) {}
+  constructor(private readonly $pluginService: PluginService) {}
 
   public ngOnInit() {
     this.pluginQuery = this.$pluginService.watch({
@@ -63,8 +61,7 @@ export class PluginsComponent implements OnInit, OnDestroy {
     );
   }
 
-  public ngOnDestroy() {
-  }
+  public ngOnDestroy() {}
 
   public isLinkActive(n: number): boolean {
     return n === this.linkActive;

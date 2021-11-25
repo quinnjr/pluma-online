@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === 'production') {
   enableProdMode();
 } else {
   // @ts-ignore
+  /* eslint-disable-next-line unicorn/prefer-module */
   require('zone.js/plugins/zone-error');
 }
 

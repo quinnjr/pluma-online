@@ -13,15 +13,15 @@ export class GqlJwtAuthGuard extends AuthGuard('jwt') implements CanActivate {
   public canActivate(
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const ctx = GqlExecutionContext.create(context);
-    const { req } = ctx.getContext();
+    const context_ = GqlExecutionContext.create(context);
+    const { req } = context_.getContext();
 
     return super.canActivate(new ExecutionContextHost([req]));
   }
 
-  public handleRequest(err: any, user: any): any {
-    if (err || !user) {
-      throw err || new AuthenticationError('GqlJwtAuthGuard');
+  public handleRequest(error: any, user: any): any {
+    if (error || !user) {
+      throw error || new AuthenticationError('GqlJwtAuthGuard');
     }
     return user;
   }

@@ -22,7 +22,10 @@ const create_plugin = gql`
 `;
 
 const update_plugin = gql`
-  mutation UpdatePlugin($where: PluginWhereUniqueInput!, $data: PluginUpdateInput!) {
+  mutation UpdatePlugin(
+    $where: PluginWhereUniqueInput!
+    $data: PluginUpdateInput!
+  ) {
     updatePlugin(where: $where, data: $data) {
       name
       description
@@ -44,9 +47,7 @@ export class PluginsComponent implements OnInit, OnDestroy {
   public plugins?: Observable<List<any>>;
   private pluginQuery?: QueryRef<{ plugins: Plugin[] }>;
 
-  constructor(
-    private readonly $pluginService: PluginService
-  ) { }
+  constructor(private readonly $pluginService: PluginService) {}
 
   public ngOnInit(): void {
     this.pluginQuery = this.$pluginService.watch({
@@ -55,20 +56,14 @@ export class PluginsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.plugins = this.pluginQuery?.valueChanges
-      .pipe(
-        map((result) => List(result.data.plugins))
-      );
+    this.plugins = this.pluginQuery?.valueChanges.pipe(
+      map((result) => List(result.data.plugins))
+    );
   }
 
-  public ngOnDestroy() {
-  }
+  public ngOnDestroy() {}
 
-  public createPlugin(): void {
+  public createPlugin(): void {}
 
-  }
-
-  public updatePlugin(): void {
-
-  }
+  public updatePlugin(): void {}
 }
