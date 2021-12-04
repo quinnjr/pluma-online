@@ -1,5 +1,3 @@
-const { printSchema } = require('graphql');
-
 module.exports = {
   root: true,
   ignorePatterns: [
