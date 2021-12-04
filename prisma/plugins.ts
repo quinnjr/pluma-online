@@ -18,6 +18,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.FileConverters
   },
   {
+    name: 'BIOM2Upgrade',
+    description: 'Upgrade to BIOM version 2 (McDonald et al, 2012)',
+    githubUrl: 'https://github.com/verociraptor/BIOM2Upgrade',
+    language: Language.Python,
+    category: Category.FileConverters
+  },
+  {
     name: 'ClusterCSV2NOA',
     description: 'Convert CSV File Of Clusters to NOA',
     githubUrl: 'https://github.com/movingpictures83/ClusterCSV2NOA',
@@ -81,9 +88,16 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.FileConverters
   },
   {
-    name: 'CSV2Tab',
+    name: 'CSV2TSNE',
+    description: 'Convert CSV file of abundances to multiple input files for TSNE (Van der Maaten et al, 2008)',
+    githubUrl: 'https://github.com/movingpictures83/CSV2TSNE',
+    language: Language.Python,
+    category: Category.FileConverters
+  },
+  {
+    name: 'CSV2TSV',
     description: 'Converter from comma-separated to tab-delimited format',
-    githubUrl: 'https://github.com/verociraptor/CSV2Tab',
+    githubUrl: 'https://github.com/movingpictures83/CSV2TSV',
     language: Language.Python,
     category: Category.FileConverters
   },
@@ -256,9 +270,44 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.FileConverters
   },
   {
+    name: 'Harvest',
+    description: 'Harvest (Treagen et al, 2014) tools',
+    githubUrl: 'https://github.com/movingpictures83/Harvest',
+    language: Language.CUDA,
+    category: Category.FileConverters
+  },
+  {
+    name: 'Krona2CSV',
+    description: 'Convert a Krona file to multiple CSV files, one per taxonomic level',
+    githubUrl: 'https://github.com/movingpictures83/Krona2CSV',
+    language: Language.Python,
+    category: Category.FileConverters
+  },
+  {
+    name: 'Krona2PhyloSeq',
+    description: 'Convert a Krona file to PhyloSeq (McMurdie et al, 2013) OTU and taxonomy tables',
+    githubUrl: 'https://github.com/movingpictures83/Krona2PhyloSeq',
+    language: Language.Python,
+    category: Category.FileConverters
+  },
+  {
+    name: 'KronaTree',
+    description: 'Convert a Krona file to multiple TXT files, one per taxonomic level',
+    githubUrl: 'https://github.com/movingpictures83/KronaTree',
+    language: Language.Python,
+    category: Category.FileConverters
+  },
+  {
     name: 'LabelDups',
     description: 'Take a CSV file and label duplicate entries',
     githubUrl: 'https://github.com/movingpictures83/LabelDups',
+    language: Language.Python,
+    category: Category.FileConverters
+  },
+  {
+    name: 'MergeFiles',
+    description: 'Merge the content of all files that match a pattern',
+    githubUrl: 'https://github.com/movingpictures83/MergeFiles',
     language: Language.Python,
     category: Category.FileConverters
   },
@@ -305,6 +354,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.FileConverters
   },
   {
+    name: 'PhyloSeq2Qiime',
+    description: 'Convert PhyloSeq (McMurdie and Holmes, 2013) data files (OTU/TAX/META) into Qiime (Caporaso et al, 2010)-compatible (BIOM/TRE) formats ',
+    githubUrl: 'https://github.com/movingpictures83/PhyloSeq2Qiime',
+    language: Language.R,
+    category: Category.FileConverters
+  },
+  {
     name: 'PhyloSeqReorder',
     description: 'Reorder PhyloSeq (McMurdie and Holmes, 2013) taxa to correspond to metadata',
     githubUrl: 'https://github.com/movingpictures83/PhyloSeqReorder',
@@ -316,6 +372,13 @@ export const Plugins: PluginCreateInput[] = [
     description: 'Convert Qiime (Caporaso et al, 2010) OTU and metadata files to PhyloSeq (McMurdie and Holmes, 2013) format ',
     githubUrl: 'https://github.com/movingpictures83/Qiime2PhyloSeq',
     language: Language.Python,
+    category: Category.FileConverters
+  },
+  {
+    name: 'QiimeTwo2PhyloSeq',
+    description: 'Convert input files from Qiime2 (Bolyen et al, 2019) to PhyloSeq (McMurdie et al, 2013)',
+    githubUrl: 'https://github.com/movingpictures83/QiimeTwo2PhyloSeq',
+    language: Language.R,
     category: Category.FileConverters
   },
   {
@@ -340,9 +403,9 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.FileConverters
   },
   {
-    name: 'Tab2CSV',
+    name: 'TSV2CSV',
     description: 'Converter from tab-delimited to comma-separated format',
-    githubUrl: 'https://github.com/verociraptor/Tab2CSV',
+    githubUrl: 'https://github.com/movingpictures83/TSV2CSV',
     language: Language.Python,
     category: Category.FileConverters
   },
@@ -417,10 +480,24 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.StatsVisualizations
   },
   {
+    name: 'BetaInAndOut',
+    description: 'Compute Beta-diversity between all pairs of samples within each subcategory, and all pairs of samples in different subcategories.',
+    githubUrl: 'https://github.com/movingpictures83/BetaInAndOut',
+    language: Language.Python,
+    category: Category.StatsVisualizations
+  },
+  {
     name: 'BoxPlot',
     description: 'Produce a boxplot',
     githubUrl: 'https://github.com/movingpictures83/BoxPlot',
     language: Language.R,
+    category: Category.StatsVisualizations
+  },
+  {
+    name: 'BUSCO',
+    description: 'Assess gene assembly and/or annotation using BUSCO (Simao et al, 2015)',
+    githubUrl: 'https://github.com/movingpictures83/BUSCO',
+    language: Language.CUDA,
     category: Category.StatsVisualizations
   },
   {
@@ -564,6 +641,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.StatsVisualizations
   },
   {
+    name: 'FASTACount',
+    description: 'Count the number of sequences in a FASTA file ',
+    githubUrl: 'https://github.com/movingpictures83/FASTACount',
+    language: Language.Python,
+    category: Category.StatsVisualizations
+  },
+  {
     name: 'Gini',
     description: 'Gini index (Gini, 1912) ',
     githubUrl: 'https://github.com/movingpictures83/Gini',
@@ -634,6 +718,20 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.StatsVisualizations
   },
   {
+    name: 'KronaCheck',
+    description: 'Check for valid Krona taxonomy',
+    githubUrl: 'https://github.com/movingpictures83/KronaCheck',
+    language: Language.Python,
+    category: Category.StatsVisualizations
+  },
+  {
+    name: 'KronaCount',
+    description: 'Count the number of taxa in a Krona file',
+    githubUrl: 'https://github.com/movingpictures83/KronaCount',
+    language: Language.Python,
+    category: Category.StatsVisualizations
+  },
+  {
     name: 'Landscape',
     description: 'Landscape plot of sample sets vs. first two principal components',
     githubUrl: 'https://github.com/movingpictures83/Landscape',
@@ -645,6 +743,13 @@ export const Plugins: PluginCreateInput[] = [
     description: 'Log-modulo skew (Magurran and McGill, 2011) ',
     githubUrl: 'https://github.com/movingpictures83/LogModulo',
     language: Language.R,
+    category: Category.StatsVisualizations
+  },
+  {
+    name: 'MetaQuast',
+    description: 'Metagenome assembly evaluation using MetaQuast (Mikheenko et al, 2016)',
+    githubUrl: 'https://github.com/movingpictures83/MetaQuast',
+    language: Language.CUDA,
     category: Category.StatsVisualizations
   },
   {
@@ -746,6 +851,20 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.StatsVisualizations
   },
   {
+    name: 'Qiime2Viz',
+    description: 'Qiime 2 Visualizer (Bolyen et al, 2019) (Generated by PluGen)',
+    githubUrl: 'https://github.com/movingpictures83/Qiime2Viz',
+    language: Language.CUDA,
+    category: Category.StatsVisualizations
+  },
+  {
+    name: 'QualiMap',
+    description: 'Generate a QualiMap (Garcia-Alcalde et al, 2012) report',
+    githubUrl: 'https://github.com/movingpictures83/QualiMap',
+    language: Language.CUDA,
+    category: Category.StatsVisualizations
+  },
+  {
     name: 'QualityProfile',
     description: 'Sequence quality statistics',
     githubUrl: 'https://github.com/movingpictures83/QualityProfile',
@@ -753,9 +872,9 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.StatsVisualizations
   },
   {
-    name: 'Qiime2Viz',
-    description: 'Qiime 2 Visualizer (Bolyen et al, 2019) (Generated by PluGen)',
-    githubUrl: 'https://github.com/movingpictures83/Qiime2Viz',
+    name: 'Quast',
+    description: 'Quality Assessment Tool for Genome Assemblies (Gurevich et al, 2013)',
+    githubUrl: 'https://github.com/movingpictures83/Quast',
     language: Language.CUDA,
     category: Category.StatsVisualizations
   },
@@ -886,6 +1005,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.StatsVisualizations
   },
   {
+    name: 'UnclassifiedList',
+    description: 'List unclassified OTUs',
+    githubUrl: 'https://github.com/movingpictures83/UnclassifiedList',
+    language: Language.Python,
+    category: Category.StatsVisualizations
+  },
+  {
     name: 'UniqueGroups',
     description: 'Output the unique groups',
     githubUrl: 'https://github.com/movingpictures83/UniqueGroups',
@@ -921,6 +1047,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Transformations
   },
   {
+    name: 'BWA',
+    description: 'Burrows-Wheeler Alignment (Li and Durbin, 2009)',
+    githubUrl: 'https://github.com/movingpictures83/BWA',
+    language: Language.CUDA,
+    category: Category.Transformations
+  },
+  {
     name: 'ChangeLevel',
     description: 'Change phylogenetic analysis level',
     githubUrl: 'https://github.com/movingpictures83/ChangeLevel',
@@ -952,6 +1085,20 @@ export const Plugins: PluginCreateInput[] = [
     name: 'Clusterize',
     description: 'Remove Edges Between Nodes in Different Clusters',
     githubUrl: 'https://github.com/movingpictures83/Clusterize',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'CSVAverage',
+    description: 'Average column values of a CSV file',
+    githubUrl: 'https://github.com/movingpictures83/CSVAverage',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'CSVCollate',
+    description: 'Collate a set of CSV files into one',
+    githubUrl: 'https://github.com/movingpictures83/CSVCollate',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -991,9 +1138,23 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Transformations
   },
   {
+    name: 'CSVNoDup',
+    description: 'Remove duplicates from CSV file',
+    githubUrl: 'https://github.com/movingpictures83/CSVNoDup',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
     name: 'CSVNormalize',
     description: 'CSV Normalization',
     githubUrl: 'https://github.com/movingpictures83/CSVNormalize',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'CSVNoUnderscore',
+    description: 'Remove underscores from CSV file',
+    githubUrl: 'https://github.com/movingpictures83/CSVNoUnderscore',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -1043,6 +1204,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'CSVUnNormalize',
     description: 'CSV Reverse Normalization',
     githubUrl: 'https://github.com/movingpictures83/CSVUnNormalize',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'CSVUpperTriangular',
+    description: 'Upper triangular portion of a matrix',
+    githubUrl: 'https://github.com/movingpictures83/CSVUpperTriangular',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -1152,6 +1320,55 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Transformations
   },
   {
+    name: 'KronaClean',
+    description: 'Clean a Krona file',
+    githubUrl: 'https://github.com/movingpictures83/KronaClean',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'KronaIgnore',
+    description: 'Ignore all taxa in Krona file that contain a specific string',
+    githubUrl: 'https://github.com/movingpictures83/KronaIgnore',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'KronaNoGroups',
+    description: 'Remove groups from a Krona file',
+    githubUrl: 'https://github.com/movingpictures83/KronaNoGroups',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'KronaNoVirus',
+    description: 'Remove viruses from a Krona file',
+    githubUrl: 'https://github.com/movingpictures83/KronaNoVirus',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'KronaReplace',
+    description: 'Replace a string in a Krona file by another string',
+    githubUrl: 'https://github.com/movingpictures83/KronaReplace',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'LEfSeOnlyLowest',
+    description: 'Restrict LEfSe (Segata et al, 2011) output to lowest taxonomic level',
+    githubUrl: 'https://github.com/movingpictures83/LEfSeOnlyLowest',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'LEfSeRemoveZero',
+    description: 'Convert LEfSe (Segata et al, 2011) output to biomarkers only (nonzero LDA score)',
+    githubUrl: 'https://github.com/movingpictures83/LEfSeRemoveZero',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
     name: 'Log10',
     description: 'Transform data by log base 10',
     githubUrl: 'https://github.com/movingpictures83/Log10',
@@ -1173,9 +1390,30 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Transformations
   },
   {
+    name: 'LongestContig',
+    description: 'Find the longest contig in a FASTA file',
+    githubUrl: 'https://github.com/movingpictures83/LongestContig',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'MakeIndex',
+    description: 'Make index from multiple reference genomes (Li et al, 2009)',
+    githubUrl: 'https://github.com/movingpictures83/MakeIndex',
+    language: Language.CUDA,
+    category: Category.Transformations
+  },
+  {
     name: 'Map2Positive',
     description: 'Map All Edges To Positive Range',
     githubUrl: 'https://github.com/movingpictures83/Map2Positive',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'MapReads',
+    description: 'Map a set of reads to a reference genome (Li and Durbin, 2009)',
+    githubUrl: 'https://github.com/movingpictures83/MapReads',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -1197,6 +1435,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'MothurFilter',
     description: 'Filter Mothur (Schloss et al, 2009) taxa',
     githubUrl: 'https://github.com/movingpictures83/MothurFilter',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'MultiomicScreen',
+    description: 'Screen taxa correlations, leaving only heterogeneous',
+    githubUrl: 'https://github.com/movingpictures83/MultiomicScreen',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -1243,6 +1488,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Transformations
   },
   {
+    name: 'PhyloSeqNAResolve',
+    description: 'Take PhyloSeq (McMurdie and Holmes, 2013) taxonomy table and resolve all unclassifiable levels ',
+    githubUrl: 'https://github.com/movingpictures83/PhyloSeqNAResolve',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
     name: 'PhyloSeqNormalize',
     description: 'Normalize PhyloSeq (McMurdie and Holmes, 2013) taxa',
     githubUrl: 'https://github.com/movingpictures83/PhyloSeqNormalize',
@@ -1257,6 +1509,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Transformations
   },
   {
+    name: 'Qiime2Filter',
+    description: 'Filter Qiime2 (Bolyen et al, 2019) reads based on a feature',
+    githubUrl: 'https://github.com/movingpictures83/Qiime2Filter',
+    language: Language.CUDA,
+    category: Category.Transformations
+  },
+  {
     name: 'QualityFilter',
     description: 'Qiime 2 (Bolyen et al, 2019) quality filter (Generated by PluGen)',
     githubUrl: 'https://github.com/movingpictures83/QualityFilter',
@@ -1267,6 +1526,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'QuantumDenoiser',
     description: 'Remove noisy fluctations from CKMeans quanta',
     githubUrl: 'https://github.com/movingpictures83/QuantumDenoiser',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'Rank2Tax',
+    description: 'Convert header of PhyloSeq (McMurdie et al, 2013) taxonomy table to use phylogeny',
+    githubUrl: 'https://github.com/movingpictures83/Rank2Tax',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -1286,8 +1552,15 @@ export const Plugins: PluginCreateInput[] = [
   },
   {
     name: 'RemoveNegative',
-    description: 'Remove Negative Edges',
+    description: 'Remove negative edges',
     githubUrl: 'https://github.com/movingpictures83/RemoveNegative',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'RemoveSingletons',
+    description: 'Remove singleton taxa',
+    githubUrl: 'https://github.com/movingpictures83/RemoveSingletons',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -1309,6 +1582,20 @@ export const Plugins: PluginCreateInput[] = [
     name: 'RemoveZero',
     description: 'Remove zero-abundant entities',
     githubUrl: 'https://github.com/movingpictures83/RemoveZero',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'SortByCluster',
+    description: 'Sort nodes in a network based on cluster membership',
+    githubUrl: 'https://github.com/movingpictures83/SortByCluster',
+    language: Language.Python,
+    category: Category.Transformations
+  },
+  {
+    name: 'SortForwardReverse',
+    description: 'Sort forward and reverse reads to be in the same order',
+    githubUrl: 'https://github.com/movingpictures83/SortForwardReverse',
     language: Language.Python,
     category: Category.Transformations
   },
@@ -1338,6 +1625,13 @@ export const Plugins: PluginCreateInput[] = [
     description: 'Obtain a subset of PhyloSeq (McMurdie and Holmes, 2013) data',
     githubUrl: 'https://github.com/movingpictures83/Subset',
     language: Language.R,
+    category: Category.Transformations
+  },
+  {
+    name: 'Subspecies',
+    description: 'Obtain subspecies from a KRONA file',
+    githubUrl: 'https://github.com/movingpictures83/Subspecies',
+    language: Language.Python,
     category: Category.Transformations
   },
   {
@@ -1400,6 +1694,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'ACE',
     description: 'Abundance-based Convergence Estimator (ACE, Chao and Lee 1992).',
     githubUrl: 'https://github.com/movingpictures83/ACE',
+    language: Language.R,
+    category: Category.Dissimilarity
+  },
+  {
+    name: 'AES',
+    description: 'Autoencoders for dimensionality reduction (Hinton &amp; Salakhutdinov, 2006)',
+    githubUrl: 'https://github.com/movingpictures83/AES',
     language: Language.R,
     category: Category.Dissimilarity
   },
@@ -1502,6 +1803,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Dissimilarity
   },
   {
+    name: 'ICA',
+    description: 'Independent Component Analysis (Hyvarinen and Oja, 2000)',
+    githubUrl: 'https://github.com/movingpictures83/ICA',
+    language: Language.R,
+    category: Category.Dissimilarity
+  },
+  {
     name: 'IPCA',
     description: 'Independent Principle Component Analysis (Yao et al, 2012)',
     githubUrl: 'https://github.com/movingpictures83/IPCA',
@@ -1540,6 +1848,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'LMS',
     description: 'Least Mean Squares method for regression analysis (Widrow and Hoff, 1960)',
     githubUrl: 'https://github.com/movingpictures83/LMS',
+    language: Language.R,
+    category: Category.Dissimilarity
+  },
+  {
+    name: 'MDS',
+    description: 'Multi-Dimensional Scaling (Cox, 2008)',
+    githubUrl: 'https://github.com/movingpictures83/MDS',
     language: Language.R,
     category: Category.Dissimilarity
   },
@@ -1607,6 +1922,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Dissimilarity
   },
   {
+    name: 'PHATE',
+    description: 'Potential of Heat-diffusion for Affinity-based Trajectory Embedding (Moon et al, 2019)',
+    githubUrl: 'https://github.com/movingpictures83/PHATE',
+    language: Language.R,
+    category: Category.Dissimilarity
+  },
+  {
     name: 'PLSDA',
     description: 'Partial Least Squares Discriminant Analysis (PLS-DA, Stahle and Wold 1987)',
     githubUrl: 'https://github.com/movingpictures83/PLSDA',
@@ -1624,6 +1946,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'Raup',
     description: 'Raup-Crick (Raup and Crick, 1979)',
     githubUrl: 'https://github.com/movingpictures83/Raup',
+    language: Language.R,
+    category: Category.Dissimilarity
+  },
+  {
+    name: 'RUTA',
+    description: 'Differential analysis using unsupervised neural networks (Charte et al, 2018)',
+    githubUrl: 'https://github.com/movingpictures83/RUTA',
     language: Language.R,
     category: Category.Dissimilarity
   },
@@ -1659,6 +1988,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'tSNE',
     description: 't-Distributed Stochastic Neighbor Embedding (Van der Maaten et al, 2008)',
     githubUrl: 'https://github.com/movingpictures83/tSNE',
+    language: Language.R,
+    category: Category.Dissimilarity
+  },
+  {
+    name: 'UMAP',
+    description: 'Uniform Manifold Approximation and Projection (UMAP) (McInnes et al, 2018)',
+    githubUrl: 'https://github.com/movingpictures83/UMAP',
     language: Language.R,
     category: Category.Dissimilarity
   },
@@ -2300,6 +2636,20 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.ExternalTools
   },
   {
+    name: 'AGEnt',
+    description: 'Compute accessory genome using AGent (Ozer et al, 2014) (Generated by PluGen)',
+    githubUrl: 'https://github.com/movingpictures83/AGEnt',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'Aragorn',
+    description: 'Aragorn (Laslett and Canback, 2004) tRNA, mtRNA, and tmRNA gene detector',
+    githubUrl: 'https://github.com/movingpictures83/Aragorn',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
     name: 'Atima',
     description: 'Atima (Weick et al, 2000) (Generated by PluGen)',
     githubUrl: 'https://github.com/movingpictures83/Atima',
@@ -2338,6 +2688,20 @@ export const Plugins: PluginCreateInput[] = [
     name: 'Canu',
     description: 'Canu (Koren et al, 2017) long-read genome assembly (Generated by PluGen)',
     githubUrl: 'https://github.com/movingpictures83/Canu',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'Circlator',
+    description: 'Circlator (Hunt et al, 2015) genome circularization (Generated by PluGen)',
+    githubUrl: 'https://github.com/movingpictures83/Circlator',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'ClustAGE',
+    description: 'Compute accessory genome using ClustAGE (Ozer et al, 2018) (Generated by PluGen)',
+    githubUrl: 'https://github.com/movingpictures83/ClustAGE',
     language: Language.CUDA,
     category: Category.ExternalTools
   },
@@ -2422,6 +2786,13 @@ export const Plugins: PluginCreateInput[] = [
     name: 'Infomap',
     description: 'Infomap (Edler et al., 2017) algorithm for community detection (Generated by PluGen)',
     githubUrl: 'https://github.com/movingpictures83/Infomap',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'IntegronFinder',
+    description: 'Detect integrons in DNA sequences (Cury et al, 2016)',
+    githubUrl: 'https://github.com/movingpictures83/IntegronFinder',
     language: Language.CUDA,
     category: Category.ExternalTools
   },
@@ -2524,6 +2895,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.ExternalTools
   },
   {
+    name: 'ParSNP',
+    description: 'Core genome alignment and SNP detection using ParSNP (Treangen et al, 2014) (Generated by PluGen)',
+    githubUrl: 'https://github.com/movingpictures83/ParSNP',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
     name: 'PathwayTools',
     description: 'Get data from the PathwayTools (Karp et al, 2015) database',
     githubUrl: 'https://github.com/movingpictures83/PathwayTools',
@@ -2534,6 +2912,27 @@ export const Plugins: PluginCreateInput[] = [
     name: 'PICRUSt',
     description: 'Phylogenetic Investigation of Communities by Reconstruction of Unobserved States (PICRUSt) (Lamille et al, 2013)',
     githubUrl: 'https://github.com/movingpictures83/PICRUSt',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'Prank',
+    description: 'Perform multiple sequence alignment with Prank (Loytynoja, 2014)',
+    githubUrl: 'https://github.com/movingpictures83/Prank',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'Prodigal',
+    description: 'PROkayotic DYnamic programming Gene-finding ALgorithm (Prodigal) (Hyatt et al, 2010)',
+    githubUrl: 'https://github.com/movingpictures83/Prodigal',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'Prokka',
+    description: 'Genome annotation using Prokka (Seemann et al, 2014)',
+    githubUrl: 'https://github.com/movingpictures83/Prokka',
     language: Language.CUDA,
     category: Category.ExternalTools
   },
@@ -2576,6 +2975,20 @@ export const Plugins: PluginCreateInput[] = [
     name: 'SKESA',
     description: 'SKESA (Souvorov et al, 2018) genome assembly (Generated by PluGen)',
     githubUrl: 'https://github.com/movingpictures83/SKESA',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'Spine',
+    description: 'Spine (Ozer et al, 2014) core and accessory genome determination',
+    githubUrl: 'https://github.com/movingpictures83/Spine',
+    language: Language.CUDA,
+    category: Category.ExternalTools
+  },
+  {
+    name: 'SplitMEM',
+    description: 'SplitMEM (Marcus et al, 2014) pangenome analysis',
+    githubUrl: 'https://github.com/movingpictures83/Spine',
     language: Language.CUDA,
     category: Category.ExternalTools
   },
@@ -2706,6 +3119,13 @@ export const Plugins: PluginCreateInput[] = [
     category: Category.Miscellaneous
   },
   {
+    name: 'GetKraken',
+    description: 'Download Kraken (Wood and Salzberg, 2014) database',
+    githubUrl: 'https://github.com/movingpictures83/GetKraken',
+    language: Language.R,
+    category: Category.Miscellaneous
+  },
+  {
     name: 'GPUKMM',
     description: 'KMM, on the GPU',
     githubUrl: 'https://github.com/movingpictures83/GPUKMM',
@@ -2815,6 +3235,13 @@ export const Plugins: PluginCreateInput[] = [
     description: 'PC-Stable algorithm for causal structure (Colombo and Matthuis, 2014)',
     githubUrl: 'https://github.com/movingpictures83/PCStable',
     language: Language.R,
+    category: Category.Miscellaneous
+  },
+  {
+    name: 'Qiime2DADA2',
+    description: 'Qiime2, with DADA2 denoising',
+    githubUrl: 'https://github.com/movingpictures83/Qiime2DADA2',
+    language: Language.CUDA,
     category: Category.Miscellaneous
   },
   {

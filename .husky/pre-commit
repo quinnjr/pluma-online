@@ -1,7 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm run lint -- --fix
+pnpm rebuild prisma
+pnpm run lint:client -- --fix
 pnpm run lint:server -- --fix
-pnpm test -- --run-in-band
+pnpm run test:client -- --run-in-band
 pnpm run test:server -- --run-in-band

@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
 if [[ $NODE_ENV == "production" ]]; then
-  pnpx prisma migrate deply
-  pnpm run serve:ssr
+  pnpx prisma migrate deploy
+  pnpm run serve
 else
-  pnpm install --no-optional
-  pnpx prisma generate
-  pnpm run dev:ssr
+  pnpm install
+  pnpm start
+fi

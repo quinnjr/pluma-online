@@ -1,13 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
 }
 
 generator nestgraphql {
@@ -41,7 +39,7 @@ enum Language {
 }
 
 model Plugin {
-  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id          String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
   name        String   @unique
   category    Category
   description String
@@ -49,10 +47,10 @@ model Plugin {
   language    Language
   rating      Int      @default(0)
   author      User?    @relation(fields: [authorId], references: [id])
-  authorId    String?  @db.Uuid
+  authorId    String?  @db.ObjectId
   isVerified  Boolean  @default(false)
-  createdAt   DateTime @default(now()) @db.Timestamp(3)
-  updatedAt   DateTime @default(now()) @updatedAt @db.Timestamp(3)
+  createdAt   DateTime @default(now()) @db.Timestamp()
+  updatedAt   DateTime @default(now()) @updatedAt @db.Timestamp()
 
   @@map("plugins")
 }
@@ -63,18 +61,18 @@ enum Role {
 }
 
 model User {
-  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id           String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
   email        String   @unique
   /// @HideField()
   passwordHash String
   name         String?
   website      String?
   role         Role     @default(User)
-  createdAt    DateTime @default(now()) @db.Timestamp(3)
-  updatedAt    DateTime @default(now()) @updatedAt @db.Timestamp(3)
+  plugins Plugin[]
+  createdAt    DateTime @default(now()) @db.Timestamp()
+  updatedAt    DateTime @default(now()) @updatedAt @db.Timestamp()
 
   @@map("users")
-  Plugin Plugin[]
 }
 
 enum PipelineStatus {
@@ -84,13 +82,13 @@ enum PipelineStatus {
 }
 
 model Pipeline {
-  id          String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id          String         @id @default(dbgenerated()) @map("_id") @db.ObjectId
   name        String         @unique
   description String
   githubUrl   String
   status      PipelineStatus @default(Completed)
-  createdAt   DateTime       @default(now()) @db.Timestamp(3)
-  updatedAt   DateTime       @default(now()) @updatedAt @db.Timestamp(3)
+  createdAt   DateTime       @default(now()) @db.Timestamp()
+  updatedAt   DateTime       @default(now()) @updatedAt @db.Timestamp()
 
   @@map("pipelines")
 }
