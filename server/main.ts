@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { join } from 'path';
+import { exit } from 'process';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
@@ -11,7 +12,9 @@ import { ApolloErrorFilter } from './apollo-error.filter';
 import { DatabaseService } from './database/database.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: console
+  });
 
   app.setGlobalPrefix('api');
 
@@ -37,7 +40,7 @@ async function bootstrap() {
       console.error(
         '`ADMIN_EMAIL` environment variable not set during setup phase'
       );
-      process.exit(1);
+      exit(1);
     }
 
     const initialUser = db.user.findUnique({
@@ -52,7 +55,7 @@ async function bootstrap() {
         console.error(
           '`ADMIN_PASSWORD` environment variable not set during setup phase'
         );
-        process.exit(1);
+        exit(1);
       }
 
       const passwordHash = await argon2.hash(password!);

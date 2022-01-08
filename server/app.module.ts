@@ -8,6 +8,7 @@ import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { BullModule } from '@nestjs/bull';
+import { ScheduleModule } from '@nestjs/schedule';
 // @ts-ignore
 import * as redisStore from 'cache-manager-redis-store';
 
@@ -25,8 +26,13 @@ import { validate } from './env.validation';
 import { PipelinesResolver } from './pipelines/pipelines.resolver';
 import { CaslModule } from './casl/casl.module';
 import { LoggingPlugin } from './logging.plugin';
+import { TasksService } from './tasks/tasks.service';
+import { PostsResolver } from './posts/posts.resolver';
+import { TopicsResolver } from './topics/topics.resolver';
+import { CommentResolver } from './comment/comment.resolver';
+import { ForumCategoryResolver } from './forum-category/forum-category.resolver';
 
-const isDev = process.env.ENV === 'development';
+const isDevelopment = process.env.ENV === 'development';
 
 @Module({
   imports: [
@@ -59,10 +65,11 @@ const isDev = process.env.ENV === 'development';
       }),
       inject: [ConfigService]
     }),
+    ScheduleModule.forRoot(),
     GraphQLModule.forRoot({
       autoSchemaFile: join(__dirname, 'schema.graphql'),
       sortSchema: true,
-      debug: isDev
+      debug: isDevelopment
     }),
     // Application Modules
     AuthModule,
@@ -76,7 +83,12 @@ const isDev = process.env.ENV === 'development';
     PluginsResolver,
     UsersResolver,
     PipelinesResolver,
-    LoggingPlugin
+    LoggingPlugin,
+    TasksService,
+    PostsResolver,
+    TopicsResolver,
+    CommentResolver,
+    ForumCategoryResolver
   ]
 })
 export class AppModule {}

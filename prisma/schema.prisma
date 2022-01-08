@@ -4,7 +4,7 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["mongoDb"]
 }
 
@@ -36,21 +36,23 @@ enum Language {
   Perl
   CUDA
   R
+  Java
 }
 
 model Plugin {
-  id          String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  name        String   @unique
+  id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name        String    @unique
   category    Category
   description String
-  githubUrl   String   @unique
+  githubUrl   String    @unique
   language    Language
-  rating      Int      @default(0)
-  author      User?    @relation(fields: [authorId], references: [id])
-  authorId    String?  @db.ObjectId
-  isVerified  Boolean  @default(false)
-  createdAt   DateTime @default(now()) @db.Timestamp()
-  updatedAt   DateTime @default(now()) @updatedAt @db.Timestamp()
+  rating      Int       @default(0)
+  author      User?     @relation(fields: [authorId], references: [id])
+  authorId    String?   @db.ObjectId
+  isVerified  Boolean   @default(false)
+  comments    Comment[]
+  createdAt   DateTime  @default(now()) @db.Timestamp
+  updatedAt   DateTime  @default(now()) @updatedAt @db.Timestamp
 
   @@map("plugins")
 }
@@ -61,16 +63,21 @@ enum Role {
 }
 
 model User {
-  id           String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  email        String   @unique
+  id           String     @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  email        String     @unique
   /// @HideField()
   passwordHash String
-  name         String?
+  displayName  String?
   website      String?
-  role         Role     @default(User)
-  plugins Plugin[]
-  createdAt    DateTime @default(now()) @db.Timestamp()
-  updatedAt    DateTime @default(now()) @updatedAt @db.Timestamp()
+  avatar       String?
+  role         Role       @default(User)
+  plugins      Plugin[]
+  pipelines    Pipeline[]
+  posts        Post[]
+  topics       Topic[]
+  comments     Comment[]
+  createdAt    DateTime   @default(now()) @db.Timestamp
+  updatedAt    DateTime   @default(now()) @updatedAt @db.Timestamp
 
   @@map("users")
 }
@@ -85,10 +92,65 @@ model Pipeline {
   id          String         @id @default(dbgenerated()) @map("_id") @db.ObjectId
   name        String         @unique
   description String
-  githubUrl   String
+  githubUrl   String         @unique
   status      PipelineStatus @default(Completed)
-  createdAt   DateTime       @default(now()) @db.Timestamp()
-  updatedAt   DateTime       @default(now()) @updatedAt @db.Timestamp()
+  rating      Int            @default(0)
+  createdAt   DateTime       @default(now()) @db.Timestamp
+  updatedAt   DateTime       @default(now()) @updatedAt @db.Timestamp
+  User        User?          @relation(fields: [userId], references: [id])
+  userId      String?        @db.ObjectId
 
   @@map("pipelines")
+}
+
+model ForumCategory {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name      String   @unique
+  order     Int
+  topics    Topic[]
+  posts     Post[]
+  createdAt DateTime @default(now()) @db.Timestamp
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
+
+  @@map("forumCategory")
+}
+
+model Topic {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  title     String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  posts     Post[]
+  createdAt DateTime @default(now()) @db.Timestamp
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
+
+  ForumCategory   ForumCategory? @relation(fields: [forumCategoryId], references: [id])
+  forumCategoryId String?        @db.ObjectId
+  @@map("topics")
+}
+
+model Post {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  content   String
+  topic     Topic    @relation(fields: [topicId], references: [id])
+  topicId   String   @db.ObjectId
+  createdAt DateTime @default(now()) @db.Timestamp
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
+
+  ForumCategory   ForumCategory? @relation(fields: [forumCategoryId], references: [id])
+  forumCategoryId String?        @db.ObjectId
+  @@map("posts")
+}
+
+model Comment {
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  content   String
+  plugin    Plugin   @relation(fields: [pluginId], references: [id])
+  pluginId  String   @db.ObjectId
+  createdAt DateTime @default(now()) @db.Timestamp
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
 }
