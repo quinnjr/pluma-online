@@ -4,6 +4,9 @@ if [[ $NODE_ENV == "production" ]]; then
   pnpx prisma migrate deploy
   pnpm run serve
 else
-  pnpm install
+  if [[ ! -d $(pwd)/node_modules ]]; then
+    pnpm install
+  fi
+  pnpm rebuild
   pnpm start
 fi

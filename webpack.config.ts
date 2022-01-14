@@ -110,7 +110,8 @@ export default (
             'apollo-server-fastify',
             'bufferutil',
             'utf-8-validate',
-            'react'
+            'react',
+            'graphql-ws'
           ];
 
           if (!imports.includes(resource)) {

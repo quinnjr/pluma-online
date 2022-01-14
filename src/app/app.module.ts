@@ -17,6 +17,7 @@ import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
+import { BulmaNavbarModule } from '@angular-bulma/components';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
@@ -43,6 +44,8 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    // 3rd Party Modules
+    BulmaNavbarModule,
     // Internal modules
     PlumaModule,
     AppRouterModule

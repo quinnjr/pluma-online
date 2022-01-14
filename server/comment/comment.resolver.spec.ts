@@ -6,7 +6,7 @@ describe('CommentResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [CommentResolver],
+      providers: [CommentResolver]
     }).compile();
 
     resolver = module.get<CommentResolver>(CommentResolver);

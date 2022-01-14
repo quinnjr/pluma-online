@@ -45,7 +45,7 @@ async function seed() {
     name: 'Anonymous',
     email: 'anonymous@local.domain',
     passwordHash: '0000000'
-  }
+  };
 
   const _anonymous = await prisma.user.upsert({
     where: {
@@ -53,7 +53,7 @@ async function seed() {
     },
     update: anonUser,
     create: anonUser
-  })
+  });
 }
 
 seed()

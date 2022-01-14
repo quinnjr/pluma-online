@@ -10,7 +10,8 @@ COPY . .
 RUN --mount=type=cache,target=/app/node_modules \
   --mount=type=cache,target=/app/.pnpm-store \
   npm install -g pnpm prisma @angular/cli && \
-  chown -R node:node /app
+  chown -R node:node /app && \
+  pnpm rebuild
 
 USER node
 

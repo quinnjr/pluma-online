@@ -13,6 +13,8 @@ import { PluginsComponent } from './plugins/plugins.component';
 import { PipelinesComponent } from './pipelines/pipelines.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { PluginService } from '../plugin/plugin.service';
+import { CommentComponent } from './comment/comment.component';
+import { PluginComponent } from './plugin/plugin.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { PluginService } from '../plugin/plugin.service';
     PlumaComponent,
     PluginsComponent,
     PipelinesComponent,
-    SidebarComponent
+    SidebarComponent,
+    CommentComponent,
+    PluginComponent
   ],
   imports: [CommonModule, HttpClientModule, PlumaRouterModule],
   providers: [PluginService],

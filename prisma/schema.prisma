@@ -1,11 +1,13 @@
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider             = "mongodb"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["mongoDb"]
+  previewFeatures = ["mongoDb", "referentialIntegrity"]
+  binaryTargets   = ["native", "linux-musl"]
 }
 
 generator nestgraphql {
@@ -73,8 +75,6 @@ model User {
   role         Role       @default(User)
   plugins      Plugin[]
   pipelines    Pipeline[]
-  posts        Post[]
-  topics       Topic[]
   comments     Comment[]
   createdAt    DateTime   @default(now()) @db.Timestamp
   updatedAt    DateTime   @default(now()) @updatedAt @db.Timestamp
@@ -103,54 +103,18 @@ model Pipeline {
   @@map("pipelines")
 }
 
-model ForumCategory {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  name      String   @unique
-  order     Int
-  topics    Topic[]
-  posts     Post[]
-  createdAt DateTime @default(now()) @db.Timestamp
-  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
-
-  @@map("forumCategory")
-}
-
-model Topic {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  title     String
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
-  posts     Post[]
-  createdAt DateTime @default(now()) @db.Timestamp
-  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
-
-  ForumCategory   ForumCategory? @relation(fields: [forumCategoryId], references: [id])
-  forumCategoryId String?        @db.ObjectId
-  @@map("topics")
-}
-
-model Post {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
-  content   String
-  topic     Topic    @relation(fields: [topicId], references: [id])
-  topicId   String   @db.ObjectId
-  createdAt DateTime @default(now()) @db.Timestamp
-  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
-
-  ForumCategory   ForumCategory? @relation(fields: [forumCategoryId], references: [id])
-  forumCategoryId String?        @db.ObjectId
-  @@map("posts")
-}
-
 model Comment {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
+  id        String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  String    @db.ObjectId
   content   String
-  plugin    Plugin   @relation(fields: [pluginId], references: [id])
-  pluginId  String   @db.ObjectId
-  createdAt DateTime @default(now()) @db.Timestamp
-  updatedAt DateTime @default(now()) @updatedAt @db.Timestamp
+  parent    Comment?  @relation(name: "subcomments", fields: [parentId], references: [id], onUpdate: NoAction)
+  parentId  String    @db.ObjectId
+  children  Comment[] @relation(name: "subcomments")
+  plugin    Plugin    @relation(fields: [pluginId], references: [id])
+  pluginId  String    @db.ObjectId
+  createdAt DateTime  @default(now()) @db.Timestamp
+  updatedAt DateTime  @default(now()) @updatedAt @db.Timestamp
+
+  @@map("comments")
 }
