@@ -57,7 +57,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     environment:
-      JWT_SECRET: ${JWT_SECRET}
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
       DATABASE_URL: ${DATABASE_URL}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}

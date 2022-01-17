@@ -31,6 +31,7 @@ import { PostsResolver } from './posts/posts.resolver';
 import { TopicsResolver } from './topics/topics.resolver';
 import { CommentResolver } from './comment/comment.resolver';
 import { ForumCategoryResolver } from './forum-category/forum-category.resolver';
+import { EmailService } from './email/email.service';
 
 const isDevelopment = process.env.ENV === 'development';
 
@@ -88,7 +89,8 @@ const isDevelopment = process.env.ENV === 'development';
     PostsResolver,
     TopicsResolver,
     CommentResolver,
-    ForumCategoryResolver
+    ForumCategoryResolver,
+    EmailService
   ]
 })
 export class AppModule {}

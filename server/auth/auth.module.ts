@@ -20,7 +20,7 @@ import { AuthResolver } from './auth.resolver';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async ($configService: ConfigService) => ({
-        secret: $configService.get<string>('JWT_SECRET'),
+        secret: $configService.get<string>('APP_JWT_SECRET'),
         signOptions: {
           expiresIn: '7200s'
         }

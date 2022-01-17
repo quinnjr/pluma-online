@@ -4,6 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseService } from '../database/database.service';
 import { AuthModule } from './auth.module';
 import { AuthService } from './auth.service';
+import { EmailService } from '../email/email.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -15,14 +16,14 @@ describe('AuthService', () => {
           imports: [ConfigModule],
           inject: [ConfigService],
           useFactory: async ($configService: ConfigService) => ({
-            secret: $configService.get<string>('JWT_SECRET'),
+            secret: $configService.get<string>('APP_JWT_SECRET'),
             signOptions: {
               expiresIn: '7200s'
             }
           })
         })
       ],
-      providers: [AuthService, DatabaseService]
+      providers: [AuthService, DatabaseService, EmailService, ConfigService]
     }).compile();
 
     service = module.get<AuthService>(AuthService);

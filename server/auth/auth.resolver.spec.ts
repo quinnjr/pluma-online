@@ -5,6 +5,7 @@ import { DatabaseService } from '../database/database.service';
 import { AuthResolver } from './auth.resolver';
 import { AuthModule } from './auth.module';
 import { JwtService, JwtModule } from '@nestjs/jwt';
+import { EmailService } from '../email/email.service';
 
 describe('AuthResolver', () => {
   let resolver: AuthResolver;
@@ -16,14 +17,20 @@ describe('AuthResolver', () => {
           imports: [ConfigModule],
           inject: [ConfigService],
           useFactory: async ($configService: ConfigService) => ({
-            secret: $configService.get<string>('JWT_SECRET'),
+            secret: $configService.get<string>('APP_JWT_SECRET'),
             signOptions: {
               expiresIn: '7200s'
             }
           })
         })
       ],
-      providers: [AuthResolver, AuthService, DatabaseService]
+      providers: [
+        AuthResolver,
+        AuthService,
+        DatabaseService,
+        EmailService,
+        ConfigService
+      ]
     }).compile();
 
     resolver = module.get<AuthResolver>(AuthResolver);

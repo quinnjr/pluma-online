@@ -24,4 +24,12 @@ export class AuthResolver {
   ): Promise<User> {
     return this.$authService.registerGraphQL(input, password);
   }
+
+  @Query((returns) => Boolean)
+  public async verify(
+    @Args('userId', { type: () => String, nullable: false }) userId: string,
+    @Args('code', { type: () => String, nullable: false }) code: string
+  ): Promise<boolean> {
+    return this.$authService.verify(userId, code);
+  }
 }

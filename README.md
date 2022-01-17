@@ -33,7 +33,7 @@ services:
       - ./:/app
     restart: unless-stopped
     environment:
-      JWT_SECRET: ${JWT_SECRET}
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
