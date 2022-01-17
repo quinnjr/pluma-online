@@ -5,11 +5,11 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { List } from 'immutable';
 
-import { ContactComponent } from './contact/contact.component';
-import { HomeComponent } from './home/home/home.component';
-import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from './home/home/home.component';
+import { ContactComponent } from './contact/contact.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 import { AdminGuard } from './admin.guard';
 

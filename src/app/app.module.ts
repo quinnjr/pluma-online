@@ -25,13 +25,14 @@ import { AppRouterModule } from './app-router.module';
 import { HomeComponent } from './home/home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { SidebarComponent } from './home/sidebar/sidebar.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { AuthService } from './auth/auth.service';
 import { PluginService } from './plugin/plugin.service';
 import { PlumaModule } from './pluma/pluma.module';
+import { MarkdownPipe } from './markdown.pipe';
 
 export const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
 export const STATE_KEY = makeStateKey<any>('apollo.state');
@@ -57,7 +58,8 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     SidebarComponent,
     LoginComponent,
     RegisterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    MarkdownPipe
   ],
   providers: [
     AuthService,

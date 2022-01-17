@@ -36,7 +36,10 @@
             ],
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json",
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -155,7 +158,8 @@
           "builder": "@angular-builders/jest:run",
           "options": {
             "configPath": "./jest.config.json",
-            "tsConfig": "./tsconfig.spec.json"
+            "tsConfig": "./tsconfig.spec.json",
+            "webWorkerTsConfig": ["./tsconfig.worker.json"]
           }
         },
         "serve-ssr": {

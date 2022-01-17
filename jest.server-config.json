@@ -10,5 +10,6 @@
   },
   "collectCoverage": true,
   "coverageDirectory": "./dist/coverage-server",
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "extensionsToTreatAsEsm": [".ts"]
 }

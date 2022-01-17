@@ -9,5 +9,6 @@
   "preset": "jest-preset-angular",
   "moduleFileExtensions": ["js", "json", "ts"],
   "testEnvironment": "jsdom",
-  "setupFilesAfterEnv": ["<rootDir>/../setup-jest.ts"]
+  "setupFilesAfterEnv": ["<rootDir>/../setup-jest.ts"],
+  "extensionsToTreatAsEsm": [".ts"]
 }
