@@ -10,8 +10,9 @@ import { HomeComponent } from './home/home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-
-import { AdminGuard } from './admin.guard';
+import { IsAdminGuard } from './is-admin.guard';
+import { IsLoggedInGuard } from './is-logged-in.guard';
+import { VerifyComponent } from './auth/register/verify/verify.component';
 
 const routes: List<Route> = List([
   {
@@ -19,8 +20,18 @@ const routes: List<Route> = List([
     loadChildren: () =>
       import('./admin/admin.module')
         .then((m) => m.AdminModule)
-        .catch(console.error)
-    // canActivate: [AdminGuard]
+        .catch(console.error),
+    canActivate: [IsAdminGuard],
+    canLoad: [IsAdminGuard]
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module')
+        .then((m) => m.AccountModule)
+        .catch(console.error),
+    canActivate: [IsLoggedInGuard],
+    canLoad: [IsLoggedInGuard]
   },
   {
     path: 'pluma',
@@ -30,6 +41,7 @@ const routes: List<Route> = List([
         .catch(console.error)
   },
   { path: 'login', component: LoginComponent },
+  { path: 'register/verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'graphql', redirectTo: 'not-found' },

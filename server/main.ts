@@ -1,6 +1,4 @@
-import fs from 'fs';
-import { join } from 'path';
-import { exit } from 'process';
+import { exit } from 'node:process';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
@@ -29,46 +27,40 @@ async function bootstrap() {
 
   const config = app.get<ConfigService>(ConfigService);
 
-  const db = app.get<DatabaseService>(DatabaseService);
+  const database = app.get<DatabaseService>(DatabaseService);
 
-  const initialSetupPath = join(__dirname, './.initial-setup');
+  const adminEmail = config.get<string>('APP_ADMIN_EMAIL');
 
-  if (!fs.existsSync(initialSetupPath)) {
-    const adminEmail = config.get<string>('ADMIN_EMAIL');
+  if (!adminEmail) {
+    console.error(
+      '`APP_ADMIN_EMAIL` environment variable not set during setup phase'
+    );
+    exit(1);
+  }
 
-    if (!adminEmail) {
+  const initialUser = database.user.findUnique({
+    where: {
+      email: adminEmail
+    }
+  });
+
+  if (!initialUser) {
+    const password = config.get<string>('APP_ADMIN_PASSWORD');
+    if (!password) {
       console.error(
-        '`ADMIN_EMAIL` environment variable not set during setup phase'
+        '`APP_ADMIN_PASSWORD` environment variable not set during setup phase'
       );
       exit(1);
     }
 
-    const initialUser = db.user.findUnique({
-      where: {
-        email: adminEmail
+    const passwordHash = await argon2.hash(password!);
+
+    database.user.create({
+      data: {
+        email: adminEmail!,
+        passwordHash: passwordHash
       }
     });
-
-    if (!initialUser) {
-      const password = config.get<string>('ADMIN_PASSWORD');
-      if (!password) {
-        console.error(
-          '`ADMIN_PASSWORD` environment variable not set during setup phase'
-        );
-        exit(1);
-      }
-
-      const passwordHash = await argon2.hash(password!);
-
-      db.user.create({
-        data: {
-          email: adminEmail!,
-          passwordHash: passwordHash
-        }
-      });
-
-      fs.writeFileSync(initialSetupPath, '');
-    }
   }
 
   await app.listen(process.env.PORT || 4000);

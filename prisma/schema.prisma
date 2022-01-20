@@ -62,6 +62,7 @@ model Plugin {
 enum Role {
   Admin
   User
+  Guest
 }
 
 model User {
@@ -88,7 +89,7 @@ model User {
 model Registration {
   id     String @id @default(dbgenerated()) @map("_id") @db.ObjectId
   user   User   @relation(fields: [userId], references: [id])
-  userId String @db.ObjectId@unique
+  userId String @unique @db.ObjectId
   /// HideField()
   code   String
 }

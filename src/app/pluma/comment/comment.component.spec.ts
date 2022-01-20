@@ -1,24 +1,48 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { CommentComponent } from './comment.component';
 
+@Component({
+  selector: 'pluma-online-test-component',
+  template: `<pluma-online-comment [comment]="data"></pluma-online-comment>`
+})
+class TestComponent {
+  public data = `# Test Heading
+
+* Test List
+* Test List
+* Test List
+  `;
+}
+
 describe('CommentComponent', () => {
-  let component: CommentComponent;
-  let fixture: ComponentFixture<CommentComponent>;
+  let component: TestComponent;
+  let fixture: ComponentFixture<TestComponent>;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CommentComponent]
+      declarations: [TestComponent, CommentComponent]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CommentComponent);
+    fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it.skip('should render the markdown correctly', () => {
+    const h1 = fixture.debugElement.query(By.css('h1'));
+    const ul = fixture.debugElement.query(By.css('ul'));
+
+    expect(h1).toBeTruthy();
+    expect(h1.nativeElement.innerHTML).toBe('Test Heading');
+
+    expect(ul).toBeTruthy();
+    expect(ul.children.length).toBe(3);
   });
 });

@@ -3,7 +3,7 @@
 
 declare const process: any;
 
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule, InjectionToken, LOCALE_ID } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +18,13 @@ import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
 import { BulmaNavbarModule } from '@angular-bulma/components';
+import {
+  RECAPTCHA_V3_SITE_KEY,
+  RecaptchaModule,
+  RecaptchaV3Module,
+  RecaptchaFormsModule,
+  RECAPTCHA_LANGUAGE
+} from 'ng-recaptcha';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
@@ -28,11 +35,14 @@ import { SidebarComponent } from './home/sidebar/sidebar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { VerifyComponent } from './auth/register/verify/verify.component';
 
 import { AuthService } from './auth/auth.service';
 import { PluginService } from './plugin/plugin.service';
+
 import { PlumaModule } from './pluma/pluma.module';
-import { MarkdownPipe } from './markdown.pipe';
+import { AccountModule } from './account/account.module';
+import { AdminModule } from './admin/admin.module';
 
 export const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
 export const STATE_KEY = makeStateKey<any>('apollo.state');
@@ -40,16 +50,21 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
 @NgModule({
   imports: [
     // Angular modules
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule.withServerTransition({ appId: 'pluma-online' }),
     BrowserTransferStateModule,
     BrowserAnimationsModule,
     HttpClientModule,
     ReactiveFormsModule,
     // 3rd Party Modules
     BulmaNavbarModule,
+    RecaptchaModule,
+    RecaptchaV3Module,
+    RecaptchaFormsModule,
     // Internal modules
     PlumaModule,
-    AppRouterModule
+    AppRouterModule,
+    AdminModule,
+    AccountModule
   ],
   declarations: [
     AppComponent,
@@ -59,7 +74,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     LoginComponent,
     RegisterComponent,
     PageNotFoundComponent,
-    MarkdownPipe
+    VerifyComponent
   ],
   providers: [
     AuthService,
@@ -118,6 +133,15 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
         };
       },
       deps: [HttpLink, APOLLO_CACHE, TransferState]
+    },
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useValue: process.env.RECAPTCHA_SITE_KEY
+    },
+    {
+      provide: RECAPTCHA_LANGUAGE,
+      useFactory: (locale: string) => locale,
+      deps: [LOCALE_ID]
     }
   ],
   bootstrap: [AppComponent]

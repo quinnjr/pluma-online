@@ -51,6 +51,8 @@
         ],
         "@angular-eslint/no-empty-lifecycle-method": "warn",
         "rxjs-angular/prefer-async-pipe": "warn",
+        "promise/catch-or-return": "off",
+        "promise/always-return": "off",
         "unicorn/better-regex": "error",
         "unicorn/catch-error-name": "error",
         "unicorn/consistent-destructuring": "error",

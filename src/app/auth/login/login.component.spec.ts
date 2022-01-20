@@ -3,6 +3,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginComponent } from './login.component';
+import {
+  RECAPTCHA_V3_SITE_KEY,
+  RecaptchaV3Module,
+  RecaptchaFormsModule,
+  RECAPTCHA_LANGUAGE,
+  RecaptchaComponent,
+  RecaptchaModule
+} from 'ng-recaptcha';
+import { LOCALE_ID } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -10,8 +20,26 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ReactiveFormsModule],
-      declarations: [LoginComponent]
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        RecaptchaModule,
+        RecaptchaV3Module,
+        RecaptchaFormsModule,
+        CommonModule
+      ],
+      declarations: [LoginComponent],
+      providers: [
+        {
+          provide: RECAPTCHA_V3_SITE_KEY,
+          useValue: process.env.RECAPTCHA_SITE_KEY
+        },
+        {
+          provide: RECAPTCHA_LANGUAGE,
+          useFactory: (locale: string) => locale,
+          deps: [LOCALE_ID]
+        }
+      ]
     }).compileComponents();
   });
 

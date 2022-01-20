@@ -29,6 +29,13 @@
             </div>
           </div>
           <div class="field">
+            <re-captcha
+              formControlName="recaptcha"
+              name="captcha"
+              required
+            ></re-captcha>
+          </div>
+          <div class="field">
             <div class="control">
               <button class="button is-primary" type="submit"
                 [disabled]="!loginForm.valid">Submit</button>

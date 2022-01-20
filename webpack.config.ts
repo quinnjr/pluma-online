@@ -1,7 +1,9 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-import { join } from 'path';
+// eslint-disable unicorn/prefer-optional-catch-binding, unicorn/prefer-module, unicorn/prefer-optional-catch-binding
+
+import { join } from 'node:path';
 
 import {
   CustomWebpackBrowserSchema,
@@ -10,8 +12,8 @@ import {
 import {
   Configuration,
   DefinePlugin,
-  EnvironmentPlugin,
-  IgnorePlugin
+  IgnorePlugin,
+  ProvidePlugin
 } from 'webpack';
 // @ts-ignore
 import * as WebpackAssetsManifest from 'webpack-assets-manifest';
@@ -24,13 +26,14 @@ const DotenvPlugin = require('dotenv-webpack');
 
 import * as pkg from './package.json';
 
-const HASHES = ['sha256', 'sha384']
+const HASHES = ['sha256', 'sha384'];
 
 export default (
   config: Configuration,
   _options: CustomWebpackBrowserSchema,
   targetOptions: TargetOptions
 ) => {
+  config.target = 'web';
   config.output!.crossOriginLoading = 'anonymous';
 
   config.plugins!.push(
@@ -40,6 +43,9 @@ export default (
     }),
     new DefinePlugin({
       APP_VERSION: pkg.version
+    }),
+    new ProvidePlugin({
+      Promise: ['bluebird', 'Promise']
     })
   );
 
@@ -81,6 +87,7 @@ export default (
   }
 
   if (targetOptions.target === 'server') {
+    config.target = 'node';
     config.resolve!.extensions!.push('.mjs', '.graphql', '.gql');
 
     config.module!.rules!.push({
@@ -120,7 +127,8 @@ export default (
 
           try {
             require.resolve(resource);
-          } catch (err) {
+            // eslint-disable-next-line unicorn/prefer-optional-catch-binding
+          } catch (error) {
             return true;
           }
 

@@ -11,6 +11,8 @@ RUN --mount=type=cache,target=/app/node_modules \
   --mount=type=cache,target=/app/.pnpm-store \
   npm install -g pnpm prisma @angular/cli && \
   chown -R node:node /app && \
+  pnpm config set store-dir /app/.pnpm-store && \
+  pnpm install --no-optional && \
   pnpm rebuild
 
 USER node

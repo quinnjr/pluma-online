@@ -1,7 +1,7 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-import { join } from 'path';
+import { join } from 'node:path';
 
 import { CacheModule, Module } from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
@@ -27,11 +27,9 @@ import { PipelinesResolver } from './pipelines/pipelines.resolver';
 import { CaslModule } from './casl/casl.module';
 import { LoggingPlugin } from './logging.plugin';
 import { TasksService } from './tasks/tasks.service';
-import { PostsResolver } from './posts/posts.resolver';
-import { TopicsResolver } from './topics/topics.resolver';
 import { CommentResolver } from './comment/comment.resolver';
-import { ForumCategoryResolver } from './forum-category/forum-category.resolver';
 import { EmailService } from './email/email.service';
+import { MarkdownService } from './markdown/markdown.service';
 
 const isDevelopment = process.env.ENV === 'development';
 
@@ -86,11 +84,9 @@ const isDevelopment = process.env.ENV === 'development';
     PipelinesResolver,
     LoggingPlugin,
     TasksService,
-    PostsResolver,
-    TopicsResolver,
     CommentResolver,
-    ForumCategoryResolver,
-    EmailService
+    EmailService,
+    MarkdownService
   ]
 })
 export class AppModule {}

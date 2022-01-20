@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
 import { AuthResolver } from './auth.resolver';
+import { EmailService } from 'server/email/email.service';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AuthResolver } from './auth.resolver';
     DatabaseService,
     LocalStrategy,
     JwtStrategy,
+    EmailService,
     AuthResolver
   ],
   exports: [AuthService]

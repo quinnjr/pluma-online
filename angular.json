@@ -36,17 +36,13 @@
             ],
             "styles": [
               "src/styles.scss"
-            ],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json",
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            ]
           },
           "configurations": {
             "production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": true,
@@ -140,9 +136,9 @@
             "production": {
               "outputHashing": "media",
               "optimization": {
-                "mangle": false
+                "scripts": true,
+                "styles": true
               },
-              "buildOptimizer": true,
               "sourceMap": false,
               "extractLicenses": true
             },
