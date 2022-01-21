@@ -17,26 +17,21 @@ jobs:
           - 16.x
     services:
       database:
-        image: postgres
+        image: mongo
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
+          MONGO_INITDB_DATABASE: ${{ secrets.MONGO_INITDB_DATABASE }}
         ports:
-          - 5432:5432
+          - 27017:27017
     env:
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_SECRET: ${{ secrets.APP_JWT_SECRET }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      SETUP_PASSWORD: ${{ secrets.SETUP_PASSWORD }}
+      SETUP_PASSWORD: ${{ secrets.APP_SETUP_PASSWORD }}
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_PORT: ${{ secrets.REDIS_PORT }}
-      DATABASE_URL: postgres://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@localhost:5432/${{secrets.POSTGRES_DB}}
+      DATABASE_URL: mongo://${{secrets.MONGO_INITDB_ROOT_USERNAME}}:${{secrets.MONGO_INITDB_ROOT_PASSWORD}}@localhost:27017/${{secrets.MONGO_INITDB_DATABASE}}
     steps:
     - uses: actions/checkout@v2
 
@@ -54,8 +49,8 @@ jobs:
       with:
         version: 6.23.2
     - run: pnpm install
-    - run: pnpx prisma migrate deploy
-      env:
-        DATABASE_URL: ${{secrets.DATABASE_URL}}
+    # - run: pnpx prisma migrate deploy
+      # env:
+      #   DATABASE_URL: mongo://${{secrets.MONGO_INITDB_ROOT_USERNAME}}:${{secrets.MONGO_INITDB_ROOT_PASSWORD}}@localhost:27017/${{secrets.MONGO_INITDB_DATABASE}}
     - run: pnpm test -- --ci
     - run: pnpm run test:server -- --ci

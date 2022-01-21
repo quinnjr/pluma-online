@@ -3,5 +3,3 @@
 
 pnpm run lint:client
 pnpm run lint:server
-pnpm run test:client -- --run-in-band
-pnpm run test:server -- --run-in-band

@@ -19,11 +19,11 @@ import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
 import { BulmaNavbarModule } from '@angular-bulma/components';
 import {
+  RECAPTCHA_LANGUAGE,
   RECAPTCHA_V3_SITE_KEY,
-  RecaptchaModule,
-  RecaptchaV3Module,
   RecaptchaFormsModule,
-  RECAPTCHA_LANGUAGE
+  RecaptchaModule,
+  RecaptchaV3Module
 } from 'ng-recaptcha';
 
 import { AppComponent } from './app.component';
