@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import MarkdownIt from 'markdown-it';
-import MarkdownItEmoji from 'markdown-it-emoji';
+import { unescape } from 'he';
 
 @Component({
   selector: 'pluma-online-comment',
@@ -12,11 +11,6 @@ export class CommentComponent implements OnInit {
   public isLoading = true;
 
   private content: HTMLDivElement;
-  private md = new MarkdownIt({
-    xhtml: true,
-    typography: true,
-    linkify: true
-  }).use(MarkdownItEmoji);
 
   constructor(private readonly element: ElementRef) {
     this.content = this.element.nativeElement.querySelector('.content');
@@ -40,7 +34,7 @@ export class CommentComponent implements OnInit {
     });
   }
 
-  private async render(value: string): Promise<string> {
-    return this.md.render(value);
+  private async render(content: string): Promise<string> {
+    return unescape(content);
   }
 }

@@ -35,12 +35,13 @@ describe('CommentComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // TODO: fix this test
   it.skip('should render the markdown correctly', () => {
     const h1 = fixture.debugElement.query(By.css('h1'));
     const ul = fixture.debugElement.query(By.css('ul'));
 
     expect(h1).toBeTruthy();
-    expect(h1.nativeElement.innerHTML).toBe('Test Heading');
+    expect(h1.nativeElement.text).toBe('Test Heading');
 
     expect(ul).toBeTruthy();
     expect(ul.children.length).toBe(3);

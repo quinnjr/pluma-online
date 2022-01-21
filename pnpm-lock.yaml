@@ -101,6 +101,7 @@ specifiers:
   glob: ^7.2.0
   graphql: ^15.8.0
   graphql-ws: ^5.5.5
+  he: ^1.2.0
   html-loader: ^2.1.2
   husky: ^7.0.4
   immutable: ^4.0.0
@@ -189,6 +190,7 @@ dependencies:
   express: 4.17.2
   graphql: 15.8.0
   graphql-ws: 5.5.5_graphql@15.8.0
+  he: 1.2.0
   immutable: 4.0.0
   linkify-it: 3.0.3
   luxon: 1.28.0
@@ -8190,7 +8192,6 @@ packages:
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
-    dev: true
 
   /hexoid/1.0.0:
     resolution: {integrity: sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g==}

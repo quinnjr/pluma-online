@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import MarkdownIt from 'markdown-it';
-import DOMPurify from 'dompurify';
+import { sanitize } from 'dompurify';
 
 @Injectable()
 export class MarkdownService {
@@ -15,6 +15,6 @@ export class MarkdownService {
 
   public async parse(input: string): Promise<string> {
     const output = this.markdown.render(input);
-    return DOMPurify.sanitize(output);
+    return sanitize(output);
   }
 }
