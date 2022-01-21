@@ -52,5 +52,4 @@ jobs:
     # - run: pnpx prisma migrate deploy
       # env:
       #   DATABASE_URL: mongo://${{secrets.MONGO_INITDB_ROOT_USERNAME}}:${{secrets.MONGO_INITDB_ROOT_PASSWORD}}@localhost:27017/${{secrets.MONGO_INITDB_DATABASE}}
-    - run: pnpm test -- --ci
-    - run: pnpm run test:server -- --ci
+    - run: pnpm test
