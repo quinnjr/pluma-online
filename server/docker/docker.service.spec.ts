@@ -6,7 +6,7 @@ describe('DockerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DockerService],
+      providers: [DockerService]
     }).compile();
 
     service = module.get<DockerService>(DockerService);

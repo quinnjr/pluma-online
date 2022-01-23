@@ -129,7 +129,8 @@
               "argon2",
               "react",
               "ws",
-              "graphql-ws"
+              "graphql-ws",
+              "ssh2"
             ]
           },
           "configurations": {
