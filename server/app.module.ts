@@ -30,6 +30,7 @@ import { TasksService } from './tasks/tasks.service';
 import { CommentResolver } from './comment/comment.resolver';
 import { EmailService } from './email/email.service';
 import { MarkdownService } from './markdown/markdown.service';
+import { DockerService } from './docker/docker.service';
 
 const isDevelopment = process.env.ENV === 'development';
 
@@ -86,7 +87,8 @@ const isDevelopment = process.env.ENV === 'development';
     TasksService,
     CommentResolver,
     EmailService,
-    MarkdownService
+    MarkdownService,
+    DockerService
   ]
 })
 export class AppModule {}
