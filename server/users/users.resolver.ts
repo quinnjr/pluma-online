@@ -1,4 +1,5 @@
 import { Args, Resolver, Query } from '@nestjs/graphql';
+
 import { DatabaseService } from '../database/database.service';
 import { User, UserWhereUniqueInput } from '../@generated/prisma-graphql/user';
 

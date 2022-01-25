@@ -4,12 +4,21 @@ import { PrismaClient } from '@prisma/client';
 @Injectable()
 export class DatabaseService extends PrismaClient implements OnModuleInit {
   public async onModuleInit(): Promise<void> {
-    await this.$connect();
+    try {
+      await this.$connect();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   public async enableShutdownHooks(app: INestApplication): Promise<void> {
     this.$on('beforeExit', async () => {
-      await app.close();
+      try {
+        await app.close();
+      } catch (error) {
+        throw error;
+      }
     });
   }
 }

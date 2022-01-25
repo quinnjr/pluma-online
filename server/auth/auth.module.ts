@@ -3,15 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { DatabaseService } from '../database/database.service';
-
 import { AuthController } from './auth.controller';
 
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
 import { AuthResolver } from './auth.resolver';
-import { EmailService } from 'server/email/email.service';
+import { EmailService } from '../email/email.service';
+import { DatabaseService } from '../database/database.service';
 
 @Module({
   imports: [

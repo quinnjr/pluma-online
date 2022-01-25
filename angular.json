@@ -128,8 +128,6 @@
               "_http_common",
               "argon2",
               "react",
-              "ws",
-              "graphql-ws",
               "ssh2"
             ]
           },

@@ -19,14 +19,14 @@ export class NavigationComponent implements OnInit {
   public ngOnInit() {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-        this.navbarBurger.nativeElement.classList.remove('is-active');
-        this.navbarMenu.nativeElement.classList.remove('is-active');
+        // this.navbarBurger.nativeElement.classList.remove('is-active');
+        // this.navbarMenu.nativeElement.classList.remove('is-active');
       }
     });
   }
 
   public toggleNavbar() {
-    this.navbarBurger.nativeElement.classList.toggle('is-active');
-    this.navbarMenu.nativeElement.classList.toggle('is-active');
+    // this.navbarBurger.nativeElement.classList.toggle('is-active');
+    // this.navbarMenu.nativeElement.classList.toggle('is-active');
   }
 }

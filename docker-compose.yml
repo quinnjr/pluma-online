@@ -58,7 +58,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
-    env_file: .env
     environment:
       APP_HOST: ${APP_HOST}
       APP_ADMIN_EMAIL: ${APP_ADMIN_EMAIL}

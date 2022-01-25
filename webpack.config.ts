@@ -118,7 +118,7 @@ export default (
             'bufferutil',
             'utf-8-validate',
             'react',
-            'graphql-ws'
+            'ssh2'
           ];
 
           if (!imports.includes(resource)) {
