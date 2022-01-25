@@ -28,5 +28,29 @@ jobs:
             ghcr.io/${{ github.actor }}/${{ github.repository }}:devel
           pull: true
           push: true
+          secrets: |
+            APP_HOST=${{ secrets.APP_HOST }}
+            APP_ADMIN_EMAIL=${{ secrets.APP_ADMIN_EMAIL }}
+            APP_ADMIN_PASSWORD=${{ secrets.APP_ADMIN_PASSWORD }}
+            APP_JWT_SECRET=${{ secrets.APP_JWT_SECRET }}
+            MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+            MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
+            MONGO_INITDB_DATABASE=${{ secrets.MONGO_INITDB_DATABASE }}
+            RECAPTCHA_SITE_KEY=${{ secrets.RECAPTCHA_SITE_KEY }}
+            RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCH_SECRET_KEY }}
+            REDIS_HOST=${{ secrets.REDIS_HOST }}
+            REDIS_PORT=${{ secrets.REDIS_PORT }}
+        env:
+          APP_HOST: ${{ secrets.APP_HOST }}
+          APP_ADMIN_EMAIL: ${{ secrets.APP_ADMIN_EMAIL }}
+          APP_ADMIN_PASSWORD: ${{ secrets.APP_ADMIN_PASSWORD }}
+          APP_JWT_SECRET: ${{ secrets.APP_JWT_SECRET }}
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
+          MONGO_INITDB_DATABASE: ${{ secrets.MONGO_INITDB_DATABASE }}
+          RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+          RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCH_SECRET_KEY }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
