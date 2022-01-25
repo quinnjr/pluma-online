@@ -50,7 +50,7 @@
           }
         ],
         "@angular-eslint/no-empty-lifecycle-method": "warn",
-        "rxjs-angular/prefer-async-pipe": "warn",
+        "rxjs-angular/prefer-async-pipe": "off",
         "promise/catch-or-return": "off",
         "promise/always-return": "off",
         "unicorn/better-regex": "error",
@@ -76,7 +76,7 @@
         "unicorn/no-hex-escape": "error",
         "unicorn/no-instanceof-array": "error",
         "unicorn/no-invalid-remove-event-listener": "error",
-        "unicorn/no-lonely-if": "error",
+        "unicorn/no-lonely-if": "off",
         "unicorn/no-nested-ternary": "error",
         "unicorn/no-new-array": "error",
         "unicorn/no-new-buffer": "error",

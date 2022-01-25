@@ -43,10 +43,10 @@ export default (
     }),
     new DefinePlugin({
       APP_VERSION: pkg.version
-    }),
-    new ProvidePlugin({
-      Promise: ['bluebird', 'Promise']
     })
+    // new ProvidePlugin({
+    //   Promise: ['bluebird', 'Promise']
+    // })
   );
 
   if (targetOptions.target === 'browser') {
