@@ -85,7 +85,13 @@ export default (
 
   if (targetOptions.target === 'server') {
     config.target = 'node';
-    config.resolve!.extensions!.push('.mjs', '.graphql', '.gql');
+    config.resolve!.extensions!.push(
+      '.mjs',
+      '.graphql',
+      '.gql',
+      '.node',
+      '.prisma'
+    );
 
     config.module!.rules!.push({
       test: /\.mjs$/,
@@ -100,7 +106,7 @@ export default (
     });
 
     config.module!.rules!.push({
-      test: /\.prisma/,
+      test: /\.prisma$/,
       type: 'asset/resource'
     });
 
