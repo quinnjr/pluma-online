@@ -93,6 +93,17 @@ export default (
       type: 'javascript/auto'
     });
 
+    config.module!.rules!.push({
+      test: /\.node$/,
+      include: /node_modules/,
+      loader: 'node-loader'
+    });
+
+    config.module!.rules!.push({
+      test: /\.prisma/,
+      type: 'asset/resource'
+    });
+
     config.externalsPresets = { node: true };
 
     (config.externals as Array<any>).push(

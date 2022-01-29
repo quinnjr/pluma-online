@@ -117,6 +117,7 @@ specifiers:
   markdown-loader: ^6.0.0
   markdown-wasm: ^1.2.0
   ng-recaptcha: ^9.0.0
+  node-loader: ^2.0.0
   passport: ^0.4.1
   passport-jwt: ^4.0.0
   passport-local: ^1.0.0
@@ -264,6 +265,7 @@ devDependencies:
   jest-preset-angular: 11.1.0_965deab188f6732a6c9204575479d28d
   lodash.startcase: 4.4.0
   markdown-loader: 6.0.0
+  node-loader: 2.0.0_webpack@5.67.0
   prettier: 2.5.1
   prisma: 3.8.1
   prisma-nestjs-graphql: 14.6.1
@@ -10389,6 +10391,16 @@ packages:
 
   /node-int64/0.4.0:
     resolution: {integrity: sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=}
+    dev: true
+
+  /node-loader/2.0.0_webpack@5.67.0:
+    resolution: {integrity: sha512-I5VN34NO4/5UYJaUBtkrODPWxbobrE4hgDqPrjB25yPkonFhCmZ146vTH+Zg417E9Iwoh1l/MbRs1apc5J295Q==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      loader-utils: 2.0.2
+      webpack: 5.67.0_esbuild@0.14.14
     dev: true
 
   /node-releases/2.0.1:

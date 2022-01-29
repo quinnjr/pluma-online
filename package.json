@@ -149,6 +149,7 @@
     "jest-preset-angular": "^11.1.0",
     "lodash.startcase": "^4.4.0",
     "markdown-loader": "^6.0.0",
+    "node-loader": "^2.0.0",
     "prettier": "^2.5.1",
     "prisma": "^3.8.1",
     "prisma-nestjs-graphql": "^14.6.1",
