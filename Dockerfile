@@ -63,6 +63,9 @@ COPY --from=builder --chown=node:node /app/docker-entry.sh /app/docker-entry.sh
 # COPY --from=builder --chown=node:node /app/node_modules/dockerode /app/node_modules/
 # COPY --from=builder --chown=node:node /app/node_modules/.pnpm/ssh2@* /app/node_modules/.pnpm
 
+RUN mkdir -p /app/dist/pluma-online/server/ && \
+  ln -s /app/prisma/schema.prisma /app/dist/pluma-online/server/schema.prisma
+
 EXPOSE 4200
 
 ENTRYPOINT ["./docker-entry.sh"]
