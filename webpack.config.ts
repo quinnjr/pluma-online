@@ -38,15 +38,12 @@ export default (
 
   config.plugins!.push(
     new DotenvPlugin({
-      safe: false,
+      safe: targetOptions.target === 'development',
       allowEmptyValues: false
     }),
     new DefinePlugin({
       APP_VERSION: pkg.version
     })
-    // new ProvidePlugin({
-    //   Promise: ['bluebird', 'Promise']
-    // })
   );
 
   if (targetOptions.target === 'browser') {

@@ -47,7 +47,7 @@ WORKDIR /app
 RUN <<EOF
   npm i -g npm pnpm
   pnpm config set store-dir /app/.pnpm-store
-  pnpm install argon2 @prisma/client graphql-ws graphql
+  pnpm install argon2 @prisma/client graphql-ws graphql dockerode
   chown -R node:node /app
   chmod -R 2755 /app
 EOF
@@ -59,8 +59,8 @@ COPY --from=builder --chown=node:node /app/prisma /app/prisma
 COPY --from=builder --chown=node:node /app/package.json /app/package.json
 COPY --from=builder --chown=node:node /app/pnpm-lock.yaml /app/pnpm-lock.yaml
 COPY --from=builder --chown=node:node /app/docker-entry.sh /app/docker-entry.sh
-COPY --from=builder --chown=node:node /app/node_modules/.pnpm/dockerode@* /app/node_modules/.pnpm/
-COPY --from=builder --chown=node:node /app/node_modules/dockerode /app/node_modules/
+# COPY --from=builder --chown=node:node /app/node_modules/.pnpm/dockerode@* /app/node_modules/.pnpm/
+# COPY --from=builder --chown=node:node /app/node_modules/dockerode /app/node_modules/
 # COPY --from=builder --chown=node:node /app/node_modules/.pnpm/ssh2@* /app/node_modules/.pnpm
 
 EXPOSE 4200
