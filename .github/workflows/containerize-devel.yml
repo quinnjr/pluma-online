@@ -37,7 +37,7 @@ jobs:
           context: .
           file: Dockerfile
           tags: |
-            ghcr.io/${{ github.actor }}/${{ github.repository }}:devel
+            ghcr.io/${{ github.repository }}:devel
           pull: true
           push: true
           build-args: |
