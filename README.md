@@ -17,6 +17,7 @@ Contents of the `.env` file must follow the proper definitions of an environment
 Unless otherwise necessary, default ports should be assumed for each port selection.
 
 ### Docker-compose
+
 Create a file `docker-compose.override.yml` in the root of the project and copy the below into the file:
 
 ```yaml
@@ -45,7 +46,7 @@ services:
       APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD}
       APP_JWT_SECRET: ${APP_JWT_SECRET}
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
       DATABASE_URL: ${DATABASE_URL}
       REDIS_HOST: ${REDIS_HOST}
