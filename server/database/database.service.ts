@@ -17,6 +17,7 @@ export class DatabaseService extends PrismaClient implements OnModuleInit {
       try {
         await app.close();
       } catch (error) {
+        console.error(error);
         throw error;
       }
     });
