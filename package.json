@@ -25,7 +25,7 @@
     "test:e2e-headless": "cypress run --headless",
     "prerender": "ng run pluma-online:prerender && ngcc",
     "prisma": "prisma",
-    "postinstall": "husky install && prisma generate && ngcc",
+    "postinstall": "husky install && ngcc",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "get-plugins": "pnpm run ts-node ./bin/get-plugins.ts"
   },

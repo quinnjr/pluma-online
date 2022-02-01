@@ -100,13 +100,8 @@ export default (
     });
 
     config.module!.rules!.push({
-      test: /\.node$/,
+      test: /\.(node|prisma|graphql|gql)$/,
       include: /node_modules/,
-      loader: 'node-loader'
-    });
-
-    config.module!.rules!.push({
-      test: /\.prisma$/,
       type: 'asset/resource'
     });
 
