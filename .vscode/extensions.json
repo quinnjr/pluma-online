@@ -25,6 +25,7 @@
     "formulahendry.terminal",
     "wayou.vscode-todo-highlight",
     "visualstudioexptteam.vscodeintellicode",
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "ms-azuretools.vscode-docker"
   ]
 }

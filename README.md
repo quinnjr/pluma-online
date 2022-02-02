@@ -30,12 +30,14 @@ services:
       context: ./
       dockerfile: Dockerfile-devel
       cache_from:
-        - node:lts-alpine
+       - node:lts-alpine
     depends_on:
       - database
       - redis
     networks:
       - web
+    ports:
+      - "4200:4200"
     volumes:
       - ./:/app
     restart: unless-stopped

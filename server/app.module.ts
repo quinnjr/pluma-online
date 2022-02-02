@@ -68,7 +68,7 @@ const isDevelopment = process.env.ENV === 'development';
     ScheduleModule.forRoot(),
     GraphQLModule.forRoot({
       /** eslint-disable-next-line unicorn/prefer-module */
-      autoSchemaFile: join(__dirname, 'schema.graphql'),
+      autoSchemaFile: true,
       sortSchema: true,
       debug: isDevelopment
     }),
@@ -84,12 +84,12 @@ const isDevelopment = process.env.ENV === 'development';
     PluginsResolver,
     UsersResolver,
     PipelinesResolver,
+    CommentResolver,
     LoggingPlugin,
     TasksService,
-    CommentResolver,
-    // EmailService,
-    // MarkdownService,
-    // DockerService
+    EmailService,
+    MarkdownService,
+    DockerService
   ]
 })
 export class AppModule {}
