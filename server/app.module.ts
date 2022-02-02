@@ -46,25 +46,25 @@ const isDevelopment = process.env.ENV === 'development';
       cache: true,
       validate
     }),
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get<string>('REDIS_HOST'),
-        port: configService.get<number>('REDIS_PORT')
-      }),
-      inject: [ConfigService]
-    }),
-    BullModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        redis: {
-          host: configService.get<string>('REDIS_HOST'),
-          port: configService.get<number>('REDIS_PORT')
-        }
-      }),
-      inject: [ConfigService]
-    }),
+    // CacheModule.registerAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     store: redisStore,
+    //     host: configService.get<string>('REDIS_HOST'),
+    //     port: configService.get<number>('REDIS_PORT')
+    //   }),
+    //   inject: [ConfigService]
+    // }),
+    // BullModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     redis: {
+    //       host: configService.get<string>('REDIS_HOST'),
+    //       port: configService.get<number>('REDIS_PORT')
+    //     }
+    //   }),
+    //   inject: [ConfigService]
+    // }),
     ScheduleModule.forRoot(),
     GraphQLModule.forRoot({
       /** eslint-disable-next-line unicorn/prefer-module */
