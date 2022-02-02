@@ -1,4 +1,4 @@
-name: Containerize
+name: Containerize (production)
 on:
   push:
     tags:
