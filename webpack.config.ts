@@ -38,14 +38,11 @@ export default (
 
   config.plugins!.push(
     new DotenvPlugin({
-      safe: true,
+      safe: targetOptions.target === 'development',
       allowEmptyValues: false
     }),
     new DefinePlugin({
       APP_VERSION: pkg.version
-    }),
-    new ProvidePlugin({
-      Promise: ['bluebird', 'Promise']
     })
   );
 
@@ -88,12 +85,24 @@ export default (
 
   if (targetOptions.target === 'server') {
     config.target = 'node';
-    config.resolve!.extensions!.push('.mjs', '.graphql', '.gql');
+    config.resolve!.extensions!.push(
+      '.mjs',
+      '.graphql',
+      '.gql',
+      '.node',
+      '.prisma'
+    );
 
     config.module!.rules!.push({
       test: /\.mjs$/,
       include: /node_modules/,
       type: 'javascript/auto'
+    });
+
+    config.module!.rules!.push({
+      test: /\.(node|prisma|graphql|gql)$/,
+      include: /node_modules/,
+      type: 'asset/resource'
     });
 
     config.externalsPresets = { node: true };
@@ -114,11 +123,12 @@ export default (
             'cache-manager',
             'class-validator',
             'class-transformer',
+            'fsevents',
             'apollo-server-fastify',
             'bufferutil',
             'utf-8-validate',
             'react',
-            'graphql-ws'
+            'ssh2'
           ];
 
           if (!imports.includes(resource)) {

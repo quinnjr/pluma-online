@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { DatabaseService } from '../database/database.service';
 import { UsersResolver } from './users.resolver';
 

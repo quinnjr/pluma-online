@@ -41,6 +41,13 @@ enum Language {
   Java
 }
 
+enum PluginStatus {
+  Verified
+  Unverified
+  Passing
+  Failing
+}
+
 model Plugin {
   id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
   name        String    @unique
@@ -51,7 +58,7 @@ model Plugin {
   rating      Int       @default(0)
   author      User?     @relation(fields: [authorId], references: [id])
   authorId    String?   @db.ObjectId
-  isVerified  Boolean   @default(false)
+  verification PluginStatus @default(Unverified)
   comments    Comment[]
   createdAt   DateTime  @default(now()) @db.Timestamp
   updatedAt   DateTime  @default(now()) @updatedAt @db.Timestamp

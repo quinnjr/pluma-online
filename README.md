@@ -8,12 +8,20 @@ The frontend and backend application for the PluMA Online ecosystem.
 
 ## Development
 
+### Environment
+
 Copy the contents of `.env.example` to a new file `.env` and change the contents of `.env` for your specific environment.
+
+Contents of the `.env` file must follow the proper definitions of an environment file. Strings should be correct strings, Email addresses should be valid email addresses, and the `DATABASE_URL` should be a valid MongoDB connection URI. All environment variables must be defined.
+
+Unless otherwise necessary, default ports should be assumed for each port selection.
+
+### Docker-compose
 
 Create a file `docker-compose.override.yml` in the root of the project and copy the below into the file:
 
 ```yaml
-version: "3.8"
+version: "3"
 
 services:
   webapp:
@@ -22,24 +30,31 @@ services:
       context: ./
       dockerfile: Dockerfile-devel
       cache_from:
-        - node:lts-alpine
+       - node:lts-alpine
     depends_on:
       - database
       - redis
     networks:
       - web
+    ports:
+      - "4200:4200"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - ./:/app
     restart: unless-stopped
     environment:
+      APP_HOST: ${APP_HOST}
+      APP_SETUP_PASSWORD: ${APP_SETUP_PASSWORD}
+      APP_ADMIN_EMAIL: ${APP_ADMIN_EMAIL}
+      APP_ADMIN_PASSWORD: ${APP_ADMIN_PASSWORD}
       APP_JWT_SECRET: ${APP_JWT_SECRET}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
       DATABASE_URL: ${DATABASE_URL}
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
 ```
+
+### Windows
+
+Since `docker` is using a containerized Linux system, all shellscript files must end each line with a LF character. If issues are encountered with running shellscripts in the repository, this is likely due to the line endings being rewritten as CRLF. Use a text editor to batch change the end of line characters if this occurs.

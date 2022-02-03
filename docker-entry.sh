@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
-pnpm config set store-dir /app/.pnpm-store
-
-if [ "$NODE_ENV" = "production" ]; then
-  pnpx prisma migrate deploy
+if [ "$ENV" = "production" ]; then
   pnpm run serve
 else
-  pnpm install --no-optional
+  pnpm config set store-dir /app/.pnpm-store
+  if [ ! -d ./node_modules ] || [ -n "$(find ./node_modules -prune -user $(id -u))" ]; then
+    pnpm install --no-optional
+  fi
   pnpm start
 fi

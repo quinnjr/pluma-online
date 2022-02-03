@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3"
 
 services:
   # nginx:
@@ -32,14 +32,19 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    networks:
+      - web
     ports:
-      - 5432:5432
+      - 27017:27017
     volumes:
       - database:/data/db
 
   redis:
-    container_name: pluma-redis
+    container_name: pluma-online-redis
     image: redis:alpine
+    networks:
+      - web
 
   webapp:
     container_name: pluma-online-webapp
@@ -47,17 +52,16 @@ services:
       context: ./
       dockerfile: Dockerfile
       cache_from:
-        - node:lts-alpine
+       - node:lts-alpine
       labels:
-        com.pluma-backend.description: "Container for PluMA Online"
-        com.pluma-backend.maintainer: "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"
+       com.pluma-backend.description: "Container for PluMA Online"
+       com.pluma-backend.maintainer: "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"
     depends_on:
       - database
       - redis
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
-    env_file: .env
     environment:
       APP_HOST: ${APP_HOST}
       APP_ADMIN_EMAIL: ${APP_ADMIN_EMAIL}
@@ -73,3 +77,6 @@ services:
 volumes:
   web:
   database:
+
+networks:
+  web:

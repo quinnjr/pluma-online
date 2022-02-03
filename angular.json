@@ -73,9 +73,6 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "customWebpackConfig": {
-              "path": "./webpack.config.ts"
-            },
             "browserTarget": "pluma-online:build"
           },
           "configurations": {
@@ -128,8 +125,8 @@
               "_http_common",
               "argon2",
               "react",
-              "ws",
-              "graphql-ws"
+              "ssh2",
+              "fsevents"
             ]
           },
           "configurations": {

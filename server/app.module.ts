@@ -30,6 +30,7 @@ import { TasksService } from './tasks/tasks.service';
 import { CommentResolver } from './comment/comment.resolver';
 import { EmailService } from './email/email.service';
 import { MarkdownService } from './markdown/markdown.service';
+import { DockerService } from './docker/docker.service';
 
 const isDevelopment = process.env.ENV === 'development';
 
@@ -45,28 +46,29 @@ const isDevelopment = process.env.ENV === 'development';
       cache: true,
       validate
     }),
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get<string>('REDIS_HOST'),
-        port: configService.get<number>('REDIS_PORT')
-      }),
-      inject: [ConfigService]
-    }),
-    BullModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        redis: {
-          host: configService.get<string>('REDIS_HOST'),
-          port: configService.get<number>('REDIS_PORT')
-        }
-      }),
-      inject: [ConfigService]
-    }),
+    // CacheModule.registerAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     store: redisStore,
+    //     host: configService.get<string>('REDIS_HOST'),
+    //     port: configService.get<number>('REDIS_PORT')
+    //   }),
+    //   inject: [ConfigService]
+    // }),
+    // BullModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     redis: {
+    //       host: configService.get<string>('REDIS_HOST'),
+    //       port: configService.get<number>('REDIS_PORT')
+    //     }
+    //   }),
+    //   inject: [ConfigService]
+    // }),
     ScheduleModule.forRoot(),
     GraphQLModule.forRoot({
-      autoSchemaFile: join(__dirname, 'schema.graphql'),
+      /** eslint-disable-next-line unicorn/prefer-module */
+      autoSchemaFile: true,
       sortSchema: true,
       debug: isDevelopment
     }),
@@ -82,11 +84,12 @@ const isDevelopment = process.env.ENV === 'development';
     PluginsResolver,
     UsersResolver,
     PipelinesResolver,
+    CommentResolver,
     LoggingPlugin,
     TasksService,
-    CommentResolver,
     EmailService,
-    MarkdownService
+    MarkdownService,
+    DockerService
   ]
 })
 export class AppModule {}

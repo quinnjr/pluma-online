@@ -7,13 +7,12 @@ WORKDIR /app
 
 COPY . .
 
-RUN --mount=type=cache,target=/app/node_modules \
-  --mount=type=cache,target=/app/.pnpm-store \
+RUN --mount=type=cache,target=/app/node_modules --mount=type=cache,target=/app/.pnpm-store \
+  apk add python3 build-base && \
   npm install -g pnpm prisma @angular/cli && \
   chown -R node:node /app && \
   pnpm config set store-dir /app/.pnpm-store && \
-  pnpm install --no-optional && \
-  pnpm rebuild
+  pnpm install --no-optional --unsafe-perm
 
 USER node
 

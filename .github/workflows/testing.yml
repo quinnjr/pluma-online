@@ -2,7 +2,7 @@ name: Testing CI
 
 on:
   push:
-    branches: [main, develop, feature/*]
+    branches: [main, develop, feature/*, bugfix/*, release/*, hotfix/*, support/*]
 
 jobs:
   webapp:
@@ -17,29 +17,26 @@ jobs:
           - 16.x
     services:
       database:
-        image: postgres
+        image: mongo
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
+          MONGO_INITDB_DATABASE: ${{ secrets.MONGO_INITDB_DATABASE }}
         ports:
-          - 5432:5432
+          - 27017:27017
     env:
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      SETUP_PASSWORD: ${{ secrets.SETUP_PASSWORD }}
+      APP_HOST: ${{ secrets.APP_HOST }}
+      APP_JWT_SECRET: ${{ secrets.APP_JWT_SECRET }}
+      APP_SETUP_PASSWORD: ${{ secrets.APP_SETUP_PASSWORD }}
+      APP_ADMIN_EMAIL: ${{ secrets.APP_ADMIN_EMAIL }}
+      APP_ADMIN_PASSWORD: ${{ secrets.APP_ADMIN_PASSWORD }}
+      RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+      RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
       REDIS_HOST: ${{ secrets.REDIS_HOST }}
       REDIS_PORT: ${{ secrets.REDIS_PORT }}
-      DATABASE_URL: postgres://${{secrets.POSTGRES_USER}}:${{secrets.POSTGRES_PASSWORD}}@localhost:5432/${{secrets.POSTGRES_DB}}
+      DATABASE_URL: mongo://${{secrets.MONGO_INITDB_ROOT_USERNAME}}:${{secrets.MONGO_INITDB_ROOT_PASSWORD}}@localhost:27017/${{secrets.MONGO_INITDB_DATABASE}}
     steps:
     - uses: actions/checkout@v2
-
     - name: Cache pnpm modules
       uses: actions/cache@v2
       env:
@@ -49,13 +46,11 @@ jobs:
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
-
-    - uses: pnpm/action-setup@v2.0.0
+    - uses: pnpm/action-setup@v2.0.1
       with:
         version: 6.23.2
     - run: pnpm install
-    - run: pnpx prisma migrate deploy
-      env:
-        DATABASE_URL: ${{secrets.DATABASE_URL}}
-    - run: pnpm test -- --ci
-    - run: pnpm run test:server -- --ci
+    # - run: pnpx prisma migrate deploy
+      # env:
+      #   DATABASE_URL: mongo://${{secrets.MONGO_INITDB_ROOT_USERNAME}}:${{secrets.MONGO_INITDB_ROOT_PASSWORD}}@localhost:27017/${{secrets.MONGO_INITDB_DATABASE}}
+    - run: pnpm test
