@@ -123,6 +123,7 @@ export default (
             'cache-manager',
             'class-validator',
             'class-transformer',
+            'fsevents',
             'apollo-server-fastify',
             'bufferutil',
             'utf-8-validate',

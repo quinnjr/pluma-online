@@ -125,7 +125,8 @@
               "_http_common",
               "argon2",
               "react",
-              "ssh2"
+              "ssh2",
+              "fsevents"
             ]
           },
           "configurations": {

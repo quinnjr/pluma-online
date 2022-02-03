@@ -167,11 +167,13 @@
   },
   "optionalDependencies": {
     "cypress": "^7.7.0",
-    "fsevents": "*"
+    "fsevents": "*",
+    "chokidar": "*"
   },
   "pnpm": {
     "neverBuildDependencies": [
-      "fsevents"
+      "fsevents",
+      "chokidar"
     ],
     "overrides": {
       "esbuild": "~0.14.0",
