@@ -4,21 +4,24 @@ The frontend and backend application for the PluMA Online ecosystem.
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![Testing CI](https://github.com/quinnjr/pluma-online/actions/workflows/testing.yml/badge.svg)](https://github.com/quinnjr/pluma-online/actions/workflows/testing.yml)
 
+## Requirements
+
+1. [nodejs](https://nodejs.org/) >= 14.0.0
+2. [docker](https://www.docker.com/)
+3. *WINDOWS* [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) <-- Strongly recommended
+4. *WINDOWS* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+5. [VSCode](https://code.visualstudio.com/) (preferred IDE)
+
 ## Installation
 
-## Development
+1. Clone the repository
+2. Copy `.env.example` to a new file named `.env` and fill in *ALL* variables as appropriate
 
-### Environment
+Each variable *must* be filled in and *must* be unique to each environment. Passswords must be valid passwords, secrets must be valid secrets, and `DATABASE_URL` must be a valid MongoDB connection URI.
 
-Copy the contents of `.env.example` to a new file `.env` and change the contents of `.env` for your specific environment.
+The database hostname is `database`. Do not use an IP address in the MongoDB connection URI.
 
-Contents of the `.env` file must follow the proper definitions of an environment file. Strings should be correct strings, Email addresses should be valid email addresses, and the `DATABASE_URL` should be a valid MongoDB connection URI. All environment variables must be defined.
-
-Unless otherwise necessary, default ports should be assumed for each port selection.
-
-### Docker-compose
-
-Create a file `docker-compose.override.yml` in the root of the project and copy the below into the file:
+3. Create a new file `docker-compose.override.yml` and copy the below into the file:
 
 ```yaml
 version: "3"
@@ -55,6 +58,11 @@ services:
       REDIS_PORT: ${REDIS_PORT}
 ```
 
+4. Run `docker-compose up` in the project folder to bring up the containers. Allow the _webapp_ container to fully build the web application (it will take a few minutes).
+5. Hack on the code base.
+
 ### Windows
 
 Since `docker` is using a containerized Linux system, all shellscript files must end each line with a LF character. If issues are encountered with running shellscripts in the repository, this is likely due to the line endings being rewritten as CRLF. Use a text editor to batch change the end of line characters if this occurs.
+
+`docker-compose` on Windows must be run through the installation of [Docker Desktop](https://www.docker.com/products/docker-desktop). Do not use the `docker-compose` binary distributed through the package manager of your WSL2 distro.
