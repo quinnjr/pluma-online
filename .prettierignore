@@ -1,0 +1,6 @@
+**/dist
+**/.vscode
+**/.github
+**/node_modules
+./cache/**
+server/@generated/**
