@@ -51,14 +51,13 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-      cache_from:
-       - node:lts-alpine
-      labels:
-       com.pluma-backend.description: "Container for PluMA Online"
-       com.pluma-backend.maintainer: "Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"
     depends_on:
       - database
       - redis
+    ports:
+      - "4200:4200"
+    networks:
+      - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
