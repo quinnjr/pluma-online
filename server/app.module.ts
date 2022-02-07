@@ -86,10 +86,10 @@ const isDevelopment = process.env.ENV === 'development';
     PipelinesResolver,
     CommentResolver,
     LoggingPlugin,
-    TasksService,
+    // TasksService,
     EmailService,
     MarkdownService,
-    DockerService
+    // DockerService
   ]
 })
 export class AppModule {}

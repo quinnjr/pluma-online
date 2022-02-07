@@ -1,5 +1,6 @@
 .env
 *.key
+*.key*
 server/@generated
 docker-compose.override.yml
 .pnpm-store

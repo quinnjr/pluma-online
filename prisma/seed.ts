@@ -9,7 +9,6 @@ import { Pipelines } from './pipelines';
 const prisma = new PrismaClient();
 
 async function seed() {
-  let plugins: Plugin[] = [];
 
   for (const plugin of Plugins) {
     const p = await prisma.plugin.upsert({
@@ -20,12 +19,9 @@ async function seed() {
       create: plugin
     });
 
-    plugins.push(p);
   }
 
-  console.log(`Seeded ${plugins.length} plugins`);
-
-  let pipelines: Pipeline[] = [];
+  console.log(`Seeded ${Plugins.length} plugins`);
 
   for (const pipeline of Pipelines) {
     const p = await prisma.pipeline.upsert({
@@ -35,25 +31,9 @@ async function seed() {
       update: pipeline,
       create: pipeline
     });
-
-    pipelines.push(p);
   }
 
-  console.log(`Seeded ${pipelines.length} pipelines`);
-
-  let anonUser = {
-    name: 'Anonymous',
-    email: 'anonymous@local.domain',
-    passwordHash: '0000000'
-  };
-
-  const _anonymous = await prisma.user.upsert({
-    where: {
-      email: 'anonymous@local.domain'
-    },
-    update: anonUser,
-    create: anonUser
-  });
+  console.log(`Seeded ${Pipelines.length} pipelines`);
 }
 
 seed()

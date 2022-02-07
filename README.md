@@ -7,21 +7,47 @@ The frontend and backend application for the PluMA Online ecosystem.
 ## Requirements
 
 1. [nodejs](https://nodejs.org/) >= 14.0.0
-2. [docker](https://www.docker.com/)
-3. *WINDOWS* [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) <-- Strongly recommended
-4. *WINDOWS* [Docker Desktop](https://www.docker.com/products/docker-desktop)
-5. [VSCode](https://code.visualstudio.com/) (preferred IDE)
+2. [pnpm](https://pnpm.io/) >= 6.28.0
+3. [docker](https://www.docker.com/)
+4. *WINDOWS* [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) <-- Strongly recommended
+5. *WINDOWS* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+6. [VSCode](https://code.visualstudio.com/) (preferred IDE)
+7. (Optional) [MongoDB Compass](https://docs.mongodb.com/compass/current/) <-- GUI for database
 
 ## Installation
 
+### Prerequesite
+
+If you have a previous working version of the repository prior to Feb. 07, 2022, you'll need to re-create the database files from scratch:
+
+1. Bring down your containers with:
+
+```sh
+docker-compose down
+```
+
+2. Delete all unconnected volumes with:
+
+```sh
+docker volumes prune
+```
+
+### Commands
+
 1. Clone the repository
-2. Copy `.env.example` to a new file named `.env` and fill in *ALL* variables as appropriate
+2. Install pnpm:
 
-Each variable *must* be filled in and *must* be unique to each environment. Passswords must be valid passwords, secrets must be valid secrets, and `DATABASE_URL` must be a valid MongoDB connection URI.
+```sh
+npm i -g pnpm
+```
 
-The database hostname is `database`. Do not use an IP address in the MongoDB connection URI.
+3. Copy `.env.example` to a new file named `.env` and fill in *ALL* variables as appropriate
 
-3. Create a new file `docker-compose.override.yml` and copy the below into the file:
+> Each variable *must* be filled in and *must* be unique to each environment. Passswords must be valid passwords, secrets must be valid secrets, and `DATABASE_URL` must be a valid MongoDB connection URI.
+
+> The database hostname is `database`. Do not use an IP address in the MongoDB connection URI.
+
+4. Create a new file `docker-compose.override.yml` and copy the below into the file:
 
 ```yaml
 version: "3"
@@ -32,8 +58,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile-devel
-      cache_from:
-       - node:lts-alpine
     depends_on:
       - database
       - redis
@@ -58,8 +82,47 @@ services:
       REDIS_PORT: ${REDIS_PORT}
 ```
 
-4. Run `docker-compose up` in the project folder to bring up the containers. Allow the _webapp_ container to fully build the web application (it will take a few minutes).
-5. Hack on the code base.
+5. Run
+
+```sh
+pnpm run generate-key
+```
+
+This should create a keyfile at `./docker/mongodb/mongodb.key`. `sudo` must be properly installed on your distro for this command to work correctly.
+
+6. Run:
+
+```sh
+docker-compose up -d database
+```
+
+and allow the database instance to load.
+
+7. Run:
+
+```sh
+docker-compose exec database /docker-entrypoint-initdb/01-mongo-init.sh
+```
+
+The output for this command should return successfully.
+
+8. Run:
+
+```sh
+docker-compose up -d
+```
+
+in the project folder to bring up the containers. Allow the _webapp_ container to fully build the web application (it will take a few minutes). Follow the logs of each container by using the command `docker-compose logs -f [container]`
+
+9.  Run:
+
+```sh
+docker-compose exec webapp pnpm run get-plugins && pnpm run prisma db seed
+```
+
+The output for this command should show a successful seeding of the database with at least 500 plugins and 20 pipelines.
+
+10.  Hack on the code base.
 
 ### Windows
 

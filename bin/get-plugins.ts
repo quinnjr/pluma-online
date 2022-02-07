@@ -47,9 +47,9 @@ export const Plugins: PluginCreateInput[] = [
     name: '${name}',\n`;
 
         if (description.indexOf("'") > -1) {
-          pluginsPage += `    description: "${description}",\n`;
+          pluginsPage += `    description: "${description.replace('\n', '')}",\n`;
         } else {
-          pluginsPage += `    description: '${description}',\n`;
+          pluginsPage += `    description: '${description.replace('\n', '')}',\n`;
         }
 
         pluginsPage += `    githubUrl: '${githubUrl}',\n`;

@@ -28,6 +28,7 @@ services:
   database:
     container_name: pluma-online-database
     image: mongo:latest
+    command: ["--keyFile", "/data/mongodb.key", "--replSet", "dbrs", "--bind_ip_all"]
     env_file: .env
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
@@ -39,6 +40,9 @@ services:
       - 27017:27017
     volumes:
       - database:/data/db
+      - ./docker/mongodb/init/01-mongo-init.sh:/docker-entrypoint-initdb.d/01-mongo-init.sh
+      - ./docker/mongodb/mongodb.key:/data/mongodb.key
+    restart: unless-stopped
 
   redis:
     container_name: pluma-online-redis
