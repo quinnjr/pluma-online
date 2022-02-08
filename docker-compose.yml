@@ -27,7 +27,9 @@ services:
 
   database:
     container_name: pluma-online-database
-    image: mongo:latest
+    build:
+      context: ${PWD}/docker/mongodb
+      dockerfile: Dockerfile-mongo
     command: ["--keyFile", "/data/mongodb.key", "--replSet", "dbrs", "--bind_ip_all"]
     env_file: .env
     environment:
@@ -40,13 +42,16 @@ services:
       - 27017:27017
     volumes:
       - database:/data/db
-      - ./docker/mongodb/init/01-mongo-init.sh:/docker-entrypoint-initdb.d/01-mongo-init.sh
-      - ./docker/mongodb/mongodb.key:/data/mongodb.key
+      - ${PWD}/docker/mongodb/init/01-mongo-init.sh:/docker-entrypoint-initdb.d/01-mongo-init.sh
     restart: unless-stopped
+    healthcheck:
+      test: test $$(echo "rs.initiate({_id:'dbrs',members:[{_id:0,host:\"database\"}]}).ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
 
   redis:
     container_name: pluma-online-redis
     image: redis:alpine
+    restart: unless-stopped
     networks:
       - web
 
