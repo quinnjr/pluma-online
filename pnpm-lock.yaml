@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 overrides:
-  esbuild: ~0.14.0
+  esbuild: ~0.14.18
   debug: ~4.3.1
   '@wessberg/ts-evaluator': npm:ts-evaluator
 
@@ -91,7 +91,11 @@ specifiers:
   dotenv-webpack: ^7.1.0
   emailjs: ^3.7.0
   encoding: ^0.1.13
+<<<<<<< HEAD
   esbuild: ~0.14.21
+=======
+  esbuild: ~0.14.18
+>>>>>>> 5b1247186a99b369a5c66cdb9d7651b130700223
   eslint: ^8.8.0
   eslint-config-prettier: ^6.15.0
   eslint-plugin-prettier: ^4.0.0
