@@ -36,6 +36,11 @@ export default (
   config.target = 'web';
   config.output!.crossOriginLoading = 'anonymous';
 
+  config.watchOptions = {
+    ignored: ['**/node_modules'],
+    poll: 1000
+  };
+
   config.plugins!.push(
     new DotenvPlugin({
       safe: targetOptions.target === 'development',
