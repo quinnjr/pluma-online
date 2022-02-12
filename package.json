@@ -169,7 +169,7 @@
   },
   "optionalDependencies": {
     "chokidar": "*",
-    "cypress": "^7.7.0",
+    "cypress": "^9.4.0",
     "fsevents": "*"
   },
   "pnpm": {
