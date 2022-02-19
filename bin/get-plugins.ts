@@ -2,19 +2,18 @@
 
 import axios from 'axios';
 import domino from 'domino';
-import { writeFileSync } from 'fs';
-import { join } from 'path';
+import { writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import prettier from 'prettier';
 import { ESLint } from 'eslint';
-import { Category, Language } from '@prisma/client';
-import { PluginCreateInput } from '../server/@generated/prisma-graphql/plugin';
 
 const url = 'https://biorg.cs.fiu.edu/pluma/plugins.html';
 
 async function main() {
   let pluginsPage = `
 import { PluginCreateInput } from '../server/@generated/prisma-graphql/plugin';
-import { Category, Language } from '../server/@generated/prisma-graphql/prisma';
+import { categories } from './categories';
+import { languages } from './languages';
 
 export const Plugins: PluginCreateInput[] = [
 `;
@@ -28,13 +27,13 @@ export const Plugins: PluginCreateInput[] = [
 
   const tables = document.querySelectorAll('table');
 
-  for (let i = 2; i < tables.length; i++) {
-    const section = tables[i];
+  for (let index = 2; index < tables.length; index++) {
+    const section = tables[index];
 
     const rows = section.querySelectorAll('tr');
 
-    for (let j = 1; j < rows.length; j++) {
-      const columns = rows[j].querySelectorAll('td');
+    for (let index_ = 1; index_ < rows.length; index_++) {
+      const columns = rows[index_].querySelectorAll('td');
 
       const name = columns[0].querySelector('a')?.textContent;
       const githubUrl = columns[0].querySelector('a')?.href;
@@ -46,56 +45,65 @@ export const Plugins: PluginCreateInput[] = [
         pluginsPage += `  {
     name: '${name}',\n`;
 
-        if (description.indexOf("'") > -1) {
-          pluginsPage += `    description: "${description.replace('\n', '')}",\n`;
-        } else {
-          pluginsPage += `    description: '${description.replace('\n', '')}',\n`;
-        }
+        description.includes("'")
+          ? (pluginsPage += `    description: "${description.replace(
+              '\n',
+              ''
+            )}",\n`)
+          : (pluginsPage += `    description: '${description.replace(
+              '\n',
+              ''
+            )}',\n`);
 
         pluginsPage += `    githubUrl: '${githubUrl}',\n`;
 
-        if (language === 'R') {
-          pluginsPage += '    language: Language.R,\n';
-        } else if (language === 'Python') {
-          pluginsPage += '    language: Language.Python,\n';
-        } else if (language === 'Perl') {
-          pluginsPage += '    language: Language.Perl,\n';
-        } else if (language.indexOf('C++')) {
-          pluginsPage += '    language: Language.CXX,\n';
-        } else {
-          pluginsPage += '    language: Language.CUDA,\n';
+        switch (language) {
+          case 'R':
+            pluginsPage += "    language: 'R',\n";
+            break;
+          case 'Python':
+            pluginsPage += "    language: 'Python',\n";
+            break;
+          case 'Perl':
+            pluginsPage += "    language: 'Perl',\n";
+            break;
+          case 'C++':
+            pluginsPage += "    language: 'C++',\n";
+            break;
+          default:
+            pluginsPage += "    language: 'CUDA',\n";
         }
 
-        switch (i) {
+        switch (index) {
           case 2:
-            pluginsPage += '    category: Category.FileConverters';
+            pluginsPage += "    category: 'File Converters'";
             break;
           case 3:
-            pluginsPage += '    category: Category.StatsVisualizations';
+            pluginsPage += "    category: 'Stats & Visualizations'";
             break;
           case 4:
-            pluginsPage += '    category: Category.Transformations';
+            pluginsPage += "    category: 'Transformations'";
             break;
           case 5:
-            pluginsPage += '    category: Category.Dissimilarity';
+            pluginsPage += "    category: 'Dissimilarity'";
             break;
           case 6:
-            pluginsPage += '    category: Category.Correlation';
+            pluginsPage += "    category: 'Correlation'";
             break;
           case 7:
-            pluginsPage += '    category: Category.Centrality';
+            pluginsPage += "    category: 'Centrality'";
             break;
           case 8:
-            pluginsPage += '    category: Category.Clustering';
+            pluginsPage += "    category: 'Clustering'";
             break;
           case 9:
-            pluginsPage += '    category: Category.TimeSeries';
+            pluginsPage += "    category: 'Time Series'";
             break;
           case 10:
-            pluginsPage += '    category: Category.ExternalTools';
+            pluginsPage += "    category: 'External Tools'";
             break;
           case 11:
-            pluginsPage += '    category: Category.Miscellaneous';
+            pluginsPage += "    category: 'Miscellaneous'";
             break;
           default:
             process.exit(1);
@@ -108,7 +116,7 @@ export const Plugins: PluginCreateInput[] = [
     }
   }
 
-  pluginsPage = pluginsPage.substring(0, pluginsPage.length - 2);
+  pluginsPage = pluginsPage.slice(0, -2);
 
   pluginsPage += '\n];';
 
