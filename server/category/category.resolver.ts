@@ -4,7 +4,7 @@ import {
   CategoryCreateInput,
   CategoryOrderByWithRelationInput,
   CategoryWhereUniqueInput
-} from 'server/@generated/prisma-graphql/category';
+} from '../@generated/prisma-graphql/category';
 import { DatabaseService } from '../database/database.service';
 
 @Resolver((of) => Category)

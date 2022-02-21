@@ -9,10 +9,8 @@ import {
   PluginWhereInput,
   PluginWhereUniqueInput
 } from '../@generated/prisma-graphql/plugin';
-import {
-  Category,
-  EnumCategoryFilter
-} from '../@generated/prisma-graphql/prisma';
+
+import { CategoryRelationFilter } from '../@generated/prisma-graphql/category';
 
 @Resolver((of) => Plugin)
 export class PluginsResolver {
@@ -52,8 +50,8 @@ export class PluginsResolver {
 
   @Query((returns) => Int, { nullable: false })
   public async countPlugins(
-    @Args('category', { type: () => EnumCategoryFilter, nullable: true })
-    category?: EnumCategoryFilter
+    @Args('category', { type: () => CategoryRelationFilter, nullable: true })
+    category?: CategoryRelationFilter
   ): Promise<number> {
     return this.$database.plugin.count({
       where: {
