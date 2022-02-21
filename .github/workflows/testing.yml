@@ -49,7 +49,7 @@ jobs:
     - uses: pnpm/action-setup@v2.0.1
       with:
         version: 6.23.2
-    - run: pnpm install
+    - run: pnpm install --no-frozen-lockfile
     # - run: pnpx prisma migrate deploy
       # env:
       #   DATABASE_URL: mongo://${{secrets.MONGO_INITDB_ROOT_USERNAME}}:${{secrets.MONGO_INITDB_ROOT_PASSWORD}}@localhost:27017/${{secrets.MONGO_INITDB_DATABASE}}
