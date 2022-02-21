@@ -31,6 +31,8 @@ import { CommentResolver } from './comment/comment.resolver';
 import { EmailService } from './email/email.service';
 import { MarkdownService } from './markdown/markdown.service';
 import { DockerService } from './docker/docker.service';
+import { CategoryResolver } from './category/category.resolver';
+import { LanguageResolver } from './language/language.resolver';
 
 const isDevelopment = process.env.ENV === 'development';
 
@@ -89,6 +91,8 @@ const isDevelopment = process.env.ENV === 'development';
     // TasksService,
     EmailService,
     MarkdownService,
+    CategoryResolver,
+    LanguageResolver,
     // DockerService
   ]
 })

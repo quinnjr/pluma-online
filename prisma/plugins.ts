@@ -1,6 +1,7 @@
 
 import { PluginCreateInput } from '../server/@generated/prisma-graphql/plugin';
-import { Category, Language } from '../server/@generated/prisma-graphql/prisma';
+import { categories } from './categories';
+import { languages } from './languages';
 
 export const Plugins: PluginCreateInput[] = [
   {

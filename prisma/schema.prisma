@@ -19,28 +19,6 @@ generator nestgraphql {
   fields_Validator_input = true
 }
 
-enum Category {
-  FileConverters
-  StatsVisualizations
-  Transformations
-  Dissimilarity
-  Correlation
-  Centrality
-  Clustering
-  TimeSeries
-  ExternalTools
-  Miscellaneous
-}
-
-enum Language {
-  CXX
-  Python
-  Perl
-  CUDA
-  R
-  Java
-}
-
 enum PluginStatus {
   Verified
   Unverified
@@ -49,21 +27,39 @@ enum PluginStatus {
 }
 
 model Plugin {
-  id          String    @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  name        String    @unique
-  category    Category
-  description String
-  githubUrl   String    @unique
-  language    Language
-  rating      Int       @default(0)
-  author      User?     @relation(fields: [authorId], references: [id])
-  authorId    String?   @db.ObjectId
+  id           String       @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name         String       @unique
+  category     Category     @relation(fields: [categoryId], references: [id])
+  categoryId   String       @db.ObjectId
+  description  String
+  githubUrl    String       @unique
+  language     Language     @relation(fields: [languageId], references: [id])
+  languageId   String       @db.ObjectId
+  rating       Int          @default(0)
+  author       User?        @relation(fields: [authorId], references: [id])
+  authorId     String?      @db.ObjectId
   verification PluginStatus @default(Unverified)
-  comments    Comment[]
-  createdAt   DateTime  @default(now()) @db.Timestamp
-  updatedAt   DateTime  @default(now()) @updatedAt @db.Timestamp
+  comments     Comment[]
+  createdAt    DateTime     @default(now()) @db.Timestamp
+  updatedAt    DateTime     @default(now()) @updatedAt @db.Timestamp
 
   @@map("plugins")
+}
+
+model Category {
+  id      String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name    String   @unique
+  plugins Plugin[]
+
+  @@map("categories")
+}
+
+model Language {
+  id      String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name    String   @unique
+  plugins Plugin[]
+
+  @@map("languages")
 }
 
 enum Role {
