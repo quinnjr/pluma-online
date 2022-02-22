@@ -23,6 +23,7 @@ ENV REDIS_PORT ${REDIS_PORT}
 
 ENV ENV production
 ENV PATH /app/node_modules/.bin/:/usr/local/bin:$PATH
+ENV CPPFLAGS "-DPNG_ARM_NEON_OPT=0"
 
 WORKDIR /app
 
@@ -33,7 +34,7 @@ RUN --mount=type=cache,target=/app/node_modules --mount=type=cache,target=/app/.
   npm install -g npm pnpm @angular/cli @nestjs/cli
   chown -R node:node /app
   pnpm config set store-dir /app/.pnpm-store
-  pnpm install --no-optional --unsafe-perm
+  NODE_ENV="development" pnpm install --no-optional --unsafe-perm
   pnpm run build
 EOF
 
