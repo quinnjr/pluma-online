@@ -9,6 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { BullModule } from '@nestjs/bull';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 // @ts-ignore
 import * as redisStore from 'cache-manager-redis-store';
 
@@ -68,11 +69,13 @@ const isDevelopment = process.env.ENV === 'development';
     //   inject: [ConfigService]
     // }),
     ScheduleModule.forRoot(),
-    GraphQLModule.forRoot({
-      /** eslint-disable-next-line unicorn/prefer-module */
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
       autoSchemaFile: true,
       sortSchema: true,
-      debug: isDevelopment
+      debug: isDevelopment,
+      context: ({ req }) => ({ req }),
+      playground: isDevelopment
     }),
     // Application Modules
     AuthModule,

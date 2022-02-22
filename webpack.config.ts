@@ -125,15 +125,22 @@ export default (
             '@nestjs/microservices',
             '@nestjs/microservices/microservices-module',
             '@nestjs/websockets/socket-module',
+            'apollo-server-fastify',
             'cache-manager',
             'class-validator',
             'class-transformer',
+            'ts-morph',
+            'supertest',
+            'formidable',
+            'class-transformer/storage',
             'fsevents',
-            'apollo-server-fastify',
             'bufferutil',
             'utf-8-validate',
             'react',
-            'ssh2'
+            'ssh2',
+            'node-gyp',
+            '@ts-morph/common',
+            '@apollo/federation'
           ];
 
           if (!imports.includes(resource)) {

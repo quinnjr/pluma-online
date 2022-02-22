@@ -7,5 +7,6 @@ else
   if [ ! -d ./node_modules ] || [ -n "$(find ./node_modules -prune -user $(id -u))" ]; then
     pnpm install --no-optional
   fi
+  pnpm rebuild
   pnpm start
 fi
