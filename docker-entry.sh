@@ -5,7 +5,7 @@ if [ "$ENV" = "production" ]; then
 else
   pnpm config set store-dir /app/.pnpm-store
   if [ ! -d ./node_modules ] || [ -n "$(find ./node_modules -prune -user $(id -u))" ]; then
-    pnpm install --no-optional
+    pnpm install
   fi
   pnpm rebuild
   pnpm start
