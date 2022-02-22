@@ -13,7 +13,7 @@ import {
   TransferState,
   makeStateKey
 } from '@angular/platform-browser';
-import { APOLLO_OPTIONS } from 'apollo-angular';
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
@@ -57,6 +57,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     HttpClientModule,
     ReactiveFormsModule,
     // 3rd Party Modules
+    ApolloModule,
     BulmaNavbarModule,
     RecaptchaModule,
     RecaptchaV3Module,
