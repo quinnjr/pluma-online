@@ -126,7 +126,8 @@
               "argon2",
               "react",
               "ssh2",
-              "fsevents"
+              "fsevents",
+              "@apollo/federation"
             ]
           },
           "configurations": {
