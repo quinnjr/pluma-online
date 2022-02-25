@@ -47,11 +47,11 @@ export class PluginsComponent implements OnInit, OnDestroy {
       orderBy: {
         name: SortOrder.asc
       },
-      where: {
-        category: {
-          equals: this.categoryKeys[this.linkActive]
-        }
-      },
+      // where: {
+      //   category: {
+      //     equals: this.categoryKeys[this.linkActive]
+      //   }
+      // },
       skip: this.skip,
       take: this.take
     });
@@ -72,13 +72,37 @@ export class PluginsComponent implements OnInit, OnDestroy {
       orderBy: {
         name: SortOrder.asc
       },
-      where: {
-        category: {
-          equals: this.categoryKeys[this.linkActive]
-        }
-      },
+      // where: {
+      //   category: {
+      //     equals: this.categoryKeys[this.linkActive]
+      //   }
+      // },
       skip: this.skip,
       take: this.take
     });
+  }
+
+  public AddPluginModal() {
+    //console.log("Plugin button was clicked");
+    var pluginModal = document.getElementById("pluginModal");
+    pluginModal?.classList.add("is-active");
+  }
+
+  public AddCategoryModal() {
+    //console.log("Category button was clicked");
+    var categoryModal = document.getElementById("categoryModal");
+    categoryModal?.classList.add("is-active");
+  }
+
+  public ClosePluginModal() {
+    //console.log("Close Plugin button was clicked");
+    var pluginModal = document.getElementById("pluginModal");
+    pluginModal?.classList.remove("is-active");
+  }
+
+  public CloseCategoryModal() {
+    //console.log("Close Category button was clicked");
+    var categoryModal = document.getElementById("categoryModal");
+    categoryModal?.classList.remove("is-active");
   }
 }

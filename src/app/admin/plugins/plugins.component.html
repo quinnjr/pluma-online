@@ -1,9 +1,9 @@
 <div class="columns">
   <div class="column is-one-quarter">
-    <pluma-online-admin-menu></pluma-online-admin-menu>
+    <!-- <pluma-online-admin-menu></pluma-online-admin-menu> -->
   </div>
   <div class="column is-three-quarters" style="overflow: scroll;">
-    <p>Current Plugin Count: {{ (plugins | async)?.size }} </p>
+    <!-- <p>Current Plugin Count: {{ (plugins | async)?.size }} </p> -->
     <table class="table">
       <thead>
         <tr>
@@ -16,7 +16,7 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <!-- <tbody>
         <tr *ngFor="let plugin of plugins | async">
           <td>{{ plugin.name }}</td>
           <td>{{ plugin.description }}</td>
@@ -32,7 +32,7 @@
             <button class="button is-danger">Delete</button>
           </td>
         </tr>
-      </tbody>
+      </tbody> -->
     </table>
   </div>
 </div>
