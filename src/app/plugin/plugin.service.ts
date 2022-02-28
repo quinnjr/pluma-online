@@ -33,9 +33,10 @@ export class PluginService extends Query<Response> {
     super($apollo);
   }
 
-  public watch(): QueryRef<any, EmptyObject> {
+  public watch(variables: any): QueryRef<any, EmptyObject> {
     return this.$apollo.watchQuery<any>({
-      query: this.document
+      query: this.document,
+      variables
     });
   }
 }
