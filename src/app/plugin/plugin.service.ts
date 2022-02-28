@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Apollo, Mutation, Query, gql } from 'apollo-angular';
+import { Apollo, Mutation, Query, gql, QueryRef } from 'apollo-angular';
+import { EmptyObject } from 'apollo-angular/build/types';
 
 import { Plugin } from '../../../server/@generated/prisma-graphql/plugin';
 
@@ -30,5 +31,11 @@ export class PluginService extends Query<Response> {
 
   constructor(private readonly $apollo: Apollo) {
     super($apollo);
+  }
+
+  public watch(): QueryRef<any, EmptyObject> {
+    return this.$apollo.watchQuery<any>({
+      query: this.document
+    });
   }
 }
