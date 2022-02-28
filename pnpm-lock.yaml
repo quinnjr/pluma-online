@@ -92,7 +92,7 @@ specifiers:
   dotenv-webpack: ^7.1.0
   emailjs: ^3.7.0
   encoding: ^0.1.13
-  esbuild: ~0.14.23
+  esbuild: ~0.14.18
   eslint: ^8.9.0
   eslint-config-prettier: ^6.15.0
   eslint-plugin-prettier: ^4.0.0
