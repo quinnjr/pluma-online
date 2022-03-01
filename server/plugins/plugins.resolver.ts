@@ -58,12 +58,12 @@ export class PluginsResolver {
 
   @Query((returns) => Int, { nullable: false })
   public async countPlugins(
-    @Args('category', { type: () => CategoryRelationFilter, nullable: true })
-    category?: CategoryRelationFilter
+    @Args('category', { type: () => Category, nullable: true })
+    category?: Category
   ): Promise<number> {
     return this.$database.plugin.count({
       where: {
-        category
+        categoryId: category?.id
       }
     });
   }
