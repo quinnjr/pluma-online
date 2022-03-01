@@ -15,7 +15,7 @@ import { PluginCreateInput } from '../server/@generated/prisma-graphql/plugin';
 import { categories } from './categories';
 import { languages } from './languages';
 
-export const Plugins: PluginCreateInput[] = [
+export const Plugins: any = [
 `;
 
   const data = await axios.get(url, {
