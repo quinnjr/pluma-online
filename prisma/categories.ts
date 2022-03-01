@@ -2,9 +2,10 @@ export let categories = [
   'File Converters',
   'Stats & Visualizations',
   'Transformations',
+  'Centrality',
   'Dissimilarity',
-  'Correclation',
-  'Clusting',
+  'Correlation',
+  'Clustering',
   'Time Series',
   'External Tools',
   'Miscellaneous'

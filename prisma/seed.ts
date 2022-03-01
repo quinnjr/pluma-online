@@ -11,10 +11,10 @@ import { languages } from './languages';
 const prisma = new PrismaClient();
 
 async function seed() {
-  for (const index of categories) {
+  for (const index in categories) {
     const category = categories[index];
 
-    categories[index] = await prisma.category.upsert({
+    await prisma.category.upsert({
       where: {
         name: category
       },
@@ -27,10 +27,12 @@ async function seed() {
     });
   }
 
-  for (const index of languages) {
+  console.log(`Seeded ${categories.length} categories`);
+
+  for (const index in languages) {
     const language = languages[index];
 
-    languages[index] = await prisma.language.upsert({
+    await prisma.language.upsert({
       where: {
         name: language
       },
@@ -43,24 +45,44 @@ async function seed() {
     });
   }
 
-  for (const plugin of Plugins) {
+  console.log(`Seeded ${languages.length} languages`);
+
+  for (let plugin of Plugins) {
+    const category = await prisma.category.findUnique({
+      where: {
+        name: plugin.category
+      }
+    });
+
+    if (!category || !category.id) {
+      console.log(`error: ${JSON.stringify(plugin)} ${category}`);
+    }
+
     plugin.category = {
       connect: {
-        id: (categories as unknown as Category[]).find(
-          (value) => value.name === plugin.category
-        )?.id
+        id: category!.id
       }
     };
+
+    const language = await prisma.language.findFirst({
+      where: {
+        name: {
+          contains: plugin.language
+        }
+      }
+    });
+
+    if (!language || !language.id) {
+      console.log('error: ' + plugin.language);
+    }
 
     plugin.language = {
       connect: {
-        id: (languages as unknown as Language[]).find(
-          (value) => value.name === plugin.language
-        )?.id
+        id: language!.id
       }
     };
 
-    const p = await prisma.plugin.upsert({
+    await prisma.plugin.upsert({
       where: {
         name: plugin.name
       },
@@ -72,7 +94,7 @@ async function seed() {
   console.log(`Seeded ${Plugins.length} plugins`);
 
   for (const pipeline of Pipelines) {
-    const p = await prisma.pipeline.upsert({
+    await prisma.pipeline.upsert({
       where: {
         name: pipeline.name
       },
