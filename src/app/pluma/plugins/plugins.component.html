@@ -6,6 +6,60 @@
       <p>The easiest way to install them is to place them in the plugins/ directory of the PluMA source tree, however you can install them elsewhere by setting the environment variable <code>PLUMA_PLUGIN_PATH.</code></p>
       <p>Have a new plugin that you would like to add to the pool? Please send your source code and a description to Trevor Cickovski. All plugins in the pool will be added as test cases for future releases of PluMA, giving you automatic forward compatibility!</p>
     </section>
+
+    <section class="section">
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-one-quarter">
+          <button class="button is-normal is-responsive is-link is-rounded" (click)="AddPluginModal()">
+            Add Plugin
+          </button>
+        </div>
+        <div class="column is-half">
+          <button class="button is-normal is-responsive is-link is-rounded" (click)="AddCategoryModal()">
+            Add Category
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal" id="pluginModal">
+      <div class="modal-background"></div>
+      <div class="modal-content has-background-white p-3 m-3">
+        <div class="modal-card">
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Plugin Name">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Plugin Description</label>
+            <div class="control">
+              <textarea class="textarea" placeholder="Plugin Description"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" (click)="ClosePluginModal()"></button>
+    </div>
+
+    <div class="modal" id="categoryModal">
+      <div class="modal-background"></div>
+      <div class="modal-content has-background-white">
+        <div class="modal-card">
+
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Category Name">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" (click)="CloseCategoryModal()"></button>
+    </div>
+
     <section class="section" id="plugins">
       <div class="columns">
         <div class="column is-4">
@@ -24,10 +78,10 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Language</th>
+                <!-- <th>Description</th> -->
+                <!-- <th>Language</th>
                 <th>Author</th>
-                <th>Rating</th>
+                <th>Rating</th> -->
               </tr>
             </thead>
             <tbody>
@@ -40,10 +94,10 @@
                     <a href="{{ plugin.githubUrl }}">{{ plugin.name }}</a>
                   </span>
                 </td>
-                <td>
+                <!-- <td>
                   <span class="panel-block">{{ plugin.description }}</span>
-                </td>
-                <td>
+                </td> -->
+                <!-- <td>
                   <span class="panel-block">{{ plugin.language }}</span>
                 </td>
                 <td>
@@ -51,7 +105,7 @@
                 </td>
                 <td>
                   <span class="panel-block"></span>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </table>
