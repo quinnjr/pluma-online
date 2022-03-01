@@ -1,4 +1,4 @@
-name: Containerie (develop)
+name: Containerize (develop)
 on:
   push:
     branches: ['develop']

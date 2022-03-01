@@ -1,5 +1,4 @@
 export enum Category {
-  All = 'All',
   FileConverters = 'File Converters',
   StatsVisualizations = 'Stats & Visualizations',
   Transformations = 'Transformations',
