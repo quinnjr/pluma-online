@@ -1,4 +1,12 @@
-import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  Int,
+  Mutation,
+  ResolveField,
+  Parent
+} from '@nestjs/graphql';
 
 import { DatabaseService } from '../database/database.service';
 import {
@@ -9,8 +17,8 @@ import {
   PluginWhereInput,
   PluginWhereUniqueInput
 } from '../@generated/prisma-graphql/plugin';
-
-import { CategoryRelationFilter } from '../@generated/prisma-graphql/category';
+import { Category } from '../@generated/prisma-graphql/category';
+import { Language } from '../@generated/prisma-graphql/language';
 
 @Resolver((of) => Plugin)
 export class PluginsResolver {
@@ -50,18 +58,18 @@ export class PluginsResolver {
 
   @Query((returns) => Int, { nullable: false })
   public async countPlugins(
-    @Args('category', { type: () => CategoryRelationFilter, nullable: true })
-    category?: CategoryRelationFilter
+    @Args('category', { type: () => Category, nullable: true })
+    category?: Category
   ): Promise<number> {
     return this.$database.plugin.count({
       where: {
-        category
+        categoryId: category?.id
       }
     });
   }
 
   @Mutation((returns) => Plugin)
-  async createPlugin(
+  public async createPlugin(
     @Args('pluginData', { type: () => PluginCreateInput, nullable: false })
     data: PluginCreateInput
   ): Promise<Plugin> {
@@ -71,7 +79,7 @@ export class PluginsResolver {
   }
 
   @Mutation((returns) => Plugin)
-  async updatePlugin(
+  public async updatePlugin(
     @Args('where', { type: () => PluginWhereUniqueInput, nullable: false })
     where: PluginWhereUniqueInput,
     @Args('pluginData', { type: () => PluginUpdateInput, nullable: false })
@@ -80,6 +88,26 @@ export class PluginsResolver {
     return this.$database.plugin.update({
       where,
       data
+    });
+  }
+
+  @ResolveField()
+  public async category(@Parent() plugin: Plugin): Promise<Category | null> {
+    const { categoryId } = plugin;
+    return this.$database.category.findUnique({
+      where: {
+        id: categoryId
+      }
+    });
+  }
+
+  @ResolveField()
+  public async language(@Parent() plugin: Plugin): Promise<Language | null> {
+    const { languageId } = plugin;
+    return this.$database.language.findUnique({
+      where: {
+        id: languageId
+      }
     });
   }
 }
