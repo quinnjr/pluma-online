@@ -25,6 +25,7 @@ import {
   RecaptchaModule,
   RecaptchaV3Module
 } from 'ng-recaptcha';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
@@ -62,6 +63,10 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     RecaptchaModule,
     RecaptchaV3Module,
     RecaptchaFormsModule,
+    StorageModule.forRoot({
+      IDBDBName: 'pluma',
+      IDBDBVersion: 1
+    }),
     // Internal modules
     AuthModule,
     PlumaModule,
