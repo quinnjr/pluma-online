@@ -8,6 +8,7 @@ import { List } from 'immutable';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home/home.component';
 import { ContactComponent } from './contact/contact.component';
+import { PluginsComponent } from './admin/plugins/plugins.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { IsAdminGuard } from './is-admin.guard';
@@ -44,6 +45,7 @@ const routes: List<Route> = List([
   { path: 'register/verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'plugins', component: PluginsComponent },
   { path: 'graphql', redirectTo: 'not-found' },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' },

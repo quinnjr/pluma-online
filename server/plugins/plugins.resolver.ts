@@ -56,17 +56,17 @@ export class PluginsResolver {
     });
   }
 
-  @Query((returns) => Int, { nullable: false })
-  public async countPlugins(
-    @Args('category', { type: () => Category, nullable: true })
-    category?: Category
-  ): Promise<number> {
-    return this.$database.plugin.count({
-      where: {
-        categoryId: category?.id
-      }
-    });
-  }
+  // @Query((returns) => Int, { nullable: false })
+  // public async countPlugins(
+  //   @Args('category', { type: () => Category, nullable: true })
+  //   category?: Category
+  // ): Promise<number> {
+  //   return this.$database.plugin.count({
+  //     where: {
+  //       categoryId: category?.id
+  //     }
+  //   });
+  // }
 
   @Mutation((returns) => Plugin)
   public async createPlugin(

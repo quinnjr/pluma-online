@@ -23,8 +23,6 @@ export class PluginService extends Query<Response> {
         name
         description
         githubUrl
-        language
-        category
       }
     }
   `;
