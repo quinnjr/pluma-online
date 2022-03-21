@@ -36,7 +36,7 @@ jobs:
       REDIS_PORT: ${{ secrets.REDIS_PORT }}
       DATABASE_URL: mongo://${{secrets.MONGO_INITDB_ROOT_USERNAME}}:${{secrets.MONGO_INITDB_ROOT_PASSWORD}}@localhost:27017/${{secrets.MONGO_INITDB_DATABASE}}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Cache pnpm modules
       uses: actions/cache@v2
       env:
