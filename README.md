@@ -11,8 +11,10 @@ The frontend and backend application for the PluMA Online ecosystem.
 3. [docker](https://www.docker.com/)
 4. *WINDOWS* [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) <-- Strongly recommended
 5. *WINDOWS* [Docker Desktop](https://www.docker.com/products/docker-desktop)
-6. [VSCode](https://code.visualstudio.com/) (preferred IDE)
-7. (Optional) [MongoDB Compass](https://docs.mongodb.com/compass/current/) <-- GUI for database
+6. *MacOS* [Vagrant](https://www.vagrantup.com/downloads)
+7. *MacOS* [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [VMWare Player](https://www.vmware.com/products/workstation-player.html)
+8. [VSCode](https://code.visualstudio.com/) (preferred IDE)
+9. (Optional) [MongoDB Compass](https://docs.mongodb.com/compass/current/) <-- GUI for database
 
 ## Installation
 
@@ -91,6 +93,8 @@ pnpm run generate-key
 This should create a keyfile at `./docker/mongodb/mongodb.key`. `sudo` must be properly installed on your distro for this command to work correctly.
 
 6. Run:
+
+NOTE: *MacOS* The following commands must be run inside the Vagrant virutal machine via `vagrant ssh`. See the [Vagrant Documentation](https://www.vagrantup.com/docs) for more info.
 
 ```sh
 docker-compose up -d database
