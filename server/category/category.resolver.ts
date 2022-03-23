@@ -13,9 +13,12 @@ export class CategoryResolver {
 
   @Query((returns) => [Category])
   public async categories(
-    @Args('take', { type: () => Int }) take: number,
-    @Args('skip', { type: () => Int }) skip: number,
-    @Args('orderBy', { type: () => CategoryOrderByWithRelationInput })
+    @Args('take', { type: () => Int, nullable: true }) take: number,
+    @Args('skip', { type: () => Int, nullable: true }) skip: number,
+    @Args('orderBy', {
+      type: () => CategoryOrderByWithRelationInput,
+      nullable: true
+    })
     orderBy: CategoryOrderByWithRelationInput
   ): Promise<Category[]> {
     return this.$database.category.findMany({

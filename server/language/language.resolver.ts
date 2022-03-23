@@ -12,10 +12,13 @@ export class LanguageResolver {
   constructor(private readonly $database: DatabaseService) {}
 
   @Query((returns) => [Language])
-  public async categories(
-    @Args('take', { type: () => Int }) take: number,
-    @Args('skip', { type: () => Int }) skip: number,
-    @Args('orderBy', { type: () => LanguageOrderByWithRelationInput })
+  public async languages(
+    @Args('take', { type: () => Int, nullable: true }) take: number,
+    @Args('skip', { type: () => Int, nullable: true }) skip: number,
+    @Args('orderBy', {
+      type: () => LanguageOrderByWithRelationInput,
+      nullable: true
+    })
     orderBy: LanguageOrderByWithRelationInput
   ): Promise<Language[]> {
     return this.$database.language.findMany({
@@ -26,7 +29,7 @@ export class LanguageResolver {
   }
 
   @Query((returns) => Language)
-  public async category(
+  public async language(
     @Args('where', { type: () => LanguageWhereUniqueInput })
     where: LanguageWhereUniqueInput
   ) {
@@ -36,7 +39,7 @@ export class LanguageResolver {
   }
 
   @Mutation((returns) => Language)
-  public async createCategory(
+  public async createLanguage(
     @Args('categoryData', { type: () => LanguageCreateInput })
     data: LanguageCreateInput
   ): Promise<Language> {
