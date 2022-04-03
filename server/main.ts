@@ -62,8 +62,9 @@ async function bootstrap() {
       }
     });
   }
-
-  await app.listen(process.env.PORT || 4000);
+  
+  const port = process.env['PORT'] || 4000;
+  await app.listen(port);
 }
 
 // Webpack will replace 'require' with '__webpack_require__'
