@@ -2,7 +2,6 @@ import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
 import {
   Category,
   CategoryCreateInput,
-  CategoryOrderByWithRelationInput,
   CategoryWhereUniqueInput
 } from '../@generated/prisma-graphql/category';
 import { DatabaseService } from '../database/database.service';
@@ -13,15 +12,12 @@ export class CategoryResolver {
 
   @Query((returns) => [Category])
   public async categories(
-    @Args('take', { type: () => Int }) take: number,
-    @Args('skip', { type: () => Int }) skip: number,
-    @Args('orderBy', { type: () => CategoryOrderByWithRelationInput })
-    orderBy: CategoryOrderByWithRelationInput
+    @Args('take', { type: () => Int, nullable:true }) take: number,
+    @Args('skip', { type: () => Int, nullable:true }) skip: number,
   ): Promise<Category[]> {
     return this.$database.category.findMany({
       take,
       skip,
-      orderBy
     });
   }
 
@@ -37,7 +33,7 @@ export class CategoryResolver {
 
   @Mutation((returns) => Category)
   public async createCategory(
-    @Args('categoryData', { type: () => CategoryCreateInput })
+    @Args('data', { type: () => CategoryCreateInput, nullable:true })
     data: CategoryCreateInput
   ): Promise<Category> {
     return this.$database.category.create({

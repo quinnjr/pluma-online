@@ -57,16 +57,7 @@
               <label class="label">Category</label>
               <div class="select">
                 <select>
-                  <option>File Converters</option>
-                  <option>Stats & Visualizations</option>
-                  <option>Transformations</option>
-                  <option>Dissimalarity</option>
-                  <option>Correlation</option>
-                  <option>Centrality</option>
-                  <option>Clustering</option>
-                  <option>Time Series</option>
-                  <option>External Tools</option>
-                  <option>Miscellaneous</option>
+                  <option *ngFor="let category of (categories | async); index as idx"><a>{{ category.name }}</a></option>
                 </select>
               </div>
             </div>
@@ -94,12 +85,12 @@
           <div class="field">
             <label class="label">Name</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Category Name">
+              <input class="input" type="text" placeholder="Category Name" id="categoryModalName" >
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-normal is-responsive is-link is-rounded" (click)="CloseCategoryModal()">
+          <button class="button is-normal is-responsive is-link is-rounded" (click)="postCategory()">
             Save
           </button>
           <button class="button is-normal is-rounded" (click)="CloseCategoryModal()">
@@ -108,16 +99,15 @@
         </footer>
       </div>
     </div>
-
     <section class="section" id="plugins">
       <div class="columns">
         <div class="column is-4">
           <aside class="menu">
             <p class="menu-label">PluMA Plugin Repositories</p>
             <ul class="menu-list">
-              <li *ngFor="let category of categories; index as idx">
+              <li *ngFor="let category of (categories | async); index as idx">
                 <a [ngClass]="{ 'is-active': isLinkActive(idx) }"
-                  (click)="linkActive = idx; refresh() ">{{ category }}</a>
+                  (click)="linkActive = idx; refresh() ">{{ category.name }}</a>
               </li>
             </ul>
           </aside>
