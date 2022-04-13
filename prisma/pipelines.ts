@@ -1,5 +1,4 @@
-import { PipelineCreateInput } from '../server/@generated/prisma-graphql/pipeline';
-import { PipelineStatus } from '../server/@generated/prisma-graphql/prisma';
+import { PipelineStatus } from '@prisma/client';
 
 export const Pipelines = [
   {
