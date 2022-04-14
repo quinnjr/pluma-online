@@ -70,7 +70,7 @@ export class PluginsResolver {
 
   @Mutation((returns) => Plugin)
   public async createPlugin(
-    @Args('pluginData', { type: () => PluginCreateInput, nullable: false })
+    @Args('data', { type: () => PluginCreateInput, nullable: true })
     data: PluginCreateInput
   ): Promise<Plugin> {
     return this.$database.plugin.create({

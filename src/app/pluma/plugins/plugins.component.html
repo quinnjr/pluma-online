@@ -34,13 +34,13 @@
             <div class="field">
               <label class="label">Name</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Plugin Name">
+                <input class="input" type="text" id="pluginModalName" placeholder="Plugin Name">
               </div>
             </div>
             <div class="field">
               <label class="label">Plugin Description</label>
               <div class="control">
-                <textarea class="textarea" placeholder="Plugin Description"></textarea>
+                <textarea class="textarea" id="pluginModalDescription" placeholder="Plugin Description"></textarea>
               </div>
             </div>
             <div class="field">
@@ -56,14 +56,14 @@
             <div class="field">
               <label class="label">Category</label>
               <div class="select">
-                <select>
-                  <option *ngFor="let category of (categories | async); index as idx"><a>{{ category.name }}</a></option>
+                <select id="CategoryId">
+                  <option *ngFor="let category of (categories | async); index as idx" value="{{ category.id}}" ><a>{{ category.name }}</a></option>
                 </select>
               </div>
             </div>
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-normal is-responsive is-link is-rounded" (click)="ClosePluginModal()">
+            <button class="button is-normal is-responsive is-link is-rounded" (click)="postPlugin()">
               Save
             </button>
             <button class="button is-normal is-rounded" (click)="ClosePluginModal()">
@@ -138,9 +138,15 @@
                 <td>
                   <span class="panel-block">{{ plugin.description }}</span>
                 </td>
-                <td> Temp Language</td>
-                <td> Temp Category</td>
-                <td> Temp Rating</td>
+                <td>
+                  <span class="panel-block">{{ plugin.language?.name }}</span>
+                </td>
+                <td>
+                  <span class="panel-block">{{ plugin.category?.name }}</span>
+                </td>
+                <td>
+                  <span class="panel-block">{{ plugin.rating }}</span>
+                </td>
                 <!-- <td>
                   <span class="panel-block">{{ plugin.category }}</span>
                 </td> -->
