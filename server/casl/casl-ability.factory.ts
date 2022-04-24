@@ -13,7 +13,7 @@ import { User } from '../@generated/prisma-graphql/user';
 
 import { Action } from './action';
 
-type Subjects = InferSubjects<User> | 'all';
+export type Subjects = InferSubjects<User> | 'all';
 
 export type AppAbility = Ability<[Action, Subjects]>;
 

@@ -1,4 +1,9 @@
-import { PrismaClient, Category, Language } from '@prisma/client';
+import {
+  PrismaClient,
+  Category,
+  Language,
+  PipelineStatus
+} from '@prisma/client';
 import argon2 from 'argon2';
 
 import { Role } from '../server/@generated/prisma-graphql/prisma';
@@ -12,16 +17,16 @@ const prisma = new PrismaClient();
 
 async function seed() {
   for (const index in categories) {
-    const category = categories[index];
+    let category = categories[index];
 
     await prisma.category.upsert({
       where: {
         name: category
       },
-      update: {
+      create: {
         name: category
       },
-      create: {
+      update: {
         name: category
       }
     });
@@ -30,16 +35,16 @@ async function seed() {
   console.log(`Seeded ${categories.length} categories`);
 
   for (const index in languages) {
-    const language = languages[index];
+    let language = languages[index];
 
     await prisma.language.upsert({
       where: {
         name: language
       },
-      update: {
+      create: {
         name: language
       },
-      create: {
+      update: {
         name: language
       }
     });
@@ -86,20 +91,28 @@ async function seed() {
       where: {
         name: plugin.name
       },
-      update: plugin,
-      create: plugin
+      create: plugin,
+      update: plugin
     });
   }
 
   console.log(`Seeded ${Plugins.length} plugins`);
 
-  for (const pipeline of Pipelines) {
-    await prisma.pipeline.upsert({
+  for (let pipeline of Pipelines) {
+    if (pipeline.status === PipelineStatus.Future) {
+      pipeline.status = PipelineStatus.Future;
+    } else if (pipeline.status === PipelineStatus.InProgress) {
+      pipeline.status = PipelineStatus.InProgress;
+    } else {
+      pipeline.status = PipelineStatus.Completed;
+    }
+
+    pipeline = await prisma.pipeline.upsert({
       where: {
         name: pipeline.name
       },
-      update: pipeline,
-      create: pipeline
+      create: pipeline,
+      update: pipeline
     });
   }
 
@@ -117,10 +130,10 @@ async function seed() {
 
   user = await prisma.user.upsert({
     where: {
-      email: 'test@localhost'
+      email: user.email
     },
-    update: user,
-    create: user
+    create: user,
+    update: user
   });
 }
 

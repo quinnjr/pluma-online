@@ -14,8 +14,11 @@ export class CategoryResolver {
 
   @Query((returns) => [Category])
   public async categories(
+<<<<<<< HEAD
     @Args('where', { type: () => CategoryWhereInput, nullable: true })
     where: CategoryWhereInput,
+=======
+>>>>>>> 5b7614b1f5fa5df1b5e5366a056f84ded8cd544e
     @Args('take', { type: () => Int, nullable: true }) take: number,
     @Args('skip', { type: () => Int, nullable: true }) skip: number,
     @Args('orderBy', {
