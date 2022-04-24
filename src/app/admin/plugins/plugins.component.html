@@ -3,6 +3,21 @@
     <pluma-online-admin-menu></pluma-online-admin-menu>
   </div>
   <div class="column is-three-quarters" style="overflow: scroll;">
+    <section class="section">
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-one-quarter">
+          <button class="button is-normal is-responsive is-link is-rounded" (click)="AddPluginModal()">
+            Add Plugin
+          </button>
+        </div>
+        <div class="column is-half">
+          <button class="button is-normal is-responsive is-link is-rounded" (click)="AddCategoryModal()">
+            Add Category
+          </button>
+        </div>
+      </div>
+    </section>
+
     <p>Current Plugin Count: {{ (plugins | async)?.size }} </p>
     <table class="table">
       <thead>
@@ -23,8 +38,8 @@
           <td>
             <a [href]="plugin.githubUrl">{{ plugin.githubUrl }}</a>
           </td>
-          <td>{{ plugin.language }}</td>
-          <td>{{ plugin.category }}</td>
+          <td>{{ plugin.language?.name }}</td>
+          <td>{{ plugin.category?.name }}</td>
           <td>
             <button class="button is-info">Update</button>
           </td>
@@ -34,5 +49,83 @@
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="modal" id="pluginModal" #pluginModal>
+  <div class="modal-background"></div>
+  <div class="modal-content has-background-white p-3 m-3">
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title" id="pluginModalTitle">Plugin</p>
+        <button class="delete" aria-label="close" (click)="closePluginModal()"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" type="text" id="pluginModalName" placeholder="Plugin Name">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Plugin Description</label>
+          <div class="control">
+            <textarea class="textarea" id="pluginModalDescription" placeholder="Plugin Description"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Language</label>
+          <div class="select">
+            <select>
+              <option>C++</option>
+              <option>Python</option>
+              <option>Java</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Category</label>
+          <div class="select">
+            <select id="CategoryId">
+              <option *ngFor="let category of (categories | async); index as idx" value="{{ category.id}}" ><a>{{ category.name }}</a></option>
+            </select>
+          </div>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-normal is-responsive is-link is-rounded" (click)="postPlugin()">
+          Save
+        </button>
+        <button class="button is-normal is-rounded" (click)="closePluginModal()">
+          Cancel
+        </button>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="categoryModal" #categoryModal>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Category</p>
+      <button class="delete" aria-label="close" (click)="closeCategoryModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Category Name" id="categoryModalName" >
+        </div>
+      </div>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-normal is-responsive is-link is-rounded" (click)="postCategory()">
+        Save
+      </button>
+      <button class="button is-normal is-rounded" (click)="closeCategoryModal()">
+        Cancel
+      </button>
+    </footer>
   </div>
 </div>
