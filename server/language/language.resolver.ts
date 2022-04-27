@@ -2,7 +2,9 @@ import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
 import {
   Language,
   LanguageCreateInput,
-  LanguageWhereUniqueInput
+  LanguageWhereUniqueInput,
+  LanguageOrderByWithRelationInput,
+  LanguageWhereInput
 } from '../@generated/prisma-graphql/language';
 import { DatabaseService } from '../database/database.service';
 
@@ -12,6 +14,7 @@ export class LanguageResolver {
 
   @Query((returns) => [Language])
   public async languages(
+    @Args('where', { type: () => LanguageWhereInput }) where: LanguageWhereInput,
     @Args('take', { type: () => Int, nullable: true }) take: number,
     @Args('skip', { type: () => Int, nullable: true }) skip: number,
     @Args('orderBy', {
@@ -21,8 +24,10 @@ export class LanguageResolver {
     orderBy: LanguageOrderByWithRelationInput
   ): Promise<Language[]> {
     return this.$database.language.findMany({
+      where,
       take,
-      skip
+      skip,
+      orderBy
     });
   }
 

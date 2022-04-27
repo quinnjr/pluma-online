@@ -9,7 +9,7 @@ import { QueryRef, gql, Apollo } from 'apollo-angular';
 import { SortOrder } from '../../enum/sort-order';
 import { Plugin, Category } from 'prisma';
 
-const PLUGIN_FETCH = gql`
+const FETCH_PLUGINS = gql`
   query FetchPlugins(
     $where: PluginWhereInput
     $skip: Int
@@ -34,7 +34,19 @@ const PLUGIN_FETCH = gql`
   }
 `;
 
-const CATEGORY_FETCH = gql``;
+const FETCH_CATEGORIES = gql`
+  query FetchCategories(
+    $where: CategoryWhereInput
+    $skip: Int
+    $take: Int
+    $orderBy: CategoryOrderByWithRelationInput
+  ) {
+    categories(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+      id
+      name
+    }
+  }
+`;
 
 @Component({
   selector: 'pluma-online-pluma-plugins',
@@ -57,7 +69,7 @@ export class PluginsComponent implements OnInit {
   public ngOnInit() {
     // Getting Plugins
     this.pluginsQuery = this.$apollo.watchQuery({
-      query: PLUGIN_FETCH,
+      query: FETCH_PLUGINS,
       variables: {
         orderBy: {
           name: SortOrder.asc
@@ -68,7 +80,7 @@ export class PluginsComponent implements OnInit {
     });
 
     this.categoryQuery = this.$apollo.watchQuery({
-      query: CATEGORY_FETCH,
+      query: FETCH_CATEGORIES,
       variables: {
         orderBy: {
           name: SortOrder.asc

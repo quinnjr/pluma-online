@@ -12,7 +12,6 @@ import { ApplicationComponent } from './application/application.component';
 import { PluginsComponent } from './plugins/plugins.component';
 import { PipelinesComponent } from './pipelines/pipelines.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { PluginService } from '../plugin/plugin.service';
 // import { CommentComponent } from './comment/comment.component';
 // import { PluginComponent } from './plugin/plugin.component';
 
@@ -27,7 +26,7 @@ import { PluginService } from '../plugin/plugin.service';
     // PluginComponent
   ],
   imports: [CommonModule, HttpClientModule, PlumaRouterModule],
-  providers: [PluginService],
+  providers: [],
   exports: [PlumaComponent, PluginsComponent, PipelinesComponent]
 })
 export class PlumaModule {}

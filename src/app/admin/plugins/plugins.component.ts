@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { List } from 'immutable';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { Apollo, gql, QueryRef, ResultOf } from 'apollo-angular';
 import {
   Category,
   CategoryCreateInput,
@@ -15,6 +16,8 @@ import {
 } from 'prisma';
 
 import { SortOrder } from '../../enum/sort-order';
+import { Validate, Validator } from 'class-validator';
+import { EnvironmentPlugin } from 'webpack';
 
 const FETCH_PLUGINS = gql`
   query FetchPlugins(
@@ -71,17 +74,34 @@ const UPDATE_PLUGIN = gql`
 const FETCH_CATEGORIES = gql`
   query FetchCategories(
     $where: CategoryWhereInput
-    $skip: Int,
-    $take: Int,
+    $skip: Int
+    $take: Int
     $orderBy: CategoryOrderByWithRelationInput
   ) {
-    categories()
+    categories(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+      id
+      name
+    }
   }
 `;
 
 const CREATE_CATEGORY = gql`
-  mutation CreateCategory($data: CategoryCreateInput) {
+  mutation CreateCategory($data: CategoryCreateInput!) {
     createCategory(data: $data) {
+      id
+      name
+    }
+  }
+`;
+
+const FETCH_LANGUAGES = gql`
+  query FetchLanguages(
+    $where: LanguageWhereInput
+    $skip: Int
+    $take: Int
+    $orderBy: LanguageOrderByWithRelationInput
+  ) {
+    languages(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
       id
       name
     }
@@ -106,11 +126,28 @@ export class PluginsComponent implements OnInit {
   public tabIndex = 0;
   public plugins?: Observable<List<Plugin>>;
   public categories?: Observable<List<Category>>;
+  public languages?: Observable<List<Language>>;
+
+  public createPluginForm = this.$fb.group({
+    name: ['', Validators.required],
+    githubUrl: ['', Validators.required],
+    description: ['', Validators.required],
+    language: ['', Validators.required],
+    category: ['', Validators.required]
+  });
+
+  public createCategoryForm = this.$fb.group({
+    name: ['', Validators.required]
+  });
 
   private pluginQuery?: QueryRef<{ plugins: Plugin[] }, any>;
   private categoryQuery?: QueryRef<{ categories: Category[] }, any>;
+  private LanguageQuery?: QueryRef<{ languages: Language[] }, any>;
 
-  constructor(private readonly $apollo: Apollo) {}
+  constructor(
+    private readonly $apollo: Apollo,
+    private readonly $fb: FormBuilder
+  ) {}
 
   public ngOnInit(): void {
     this.pluginQuery = this.$apollo.watchQuery<{ plugins: Plugin[] }, any>({
@@ -138,6 +175,20 @@ export class PluginsComponent implements OnInit {
       }
     });
 
+    this.LanguageQuery = this.$apollo.watchQuery<
+      { languages: Language[] },
+      any
+    >({
+      query: FETCH_LANGUAGES,
+      variables: {
+        take: 50,
+        skip: 0,
+        orderBy: {
+          name: SortOrder.asc
+        }
+      }
+    });
+
     this.plugins = this.pluginQuery?.valueChanges.pipe(
       map((result) => List(result.data.plugins))
     );
@@ -145,40 +196,61 @@ export class PluginsComponent implements OnInit {
     this.categories = this.categoryQuery.valueChanges.pipe(
       map((result) => List(result.data.categories))
     );
+
+    this.languages = this.LanguageQuery.valueChanges.pipe(
+      map((result) => List(result.data.languages))
+    );
   }
 
-  public openPluginModal() {
-    this.pluginModal.nativeElement.classList.add('is-active');
-  }
-
-  public closePluginModal() {
-    this.pluginModal.nativeElement.classList.remove('is-active');
+  public togglePluginModal() {
+    this.pluginModal.nativeElement.classList.toggle('is-active');
   }
 
   public createPlugin() {
-    this.$apollo.mutate({
-      mutation: CREATE_PLUGIN
-    });
+    this.$apollo
+      .mutate({
+        mutation: CREATE_PLUGIN,
+        variables: {
+          name: this.createPluginForm.get('name')?.value,
+          githubUrl: this.createPluginForm.get('githubUrl')?.value,
+          description: this.createPluginForm.get('description')?.value,
+          language: {
+            connect: this.createPluginForm.get('language')?.value
+          },
+          category: {
+            connect: this.createPluginForm.get('category')?.value
+          }
+        }
+      })
+      .subscribe(() => {
+        if (process.env.NODE_ENV === 'development') {
+          console.log('CreatePlugin mutation successfully sent!');
+        }
+      }, console.error);
+
+    this.pluginQuery?.refetch();
   }
 
   public updatePlugin() {
     this.$apollo.mutate({
       mutation: UPDATE_PLUGIN
     });
+
+    this.pluginQuery?.refetch();
   }
 
-  // Category Helper methods
-  public openCategoryModal() {
-    this.categoryModal?.nativeElement.classList.add('is-active');
-  }
-
-  public closeCategoryModal() {
-    this.categoryModal.nativeElement.classList.remove('is-active');
+  public toggleCategoryModal() {
+    this.categoryModal?.nativeElement.classList.toggle('is-active');
   }
 
   public createCategory() {
     this.$apollo.mutate({
-      mutation: CREATE_CATEGORY
+      mutation: CREATE_CATEGORY,
+      variables: {
+        name: this.createCategoryForm.get('name')?.value
+      }
     });
+
+    this.categoryQuery?.refetch();
   }
 }

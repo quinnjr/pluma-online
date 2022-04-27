@@ -7,19 +7,19 @@ import { CommonModule } from '@angular/common';
 import { AdminRouterModule } from './admin-router.module';
 import { AdminComponent } from './admin.component';
 import { PluginsComponent } from './plugins/plugins.component';
-import { PluginService } from '../plugin/plugin.service';
 import { MenuComponent } from './menu/menu.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, AdminRouterModule],
+  imports: [CommonModule, AdminRouterModule, ReactiveFormsModule],
   declarations: [
     AdminComponent,
     PluginsComponent,
     MenuComponent,
     StatisticsComponent
   ],
-  providers: [PluginService],
+  providers: [],
   exports: [AdminComponent]
 })
 export class AdminModule {}

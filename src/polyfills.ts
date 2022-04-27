@@ -2,3 +2,4 @@
 // SPDX-License-Identifier: MIT
 
 import 'zone.js';
+import 'hammerjs';

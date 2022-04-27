@@ -6,49 +6,50 @@
     <section class="section">
       <div class="columns is-multiline is-mobile">
         <div class="column is-one-quarter">
-          <button class="button is-normal is-responsive is-link is-rounded" (click)="AddPluginModal()">
+          <button class="button is-normal is-responsive is-link is-rounded" (click)="togglePluginModal()">
             Add Plugin
           </button>
         </div>
         <div class="column is-half">
-          <button class="button is-normal is-responsive is-link is-rounded" (click)="AddCategoryModal()">
+          <button class="button is-normal is-responsive is-link is-rounded" (click)="toggleCategoryModal()">
             Add Category
           </button>
         </div>
       </div>
     </section>
-
-    <p>Current Plugin Count: {{ (plugins | async)?.size }} </p>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th><abbr title="Github Url">Github</abbr></th>
-          <th>Language</th>
-          <th>Category</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let plugin of plugins | async">
-          <td>{{ plugin.name }}</td>
-          <td>{{ plugin.description }}</td>
-          <td>
-            <a [href]="plugin.githubUrl">{{ plugin.githubUrl }}</a>
-          </td>
-          <td>{{ plugin.language?.name }}</td>
-          <td>{{ plugin.category?.name }}</td>
-          <td>
-            <button class="button is-info">Update</button>
-          </td>
-          <td>
-            <button class="button is-danger">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <section class="section">
+      <p>Current Plugin Count: {{ (plugins | async)?.size }} </p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th><abbr title="Github Url">Github</abbr></th>
+            <th>Language</th>
+            <th>Category</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plugin of plugins | async">
+            <td>{{ plugin.name }}</td>
+            <td>{{ plugin.description }}</td>
+            <td>
+              <a [href]="plugin.githubUrl">{{ plugin.githubUrl }}</a>
+            </td>
+            <td>{{ plugin.language?.name }}</td>
+            <td>{{ plugin.category?.name }}</td>
+            <td>
+              <button class="button is-info">Update</button>
+            </td>
+            <td>
+              <button class="button is-danger">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </div>
 </div>
 
@@ -56,50 +57,75 @@
   <div class="modal-background"></div>
   <div class="modal-content has-background-white p-3 m-3">
     <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title" id="pluginModalTitle">Plugin</p>
-        <button class="delete" aria-label="close" (click)="closePluginModal()"></button>
-      </header>
-      <section class="modal-card-body">
-        <div class="field">
-          <label class="label">Name</label>
-          <div class="control">
-            <input class="input" type="text" id="pluginModalName" placeholder="Plugin Name">
+      <form class="form"
+        [formGroup]="createPluginForm"
+        (ngSubmit)="createPlugin()"
+      >
+        <header class="modal-card-head">
+          <p class="modal-card-title" id="pluginModalTitle">Plugin</p>
+          <button class="delete" aria-label="close" (click)="createPluginForm.reset(); togglePluginModal()"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input class="input"
+                type="text"
+                id="pluginModalName"
+                placeholder="Plugin Name"
+                formControlName="name"
+              />
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <label class="label">Plugin Description</label>
-          <div class="control">
-            <textarea class="textarea" id="pluginModalDescription" placeholder="Plugin Description"></textarea>
+          <div class="field">
+            <label class="label">Github URL</label>
+            <div class="control">
+              <input class="input"
+                type="text"
+                id="pluginModalGithubURL"
+                placeholder="Github URL"
+                formControlName="githubUrl"
+              />
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <label class="label">Language</label>
-          <div class="select">
-            <select>
-              <option>C++</option>
-              <option>Python</option>
-              <option>Java</option>
-            </select>
+          <div class="field">
+            <label class="label">Plugin Description</label>
+            <div class="control">
+              <textarea class="textarea"
+                id="pluginModalDescription"
+                placeholder="Plugin Description"
+                formControlName="description"
+              ></textarea>
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <label class="label">Category</label>
-          <div class="select">
-            <select id="CategoryId">
-              <option *ngFor="let category of (categories | async); index as idx" value="{{ category.id}}" ><a>{{ category.name }}</a></option>
-            </select>
+          <div class="field">
+            <label class="label">Language</label>
+            <div class="select">
+              <select formControlName="language">
+                <option *ngFor="let language of (languages | async)" [value]="language.id">{{ language.name }}</option>
+              </select>
+            </div>
           </div>
-        </div>
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-normal is-responsive is-link is-rounded" (click)="postPlugin()">
-          Save
-        </button>
-        <button class="button is-normal is-rounded" (click)="closePluginModal()">
-          Cancel
-        </button>
-      </footer>
+          <div class="field">
+            <label class="label">Category</label>
+            <div class="select">
+              <select id="CategoryId" formControlName="category">
+                <option *ngFor="let category of (categories | async)" [value]="category.id" ><a>{{ category.name }}</a></option>
+              </select>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button type="submit"
+            class="button is-normal is-responsive is-link"
+          >
+            Save
+          </button>
+          <button class="button is-normal is-responsive is-danger" (click)="createPluginForm.reset(); togglePluginModal()">
+            Cancel
+          </button>
+        </footer>
+      </form>
     </div>
   </div>
 </div>
@@ -107,25 +133,33 @@
 <div class="modal" id="categoryModal" #categoryModal>
   <div class="modal-background"></div>
   <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Category</p>
-      <button class="delete" aria-label="close" (click)="closeCategoryModal()"></button>
-    </header>
-    <section class="modal-card-body">
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control">
-          <input class="input" type="text" placeholder="Category Name" id="categoryModalName" >
+    <form [formGroup]="createCategoryForm" (ngSubmit)="createCategory()">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Category</p>
+        <button class="delete" aria-label="close" (click)="createCategoryForm.reset(); toggleCategoryModal()"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input"
+              type="text"
+              placeholder="Category Name"
+              id="categoryModalName"
+              formControlName="name"
+            />
+          </div>
         </div>
-      </div>
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-normal is-responsive is-link is-rounded" (click)="postCategory()">
-        Save
-      </button>
-      <button class="button is-normal is-rounded" (click)="closeCategoryModal()">
-        Cancel
-      </button>
-    </footer>
+      </section>
+      <footer class="modal-card-foot">
+        <button type="submit"
+          class="button is-normal is-responsive is-link is-rounded">
+          Save
+        </button>
+        <button class="button is-normal is-rounded" (click)="createCategoryForm.reset(); toggleCategoryModal()">
+          Cancel
+        </button>
+      </footer>
+    </form>
   </div>
 </div>

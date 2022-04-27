@@ -39,7 +39,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { VerifyComponent } from './auth/register/verify/verify.component';
 
 import { AuthService } from './auth/auth.service';
-import { PluginService } from './plugin/plugin.service';
 
 import { PlumaModule } from './pluma/pluma.module';
 import { AccountModule } from './account/account.module';
@@ -83,7 +82,6 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
   ],
   providers: [
     AuthService,
-    PluginService,
     {
       provide: APOLLO_CACHE,
       useValue: new InMemoryCache()

@@ -90,6 +90,7 @@ export default (
 
   if (targetOptions.target === 'server') {
     config.target = 'node';
+
     config.resolve!.extensions!.push(
       '.mjs',
       '.graphql',
@@ -97,6 +98,10 @@ export default (
       '.node',
       '.prisma'
     );
+
+    config.resolve!.fallback = {
+      querystring: require.resolve('querystring')
+    };
 
     config.module!.rules!.push({
       test: /\.mjs$/,

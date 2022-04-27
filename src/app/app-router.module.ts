@@ -45,7 +45,6 @@ const routes: List<Route> = List([
   { path: 'register/verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'plugins', component: PluginsComponent },
   { path: 'graphql', redirectTo: 'not-found' },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' },

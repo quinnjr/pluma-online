@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ApolloTestingModule } from 'apollo-angular/testing';
 
 import { PluginsComponent } from './plugins.component';
@@ -9,7 +10,7 @@ describe.skip('PluginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ApolloTestingModule],
+      imports: [ApolloTestingModule, ReactiveFormsModule],
       declarations: [PluginsComponent]
     }).compileComponents();
   });

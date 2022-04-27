@@ -7,7 +7,6 @@ import {
 
 import { PluginsComponent } from './plugins.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { PluginService } from '../../plugin/plugin.service';
 
 describe.skip('PluginsComponent', () => {
   let component: PluginsComponent;
@@ -18,7 +17,7 @@ describe.skip('PluginsComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, ApolloTestingModule],
       declarations: [PluginsComponent, SidebarComponent],
-      providers: [PluginService]
+      providers: []
     }).compileComponents();
 
     controller = TestBed.inject(ApolloTestingController);
