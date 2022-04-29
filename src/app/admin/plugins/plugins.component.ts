@@ -3,21 +3,14 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { List } from 'immutable';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Apollo, gql, QueryRef, ResultOf } from 'apollo-angular';
+import { Apollo, gql, QueryRef } from 'apollo-angular';
 import {
   Category,
-  CategoryCreateInput,
-  CategoryCreateNesetedOneWithoutPluginsInput,
   Language,
-  LanguageCreateNestedOneWithoutPluginsInput,
-  LanguageWhereUniqueInput,
-  Plugin,
-  PluginCreateInput
+  Plugin
 } from 'prisma';
 
 import { SortOrder } from '../../enum/sort-order';
-import { Validate, Validator } from 'class-validator';
-import { EnvironmentPlugin } from 'webpack';
 
 const FETCH_PLUGINS = gql`
   query FetchPlugins(

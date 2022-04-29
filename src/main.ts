@@ -1,16 +1,16 @@
 // Copyright (c) 2019-2020 FIUBioRG
 // SPDX-License-Identifier: MIT
 
-declare const process: any;
-
 import './styles.scss';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
+import { environment } from './environments/environment';
+
 import { AppModule } from './app/app.module';
 
-if (process.env.NODE_ENV === 'production') {
+if (environment.production) {
   enableProdMode();
 } else {
   // @ts-ignore

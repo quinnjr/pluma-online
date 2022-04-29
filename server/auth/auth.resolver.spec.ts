@@ -6,6 +6,8 @@ import { AuthResolver } from './auth.resolver';
 import { AuthModule } from './auth.module';
 import { JwtService, JwtModule } from '@nestjs/jwt';
 import { EmailService } from '../email/email.service';
+import { CaslAbilityFactory } from 'server/casl/casl-ability.factory';
+import { CaslModule } from 'server/casl/casl.module';
 
 describe('AuthResolver', () => {
   let resolver: AuthResolver;
@@ -22,14 +24,16 @@ describe('AuthResolver', () => {
               expiresIn: '7200s'
             }
           })
-        })
+        }),
+        CaslModule
       ],
       providers: [
         AuthResolver,
         AuthService,
         DatabaseService,
         EmailService,
-        ConfigService
+        ConfigService,
+        CaslAbilityFactory
       ]
     }).compile();
 

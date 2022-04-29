@@ -11,6 +11,8 @@ import { LocalStrategy } from './local.strategy';
 import { AuthResolver } from './auth.resolver';
 import { EmailService } from '../email/email.service';
 import { DatabaseService } from '../database/database.service';
+import { CaslAbilityFactory } from 'server/casl/casl-ability.factory';
+import { CaslModule } from 'server/casl/casl.module';
 
 @Module({
   imports: [
@@ -25,7 +27,8 @@ import { DatabaseService } from '../database/database.service';
           expiresIn: '7200s'
         }
       })
-    })
+    }),
+    CaslModule
   ],
   controllers: [AuthController],
   providers: [

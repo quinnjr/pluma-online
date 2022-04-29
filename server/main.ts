@@ -27,43 +27,43 @@ async function bootstrap() {
 
   const config = app.get<ConfigService>(ConfigService);
 
-  const database = app.get<DatabaseService>(DatabaseService);
+  // const database = app.get<DatabaseService>(DatabaseService);
 
   const adminEmail = config.get<string>('APP_ADMIN_EMAIL');
 
-  if (!adminEmail) {
-    console.error(
-      '`APP_ADMIN_EMAIL` environment variable not set during setup phase'
-    );
-    exit(1);
-  }
+  // if (!adminEmail) {
+  //   console.error(
+  //     '`APP_ADMIN_EMAIL` environment variable not set during setup phase'
+  //   );
+  //   exit(1);
+  // }
 
-  const initialUser = database.user.findUnique({
-    where: {
-      email: adminEmail
-    }
-  });
+  // const initialUser = database.user.findUnique({
+  //   where: {
+  //     email: adminEmail
+  //   }
+  // });
 
-  if (!initialUser) {
-    const password = config.get<string>('APP_ADMIN_PASSWORD');
-    if (!password) {
-      console.error(
-        '`APP_ADMIN_PASSWORD` environment variable not set during setup phase'
-      );
-      exit(1);
-    }
+  // if (!initialUser) {
+  //   const password = config.get<string>('APP_ADMIN_PASSWORD');
+  //   if (!password) {
+  //     console.error(
+  //       '`APP_ADMIN_PASSWORD` environment variable not set during setup phase'
+  //     );
+  //     exit(1);
+  //   }
 
-    const passwordHash = await argon2.hash(password!);
+  //   const passwordHash = await argon2.hash(password!);
 
-    database.user.create({
-      data: {
-        email: adminEmail!,
-        passwordHash: passwordHash
-      }
-    });
-  }
-  
-  const port = process.env['PORT'] || 4200;
+  //   database.user.create({
+  //     data: {
+  //       email: adminEmail!,
+  //       passwordHash: passwordHash
+  //     }
+  //   });
+  // }
+
+  const port = process.env['PORT'] || 4000;
   await app.listen(port);
 }
 

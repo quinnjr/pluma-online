@@ -62,7 +62,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - database
-      - redis
     ports:
       - "4200:4200"
     networks:
