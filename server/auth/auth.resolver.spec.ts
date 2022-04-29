@@ -6,7 +6,7 @@ import { AuthResolver } from './auth.resolver';
 import { AuthModule } from './auth.module';
 import { JwtService, JwtModule } from '@nestjs/jwt';
 import { EmailService } from '../email/email.service';
-import { CaslAbilityFactory } from 'server/casl/casl-ability.factory';
+import { CaslAbilityFactory } from '../casl/casl-ability.factory';
 import { CaslModule } from '../casl/casl.module';
 
 describe('AuthResolver', () => {
