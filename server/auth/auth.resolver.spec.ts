@@ -7,7 +7,7 @@ import { AuthModule } from './auth.module';
 import { JwtService, JwtModule } from '@nestjs/jwt';
 import { EmailService } from '../email/email.service';
 import { CaslAbilityFactory } from 'server/casl/casl-ability.factory';
-import { CaslModule } from 'server/casl/casl.module';
+import { CaslModule } from '../casl/casl.module';
 
 describe('AuthResolver', () => {
   let resolver: AuthResolver;
