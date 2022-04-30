@@ -12,6 +12,12 @@
 8. [VSCode](https://code.visualstudio.com/) (preferred IDE)
 9. (Optional) [MongoDB Compass](https://docs.mongodb.com/compass/current/) <-- GUI for database
 
+## Methodologies
+
+### 12 Factor Application
+
+Pluma-Online follows the [12 Factor Methodology](https://12factor.net/) for application development and deployment. Please review the methodology if you are unfamiliar with it.
+
 ## Technologies
 
 ### Typescript

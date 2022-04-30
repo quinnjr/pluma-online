@@ -19,7 +19,7 @@ export class PipelinesResolver {
     @Args('skip', { type: () => Int }) skip: number,
     @Args('orderBy', { type: () => PipelineOrderByWithRelationInput })
     orderBy: PipelineOrderByWithRelationInput
-  ) {
+  ): Promise<Pipeline[]> {
     return this.$database.pipeline.findMany({
       take,
       skip,

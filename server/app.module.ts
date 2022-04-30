@@ -16,6 +16,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppServerModule } from '../src/main.server';
 
 import { AppController } from './app.controller';
+<<<<<<< HEAD
 // import { AuthModule } from './auth/auth.module';
 // import { DatabaseService } from './database/database.service';
 // import { PeopleResolver } from './people/people.resolver';
@@ -30,6 +31,25 @@ import { AppController } from './app.controller';
 // import { DockerService } from './docker/docker.service';
 // import { CategoryResolver } from './category/category.resolver';
 // import { LanguageResolver } from './language/language.resolver';
+=======
+import { AuthModule } from './auth/auth.module';
+import { DatabaseService } from './database/database.service';
+
+import { PeopleResolver } from './people/people.resolver';
+import { PluginsResolver } from './plugins/plugins.resolver';
+import { UsersResolver } from './users/users.resolver';
+
+import { validate } from './env.validation';
+import { PipelinesResolver } from './pipelines/pipelines.resolver';
+import { CaslModule } from './casl/casl.module';
+import { LoggingPlugin } from './logging.plugin';
+import { TasksService } from './tasks/tasks.service';
+import { CommentResolver } from './comment/comment.resolver';
+import { EmailService } from './email/email.service';
+import { DockerService } from './docker/docker.service';
+import { CategoryResolver } from './category/category.resolver';
+import { LanguageResolver } from './language/language.resolver';
+>>>>>>> 178c2cbabaf279dee0db4d4bd4ec8b706ef528f5
 
 const isDevelopment = process.env.ENV === 'development';
 
@@ -63,33 +83,33 @@ const isDevelopment = process.env.ENV === 'development';
     //   }),
     //   inject: [ConfigService]
     // }),
-    // ScheduleModule.forRoot(),
-    // GraphQLModule.forRoot<ApolloDriverConfig>({
-    //   driver: ApolloDriver,
-    //   autoSchemaFile: true,
-    //   sortSchema: true,
-    //   debug: isDevelopment,
-    //   context: ({ req }) => ({ req }),
-    //   playground: isDevelopment
-    // }),
+    ScheduleModule.forRoot(),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+      sortSchema: true,
+      debug: isDevelopment,
+      context: ({ req }) => ({ req }),
+      playground: false
+    }),
     // Application Modules
-    // AuthModule,
-    // CaslModule
+    AuthModule,
+    CaslModule
   ],
   controllers: [AppController],
   providers: [
     // Application providers
-    // DatabaseService,
+    DatabaseService,
     // PeopleResolver,
-    // PluginsResolver,
-    // UsersResolver,
-    // PipelinesResolver,
+    PluginsResolver,
+    UsersResolver,
+    PipelinesResolver,
     // CommentResolver,
-    // LoggingPlugin,
+    LoggingPlugin,
     // TasksService,
     // EmailService,
-    // CategoryResolver,
-    // LanguageResolver,
+    CategoryResolver,
+    LanguageResolver,
     // DockerService
   ]
 })

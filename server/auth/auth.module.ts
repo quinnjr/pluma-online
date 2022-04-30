@@ -5,6 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 
 import { AuthController } from './auth.controller';
 
+import { CaslModule } from '../casl/casl.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
@@ -36,8 +37,8 @@ import { CaslModule } from 'server/casl/casl.module';
     DatabaseService,
     LocalStrategy,
     JwtStrategy,
-    EmailService,
-    AuthResolver
+    EmailService
+    // AuthResolver
   ],
   exports: [AuthService]
 })
