@@ -111,7 +111,11 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
         }));
 
         const auth = setContext((operation, context) => {
-          const token = localStorage.getItem('accessToken');
+          let token;
+
+          if (isBrowser) {
+            token = localStorage.getItem('accessToken');
+          }
 
           return token === null
             ? {}

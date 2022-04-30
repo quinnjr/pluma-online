@@ -65,6 +65,7 @@
     "@prisma/client": "^3.13.0",
     "@swimlane/ngx-charts": "^20.1.0",
     "apollo-angular": "^3.0.1",
+    "apollo-server-core": "^3.6.7",
     "apollo-server-express": "^3.6.7",
     "apollo-server-plugin-base": "^3.5.2",
     "argon2": "^0.28.5",

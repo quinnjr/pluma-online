@@ -22,8 +22,8 @@ const routes: List<Route> = List([
       import('./admin/admin.module')
         .then((m) => m.AdminModule)
         .catch(console.error),
-    canActivate: [IsAdminGuard],
-    canLoad: [IsAdminGuard]
+    // canActivate: [IsAdminGuard],
+    // canLoad: [IsAdminGuard]
   },
   {
     path: 'account',

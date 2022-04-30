@@ -65,6 +65,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.21.0
   '@typescript-eslint/parser': ^5.21.0
   apollo-angular: ^3.0.1
+  apollo-server-core: ^3.6.7
   apollo-server-express: ^3.6.7
   apollo-server-plugin-base: ^3.5.2
   argon2: ^0.28.5
@@ -151,7 +152,7 @@ dependencies:
   '@apollo/gateway': 2.0.1_encoding@0.1.13+graphql@16.4.0
   '@apollo/subgraph': 2.0.1_graphql@16.4.0
   '@casl/ability': 5.4.3
-  '@nestjs/apollo': 10.0.9_a0a41440ab1b1d601bc918f92fa0a063
+  '@nestjs/apollo': 10.0.9_4e847a2f0d5c4c080fc8928096f255ff
   '@nestjs/axios': 0.0.7_7670df531e7a1503cdbe395599f41db7
   '@nestjs/bull': 0.5.4_08a3b4ecb5f0386b31519ed2154321d0
   '@nestjs/common': 8.4.4_ea528571bae7e3437ac6e354bb00c0f4
@@ -168,6 +169,7 @@ dependencies:
   '@prisma/client': 3.13.0_prisma@3.13.0
   '@swimlane/ngx-charts': 20.1.0_ef2a4d9cb0e6bdf62b088e69d6467083
   apollo-angular: 3.0.1_5a5667db2ac5f69983f30277c48c1ab1
+  apollo-server-core: 3.6.7_encoding@0.1.13+graphql@16.4.0
   apollo-server-express: 3.6.7_bf4370a435dd8b5c73c344200ca75de2
   apollo-server-plugin-base: 3.5.2_encoding@0.1.13+graphql@16.4.0
   argon2: 0.28.5_encoding@0.1.13
@@ -194,7 +196,7 @@ dependencies:
   passport-jwt: 4.0.0
   passport-local: 1.0.0
   prisma: 3.13.0
-  prisma-nestjs-graphql: 15.2.2_a0a41440ab1b1d601bc918f92fa0a063
+  prisma-nestjs-graphql: 15.2.2_4e847a2f0d5c4c080fc8928096f255ff
   reflect-metadata: 0.1.13
   rxjs: 7.5.5
   tslib: 2.4.0
@@ -2924,7 +2926,7 @@ packages:
       - supports-color
     dev: false
 
-  /@nestjs/apollo/10.0.9_a0a41440ab1b1d601bc918f92fa0a063:
+  /@nestjs/apollo/10.0.9_4e847a2f0d5c4c080fc8928096f255ff:
     resolution: {integrity: sha512-1UmqDhyA+hvJrlbvvWGsY+eaYmlQVWWezT3JeBHIO6YcbkDGyfm/anPYCOE3fh4zeu45oFrLoh13ikyEYDvDKg==}
     peerDependencies:
       '@apollo/gateway': ^0.44.1 || ^0.46.0 || ^0.48.0 || ^0.49.0 || ^0.50.0
@@ -2948,6 +2950,7 @@ packages:
       '@nestjs/common': 8.4.4_ea528571bae7e3437ac6e354bb00c0f4
       '@nestjs/core': 8.4.4_03876a257790fd6c7ce3749a08ff8154
       '@nestjs/graphql': 10.0.10_1bd59302ac54a00048be358185c82007
+      apollo-server-core: 3.6.7_encoding@0.1.13+graphql@16.4.0
       apollo-server-express: 3.6.7_bf4370a435dd8b5c73c344200ca75de2
       iterall: 1.3.0
       lodash.omit: 4.5.0
@@ -12329,11 +12332,11 @@ packages:
       react-is: 18.1.0
     dev: true
 
-  /prisma-nestjs-graphql/15.2.2_a0a41440ab1b1d601bc918f92fa0a063:
+  /prisma-nestjs-graphql/15.2.2_4e847a2f0d5c4c080fc8928096f255ff:
     resolution: {integrity: sha512-cA9ntrVOoosWN49mEHkAOQSLWK3zioqWS4DSY3T3w7ibA7re6cNyNkl8S3u0pZlXZr+TlxFtSesofdMUhwv60Q==}
     hasBin: true
     dependencies:
-      '@nestjs/apollo': 10.0.9_a0a41440ab1b1d601bc918f92fa0a063
+      '@nestjs/apollo': 10.0.9_4e847a2f0d5c4c080fc8928096f255ff
       '@prisma/generator-helper': 3.13.0
       await-event-emitter: 2.0.2
       filenamify: 4.3.0

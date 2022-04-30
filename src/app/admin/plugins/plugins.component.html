@@ -1,58 +1,66 @@
-<div class="columns">
-  <div class="column is-one-quarter">
-    <pluma-online-admin-menu></pluma-online-admin-menu>
+<div class="container">
+  <div class="columns">
+    <div class="column is-one-quarter">
+      <aside class="menu">
+        <p class="menu-label">Categories</p>
+        <ul class="menu-list">
+          <li *ngFor="let category of (categories | async)">
+            <a>{{ category.name }}</a>
+          </li>
+        </ul>
+      </aside>
+    </div>
+    <div class="column is-three-quarters">
+      <section class="section">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th><abbr title="Github Url">Github</abbr></th>
+              <th>Language</th>
+              <th>Category</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let plugin of plugins | async">
+              <td>{{ plugin.name }}</td>
+              <td>{{ plugin.description }}</td>
+              <td>
+                <a [href]="plugin.githubUrl">{{ plugin.githubUrl }}</a>
+              </td>
+              <td>{{ plugin.language?.name }}</td>
+              <td>{{ plugin.category?.name }}</td>
+              <td>
+                <button class="button is-info">Update</button>
+              </td>
+              <td>
+                <button class="button is-danger">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
   </div>
-  <div class="column is-three-quarters" style="overflow: scroll;">
-    <section class="section">
-      <div class="columns is-multiline is-mobile">
+</div>
+    <!-- <section class="section">
+      <div class="columns">
         <div class="column is-one-quarter">
-          <button class="button is-normal is-responsive is-link is-rounded" (click)="togglePluginModal()">
+          <button class="button is-normal is-responsive is-link" (click)="togglePluginModal()">
             Add Plugin
           </button>
         </div>
         <div class="column is-half">
-          <button class="button is-normal is-responsive is-link is-rounded" (click)="toggleCategoryModal()">
+          <button class="button is-normal is-responsive is-link" (click)="toggleCategoryModal()">
             Add Category
           </button>
         </div>
       </div>
     </section>
-    <section class="section">
-      <p>Current Plugin Count: {{ (plugins | async)?.size }} </p>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th><abbr title="Github Url">Github</abbr></th>
-            <th>Language</th>
-            <th>Category</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let plugin of plugins | async">
-            <td>{{ plugin.name }}</td>
-            <td>{{ plugin.description }}</td>
-            <td>
-              <a [href]="plugin.githubUrl">{{ plugin.githubUrl }}</a>
-            </td>
-            <td>{{ plugin.language?.name }}</td>
-            <td>{{ plugin.category?.name }}</td>
-            <td>
-              <button class="button is-info">Update</button>
-            </td>
-            <td>
-              <button class="button is-danger">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  </div>
-</div>
-
+  </div> -->
 <div class="modal" id="pluginModal" #pluginModal>
   <div class="modal-background"></div>
   <div class="modal-content has-background-white p-3 m-3">

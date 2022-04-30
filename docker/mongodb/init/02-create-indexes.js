@@ -1,3 +1,6 @@
+db.createCollection('plugins');
+db.createCollection('pipelines');
+
 db.plugins.createIndex({
   'name': 1
 }, {

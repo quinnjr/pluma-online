@@ -23,7 +23,6 @@ const FETCH_PLUGINS = gql`
       name
       description
       githubUrl
-      categoryId
       category {
         id
         name
