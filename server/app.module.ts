@@ -30,7 +30,6 @@ import { LoggingPlugin } from './logging.plugin';
 import { TasksService } from './tasks/tasks.service';
 import { CommentResolver } from './comment/comment.resolver';
 import { EmailService } from './email/email.service';
-import { MarkdownService } from './markdown/markdown.service';
 import { DockerService } from './docker/docker.service';
 import { CategoryResolver } from './category/category.resolver';
 import { LanguageResolver } from './language/language.resolver';
@@ -75,7 +74,7 @@ const isDevelopment = process.env.ENV === 'development';
       sortSchema: true,
       debug: isDevelopment,
       context: ({ req }) => ({ req }),
-      playground: isDevelopment
+      playground: false
     }),
     // Application Modules
     AuthModule,
@@ -85,15 +84,14 @@ const isDevelopment = process.env.ENV === 'development';
   providers: [
     // Application providers
     DatabaseService,
-    PeopleResolver,
+    // PeopleResolver,
     PluginsResolver,
     UsersResolver,
     PipelinesResolver,
-    CommentResolver,
+    // CommentResolver,
     LoggingPlugin,
     // TasksService,
-    EmailService,
-    MarkdownService,
+    // EmailService,
     CategoryResolver,
     LanguageResolver,
     // DockerService

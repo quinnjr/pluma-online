@@ -56,18 +56,6 @@ export class PluginsResolver {
     });
   }
 
-  @Query((returns) => Int, { nullable: false })
-  public async countPlugins(
-    @Args('category', { type: () => Category, nullable: true })
-    category?: Category
-  ): Promise<number> {
-    return this.$database.plugin.count({
-      where: {
-        categoryId: category?.id
-      }
-    });
-  }
-
   @Mutation((returns) => Plugin)
   public async createPlugin(
     @Args('pluginData', { type: () => PluginCreateInput, nullable: false })
@@ -91,23 +79,23 @@ export class PluginsResolver {
     });
   }
 
-  @ResolveField()
-  public async category(@Parent() plugin: Plugin): Promise<Category | null> {
-    const { categoryId } = plugin;
-    return this.$database.category.findUnique({
-      where: {
-        id: categoryId
-      }
-    });
-  }
+  // @ResolveField()
+  // public async category(@Parent() plugin: Plugin): Promise<Category | null> {
+  //   const { categoryId } = plugin;
+  //   return this.$database.category.findUnique({
+  //     where: {
+  //       id: categoryId
+  //     }
+  //   });
+  // }
 
-  @ResolveField()
-  public async language(@Parent() plugin: Plugin): Promise<Language | null> {
-    const { languageId } = plugin;
-    return this.$database.language.findUnique({
-      where: {
-        id: languageId
-      }
-    });
-  }
+  // @ResolveField()
+  // public async language(@Parent() plugin: Plugin): Promise<Language | null> {
+  //   const { languageId } = plugin;
+  //   return this.$database.language.findUnique({
+  //     where: {
+  //       id: languageId
+  //     }
+  //   });
+  // }
 }
