@@ -3,36 +3,33 @@
 
 import { join } from 'node:path';
 
-import { CacheModule, Module } from '@nestjs/common';
+import { /*CacheModule,*/ Module } from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { GraphQLModule } from '@nestjs/graphql';
-import { BullModule } from '@nestjs/bull';
-import { ScheduleModule } from '@nestjs/schedule';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+// import { GraphQLModule } from '@nestjs/graphql';
+// import { BullModule } from '@nestjs/bull';
+// import { ScheduleModule } from '@nestjs/schedule';
+// import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 // @ts-ignore
-import * as redisStore from 'cache-manager-redis-store';
+// import * as redisStore from 'cache-manager-redis-store';
 
 import { AppServerModule } from '../src/main.server';
 
 import { AppController } from './app.controller';
-import { AuthModule } from './auth/auth.module';
-import { DatabaseService } from './database/database.service';
-
-import { PeopleResolver } from './people/people.resolver';
-import { PluginsResolver } from './plugins/plugins.resolver';
-import { UsersResolver } from './users/users.resolver';
-
-import { validate } from './env.validation';
-import { PipelinesResolver } from './pipelines/pipelines.resolver';
-import { CaslModule } from './casl/casl.module';
-import { LoggingPlugin } from './logging.plugin';
-import { TasksService } from './tasks/tasks.service';
-import { CommentResolver } from './comment/comment.resolver';
-import { EmailService } from './email/email.service';
-import { DockerService } from './docker/docker.service';
-import { CategoryResolver } from './category/category.resolver';
-import { LanguageResolver } from './language/language.resolver';
+// import { AuthModule } from './auth/auth.module';
+// import { DatabaseService } from './database/database.service';
+// import { PeopleResolver } from './people/people.resolver';
+// import { PluginsResolver } from './plugins/plugins.resolver';
+// import { UsersResolver } from './users/users.resolver';
+// import { PipelinesResolver } from './pipelines/pipelines.resolver';
+// import { CaslModule } from './casl/casl.module';
+// import { LoggingPlugin } from './logging.plugin';
+// import { TasksService } from './tasks/tasks.service';
+// import { CommentResolver } from './comment/comment.resolver';
+// import { EmailService } from './email/email.service';
+// import { DockerService } from './docker/docker.service';
+// import { CategoryResolver } from './category/category.resolver';
+// import { LanguageResolver } from './language/language.resolver';
 
 const isDevelopment = process.env.ENV === 'development';
 
@@ -43,11 +40,10 @@ const isDevelopment = process.env.ENV === 'development';
       bootstrap: AppServerModule,
       viewsPath: join(process.cwd(), 'dist/pluma-online/browser')
     }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      cache: true,
-      validate
-    }),
+    // ConfigModule.forRoot({
+    //   isGlobal: true,
+    //   cache: true
+    // }),
     // CacheModule.registerAsync({
     //   imports: [ConfigModule],
     //   useFactory: async (configService: ConfigService) => ({
@@ -67,33 +63,33 @@ const isDevelopment = process.env.ENV === 'development';
     //   }),
     //   inject: [ConfigService]
     // }),
-    ScheduleModule.forRoot(),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: true,
-      sortSchema: true,
-      debug: isDevelopment,
-      context: ({ req }) => ({ req }),
-      playground: isDevelopment
-    }),
+    // ScheduleModule.forRoot(),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   autoSchemaFile: true,
+    //   sortSchema: true,
+    //   debug: isDevelopment,
+    //   context: ({ req }) => ({ req }),
+    //   playground: isDevelopment
+    // }),
     // Application Modules
-    AuthModule,
-    CaslModule
+    // AuthModule,
+    // CaslModule
   ],
   controllers: [AppController],
   providers: [
     // Application providers
-    DatabaseService,
-    PeopleResolver,
-    PluginsResolver,
-    UsersResolver,
-    PipelinesResolver,
-    CommentResolver,
-    LoggingPlugin,
+    // DatabaseService,
+    // PeopleResolver,
+    // PluginsResolver,
+    // UsersResolver,
+    // PipelinesResolver,
+    // CommentResolver,
+    // LoggingPlugin,
     // TasksService,
-    EmailService,
-    CategoryResolver,
-    LanguageResolver,
+    // EmailService,
+    // CategoryResolver,
+    // LanguageResolver,
     // DockerService
   ]
 })

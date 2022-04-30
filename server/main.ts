@@ -10,61 +10,63 @@ import { ApolloErrorFilter } from './apollo-error.filter';
 import { DatabaseService } from './database/database.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger: console
-  });
+  try {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: console
+      });
 
-  app.setGlobalPrefix('api');
+      app.setGlobalPrefix('api');
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: false,
-      transform: true
-    })
-  );
+      // app.useGlobalPipes(
+      //   new ValidationPipe({
+      //     whitelist: false,
+      //     transform: true
+      //   })
+      // );
 
-  app.useGlobalFilters(new ApolloErrorFilter());
+      // app.useGlobalFilters(new ApolloErrorFilter());
 
-  const config = app.get<ConfigService>(ConfigService);
+      // const config = app.get<ConfigService>(ConfigService);
 
-  // const database = app.get<DatabaseService>(DatabaseService);
+      // const database = app.get<DatabaseService>(DatabaseService);
 
-  const adminEmail = config.get<string>('APP_ADMIN_EMAIL');
+      // const adminEmail = config.get<string>('APP_ADMIN_EMAIL');
 
-  // if (!adminEmail) {
-  //   console.error(
-  //     '`APP_ADMIN_EMAIL` environment variable not set during setup phase'
-  //   );
-  //   exit(1);
-  // }
+      // if (!adminEmail) {
+      //   console.error(
+      //     '`APP_ADMIN_EMAIL` environment variable not set during setup phase'
+      //   );
+      //   exit(1);
+      // }
 
-  // const initialUser = database.user.findUnique({
-  //   where: {
-  //     email: adminEmail
-  //   }
-  // });
+      // const initialUser = database.user.findUnique({
+      //   where: {
+      //     email: adminEmail
+      //   }
+      // });
 
-  // if (!initialUser) {
-  //   const password = config.get<string>('APP_ADMIN_PASSWORD');
-  //   if (!password) {
-  //     console.error(
-  //       '`APP_ADMIN_PASSWORD` environment variable not set during setup phase'
-  //     );
-  //     exit(1);
-  //   }
+      // if (!initialUser) {
+      //   const password = config.get<string>('APP_ADMIN_PASSWORD');
+      //   if (!password) {
+      //     console.error(
+      //       '`APP_ADMIN_PASSWORD` environment variable not set during setup phase'
+      //     );
+      //     exit(1);
+      //   }
 
-  //   const passwordHash = await argon2.hash(password!);
+      //   const passwordHash = await argon2.hash(password!);
 
-  //   database.user.create({
-  //     data: {
-  //       email: adminEmail!,
-  //       passwordHash: passwordHash
-  //     }
-  //   });
-  // }
-
-  const port = process.env['PORT'] || 4000;
-  await app.listen(port);
+      //   database.user.create({
+      //     data: {
+      //       email: adminEmail!,
+      //       passwordHash: passwordHash
+      //     }
+      //   });
+      // }
+      await app.listen(process.env['PORT'] || 4000);
+  } catch (error) {
+    throw error;
+  }
 }
 
 // Webpack will replace 'require' with '__webpack_require__'

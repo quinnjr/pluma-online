@@ -131,7 +131,6 @@
               "_http_common",
               "argon2",
               "react",
-              "ssh2",
               "fsevents",
               "@apollo/federation"
             ]
@@ -158,8 +157,7 @@
           "builder": "@angular-builders/jest:run",
           "options": {
             "configPath": "./jest.config.json",
-            "tsConfig": "./tsconfig.spec.json",
-            "webWorkerTsConfig": ["./tsconfig.worker.json"]
+            "tsConfig": "./tsconfig.spec.json"
           }
         },
         "serve-ssr": {
