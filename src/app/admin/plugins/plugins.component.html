@@ -1,68 +1,76 @@
-<div class="container">
-  <div class="columns">
-    <div class="column is-one-quarter">
-      <aside class="menu">
-        <p class="menu-label">Categories</p>
-        <ul class="menu-list">
-          <li *ngFor="let category of (categories | async)">
-            <a>{{ category.name }}</a>
-          </li>
-        </ul>
-      </aside>
-    </div>
-    <div class="column is-three-quarters">
-      <section class="section">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th><abbr title="Github Url">Github</abbr></th>
-              <th>Language</th>
-              <th>Category</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let plugin of plugins | async">
-              <td>{{ plugin.name }}</td>
-              <td>{{ plugin.description }}</td>
-              <td>
-                <a [href]="plugin.githubUrl">{{ plugin.githubUrl }}</a>
-              </td>
-              <td>{{ plugin.language?.name }}</td>
-              <td>{{ plugin.category?.name }}</td>
-              <td>
-                <button class="button is-info">Update</button>
-              </td>
-              <td>
-                <button class="button is-danger">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </div>
-  </div>
-</div>
-    <!-- <section class="section">
+<div class="columns">
+  <div class="column">
+    <section class="section">
       <div class="columns">
         <div class="column is-one-quarter">
-          <button class="button is-normal is-responsive is-link" (click)="togglePluginModal()">
-            Add Plugin
-          </button>
+          <aside class="menu">
+            <p class="menu-label">Actions</p>
+            <ul class="menu-list">
+              <li><a (click)="togglePluginModal()">Add Plugin</a></li>
+              <li><a (click)="toggleCategoryModal()">Add Category</a></li>
+            </ul>
+            <p class="menu-label">Categories Filter</p>
+            <ul class="menu-list">
+              <li>
+                <a
+                  [ngClass]="{'is-active': (categoryFilter | async) === undefined }"
+                  (click)="changeCategoryFilter('')"
+                >
+                  All
+                </a>
+              </li>
+              <li *ngFor="let category of (categories | async); let i = index">
+                <a
+                  [ngClass]="{'is-active': (categoryFilter | async) === category.name }"
+                  (click)="changeCategoryFilter(category.id)"
+                >{{ category.name }}</a>
+              </li>
+            </ul>
+          </aside>
         </div>
-        <div class="column is-half">
-          <button class="button is-normal is-responsive is-link" (click)="toggleCategoryModal()">
-            Add Category
-          </button>
+        <div class="column">
+          <div class="container is-fluid">
+            <div class="table-container">
+              <table class="table is-hoverable is-narrow">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th><abbr title="Github Url">Github</abbr></th>
+                    <th>Language</th>
+                    <th>Category</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let plugin of plugins | async">
+                    <td>{{ plugin.name }}</td>
+                    <td>{{ plugin.description }}</td>
+                    <td>
+                      <a [href]="plugin.githubUrl">{{ plugin.githubUrl }}</a>
+                    </td>
+                    <td>{{ plugin.language?.name }}</td>
+                    <td>{{ plugin.category?.name }}</td>
+                    <td>
+                      <button class="button is-info">Update</button>
+                    </td>
+                    <td>
+                      <button class="button is-danger">Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-  </div> -->
+  </div>
+</div>
+
 <div class="modal" id="pluginModal" #pluginModal>
-  <div class="modal-background"></div>
+  <div class="modal-background" (click)="togglePluginModal()"></div>
   <div class="modal-content has-background-white p-3 m-3">
     <div class="modal-card">
       <form class="form"
@@ -139,7 +147,7 @@
 </div>
 
 <div class="modal" id="categoryModal" #categoryModal>
-  <div class="modal-background"></div>
+  <div class="modal-background" (click)="toggleCategoryModal()"></div>
   <div class="modal-card">
     <form [formGroup]="createCategoryForm" (ngSubmit)="createCategory()">
       <header class="modal-card-head">

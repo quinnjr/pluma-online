@@ -1,16 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  PLATFORM_ID,
+  Inject
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { List } from 'immutable';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
-import {
-  Category,
-  Language,
-  Plugin
-} from 'prisma';
+import { Category, Language, Plugin } from 'prisma';
 
 import { SortOrder } from '../../enum/sort-order';
+import { isPlatformBrowser } from '@angular/common';
 
 const FETCH_PLUGINS = gql`
   query FetchPlugins(
@@ -115,10 +119,10 @@ export class PluginsComponent implements OnInit {
   public take = 100;
   public skip = 0;
 
-  public tabIndex = 0;
   public plugins?: Observable<List<Plugin>>;
   public categories?: Observable<List<Category>>;
   public languages?: Observable<List<Language>>;
+  public categoryFilter = new BehaviorSubject<string | undefined>(undefined);
 
   public createPluginForm = this.$fb.group({
     name: ['', Validators.required],
@@ -138,60 +142,68 @@ export class PluginsComponent implements OnInit {
 
   constructor(
     private readonly $apollo: Apollo,
-    private readonly $fb: FormBuilder
+    private readonly $fb: FormBuilder,
+    @Inject(PLATFORM_ID) private $platformId: Object
   ) {}
 
   public ngOnInit(): void {
-    this.pluginQuery = this.$apollo.watchQuery<{ plugins: Plugin[] }, any>({
-      query: FETCH_PLUGINS,
-      variables: {
-        take: this.take,
-        skip: this.skip,
-        orderBy: {
-          name: SortOrder.asc
+    if (isPlatformBrowser(this.$platformId)) {
+      this.pluginQuery = this.$apollo.watchQuery<{ plugins: Plugin[] }, any>({
+        query: FETCH_PLUGINS,
+        variables: {
+          where: {
+            categoryId: {
+              in: this.categoryFilter.value
+            }
+          },
+          take: this.take,
+          skip: this.skip,
+          orderBy: {
+            name: SortOrder.asc
+          }
         }
-      }
-    });
+      });
 
-    this.categoryQuery = this.$apollo.watchQuery<
-      { categories: Category[] },
-      any
-    >({
-      query: FETCH_CATEGORIES,
-      variables: {
-        take: 50,
-        skip: 0,
-        orderBy: {
-          name: SortOrder.asc
+      this.categoryQuery = this.$apollo.watchQuery<
+        { categories: Category[] },
+        any
+      >({
+        query: FETCH_CATEGORIES,
+        variables: {
+          take: 50,
+          skip: 0,
+          orderBy: {
+            name: SortOrder.asc
+          }
         }
-      }
-    });
+      });
 
-    this.LanguageQuery = this.$apollo.watchQuery<
-      { languages: Language[] },
-      any
-    >({
-      query: FETCH_LANGUAGES,
-      variables: {
-        take: 50,
-        skip: 0,
-        orderBy: {
-          name: SortOrder.asc
+      this.LanguageQuery = this.$apollo.watchQuery<
+        { languages: Language[] },
+        any
+      >({
+        query: FETCH_LANGUAGES,
+        variables: {
+          take: 50,
+          skip: 0,
+          orderBy: {
+            name: SortOrder.asc
+          }
         }
-      }
-    });
+      });
 
-    this.plugins = this.pluginQuery?.valueChanges.pipe(
-      map((result) => List(result.data.plugins))
-    );
+      this.plugins = this.pluginQuery?.valueChanges.pipe(
+        map((result) => List(result.data.plugins))
+      );
 
-    this.categories = this.categoryQuery.valueChanges.pipe(
-      map((result) => List(result.data.categories))
-    );
+      this.categories = this.categoryQuery.valueChanges.pipe(
+        map((result) => List(result.data.categories))
+      );
 
-    this.languages = this.LanguageQuery.valueChanges.pipe(
-      map((result) => List(result.data.languages))
-    );
+      this.languages = this.LanguageQuery.valueChanges.pipe(
+        map((result) => List(result.data.languages))
+      );
+    }
   }
 
   public togglePluginModal() {
@@ -244,5 +256,22 @@ export class PluginsComponent implements OnInit {
     });
 
     this.categoryQuery?.refetch();
+  }
+
+  public changeCategoryFilter(value: string) {
+    this.categoryFilter.next(value);
+    this.pluginQuery?.setVariables({
+      take: this.take,
+      skip: this.skip,
+      orderBy: {
+        name: SortOrder.asc
+      },
+      where: {
+        categoryId: {
+          in: this.categoryFilter.value
+        }
+      }
+    });
+    this.pluginQuery?.refetch();
   }
 }

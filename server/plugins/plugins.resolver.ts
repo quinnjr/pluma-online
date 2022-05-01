@@ -36,6 +36,8 @@ export class PluginsResolver {
 
   @Query((returns) => [Plugin])
   public async plugins(
+    @Args('where', { type: () => PluginWhereInput, nullable: true })
+    where?: PluginWhereInput,
     @Args('skip', { type: () => Int, nullable: true })
     skip?: number,
     @Args('take', { type: () => Int, nullable: true })
@@ -44,15 +46,13 @@ export class PluginsResolver {
       type: () => PluginOrderByWithRelationInput,
       nullable: true
     })
-    orderBy?: PluginOrderByWithRelationInput,
-    @Args('where', { type: () => PluginWhereInput, nullable: true })
-    where?: PluginWhereInput
+    orderBy?: PluginOrderByWithRelationInput
   ): Promise<Plugin[]> {
     return this.$database.plugin.findMany({
+      where,
       take,
       skip,
-      orderBy,
-      where
+      orderBy
     });
   }
 

@@ -14,7 +14,8 @@ export class LanguageResolver {
 
   @Query((returns) => [Language])
   public async languages(
-    @Args('where', { type: () => LanguageWhereInput }) where: LanguageWhereInput,
+    @Args('where', { type: () => LanguageWhereInput, nullable: true })
+    where: LanguageWhereInput,
     @Args('take', { type: () => Int, nullable: true }) take: number,
     @Args('skip', { type: () => Int, nullable: true }) skip: number,
     @Args('orderBy', {
