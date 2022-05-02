@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+ng lint --fix
+pnpm run eslint -- -c .eslintrc.json server/**/*.ts --fix

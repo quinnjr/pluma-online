@@ -71,7 +71,7 @@ export class PluginsComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    if (isPlatformBrowser(this.$platformId)){
+    if (isPlatformBrowser(this.$platformId)) {
       // Getting Plugins
       this.pluginsQuery = this.$apollo.watchQuery({
         query: FETCH_PLUGINS,

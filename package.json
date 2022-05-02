@@ -30,6 +30,7 @@
     "prerender": "ng run pluma-online:prerender && ngcc",
     "prisma": "prisma",
     "postinstall": "husky install && ngcc",
+    "eslint": "eslint",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "get-plugins": "pnpm run ts-node ./bin/get-plugins.ts",
     "generate-key": "openssl rand -base64 756 > ./docker/mongodb/mongodb.key && sudo chown 999:999 ./docker/mongodb/mongodb.key && sudo chmod 0400 ./docker/mongodb/mongodb.key"

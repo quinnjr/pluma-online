@@ -21,7 +21,7 @@ const routes: List<Route> = List([
     loadChildren: () =>
       import('./admin/admin.module')
         .then((m) => m.AdminModule)
-        .catch(console.error),
+        .catch(console.error)
     // canActivate: [IsAdminGuard],
     // canLoad: [IsAdminGuard]
   },
