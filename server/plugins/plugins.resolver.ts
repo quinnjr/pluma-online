@@ -36,6 +36,8 @@ export class PluginsResolver {
 
   @Query((returns) => [Plugin])
   public async plugins(
+    @Args('where', { type: () => PluginWhereInput, nullable: true })
+    where?: PluginWhereInput,
     @Args('skip', { type: () => Int, nullable: true })
     skip?: number,
     @Args('take', { type: () => Int, nullable: true })
@@ -44,21 +46,31 @@ export class PluginsResolver {
       type: () => PluginOrderByWithRelationInput,
       nullable: true
     })
-    orderBy?: PluginOrderByWithRelationInput,
-    @Args('where', { type: () => PluginWhereInput, nullable: true })
-    where?: PluginWhereInput
+    orderBy?: PluginOrderByWithRelationInput
   ): Promise<Plugin[]> {
     return this.$database.plugin.findMany({
+      where,
       take,
       skip,
-      orderBy,
-      where
+      orderBy
     });
   }
 
+  // @Query((returns) => Int, { nullable: false })
+  // public async countPlugins(
+  //   @Args('category', { type: () => Category, nullable: true })
+  //   category?: Category
+  // ): Promise<number> {
+  //   return this.$database.plugin.count({
+  //     where: {
+  //       categoryId: category?.id
+  //     }
+  //   });
+  // }
+
   @Mutation((returns) => Plugin)
   public async createPlugin(
-    @Args('pluginData', { type: () => PluginCreateInput, nullable: false })
+    @Args('data', { type: () => PluginCreateInput, nullable: true })
     data: PluginCreateInput
   ): Promise<Plugin> {
     return this.$database.plugin.create({
@@ -79,23 +91,23 @@ export class PluginsResolver {
     });
   }
 
-  // @ResolveField()
-  // public async category(@Parent() plugin: Plugin): Promise<Category | null> {
-  //   const { categoryId } = plugin;
-  //   return this.$database.category.findUnique({
-  //     where: {
-  //       id: categoryId
-  //     }
-  //   });
-  // }
+  @ResolveField()
+  public async category(@Parent() plugin: Plugin): Promise<Category | null> {
+    const { categoryId } = plugin;
+    return this.$database.category.findUnique({
+      where: {
+        id: categoryId
+      }
+    });
+  }
 
-  // @ResolveField()
-  // public async language(@Parent() plugin: Plugin): Promise<Language | null> {
-  //   const { languageId } = plugin;
-  //   return this.$database.language.findUnique({
-  //     where: {
-  //       id: languageId
-  //     }
-  //   });
-  // }
+  @ResolveField()
+  public async language(@Parent() plugin: Plugin): Promise<Language | null> {
+    const { languageId } = plugin;
+    return this.$database.language.findUnique({
+      where: {
+        id: languageId
+      }
+    });
+  }
 }

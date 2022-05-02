@@ -18,12 +18,9 @@ import { AppServerModule } from '../src/main.server';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseService } from './database/database.service';
-
 import { PeopleResolver } from './people/people.resolver';
 import { PluginsResolver } from './plugins/plugins.resolver';
 import { UsersResolver } from './users/users.resolver';
-
-import { validate } from './env.validation';
 import { PipelinesResolver } from './pipelines/pipelines.resolver';
 import { CaslModule } from './casl/casl.module';
 import { LoggingPlugin } from './logging.plugin';
@@ -45,8 +42,7 @@ const isDevelopment = process.env.ENV === 'development';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      cache: true,
-      validate
+      cache: true
     }),
     // CacheModule.registerAsync({
     //   imports: [ConfigModule],

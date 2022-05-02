@@ -38,15 +38,12 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     networks:
       - web
-    ports:
-      - 27017:27017
     volumes:
       - database:/data/db
-      - ${PWD}/docker/mongodb/init/01-mongo-init.sh:/docker-entrypoint-initdb.d/01-mongo-init.sh
     restart: unless-stopped
     healthcheck:
       test: test $$(echo "rs.initiate({_id:'dbrs',members:[{_id:0,host:\"database\"}]}).ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
-      interval: 10s
+      interval: 100s
 
   # redis:
   #   container_name: pluma-online-redis

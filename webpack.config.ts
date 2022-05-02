@@ -25,6 +25,7 @@ const glob = require('glob');
 const DotenvPlugin = require('dotenv-webpack');
 
 import * as pkg from './package.json';
+import e from 'express';
 
 const HASHES = ['sha256', 'sha384'];
 
@@ -43,8 +44,8 @@ export default (
 
   config.plugins!.push(
     new DotenvPlugin({
-      safe: targetOptions.target === 'development',
-      allowEmptyValues: false
+      safe: false,
+      systemvars: true,
     }),
     new DefinePlugin({
       APP_VERSION: pkg.version
@@ -52,16 +53,6 @@ export default (
   );
 
   if (targetOptions.target === 'browser') {
-    config.resolve = {
-      fallback: {
-        os: false,
-        crypto: false,
-        path: false,
-        util: false,
-        stream: false,
-        assert: false
-      }
-    };
 
     config.module!.rules!.push({
       test: /\.md$/,
@@ -78,11 +69,6 @@ export default (
         new SriPlugin({
           enabled: process.env.ENV === 'production',
           hashFuncNames: HASHES
-        }),
-        new WebpackAssetsManifest({
-          enabled: process.env.ENV === 'production',
-          integrity: true,
-          integrityHashes: HASHES
         })
       );
     }
@@ -90,6 +76,7 @@ export default (
 
   if (targetOptions.target === 'server') {
     config.target = 'node';
+
     config.resolve!.extensions!.push(
       '.mjs',
       '.graphql',
@@ -98,19 +85,15 @@ export default (
       '.prisma'
     );
 
+    config.resolve!.fallback = {
+      querystring: require.resolve('querystring')
+    };
+
     config.module!.rules!.push({
       test: /\.mjs$/,
       include: /node_modules/,
       type: 'javascript/auto'
     });
-
-    config.module!.rules!.push({
-      test: /\.(node|prisma|graphql|gql)$/,
-      include: /node_modules/,
-      type: 'asset/resource'
-    });
-
-    config.externalsPresets = { node: true };
 
     (config.externals as Array<any>).push(
       nodeExternals({

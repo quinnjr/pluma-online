@@ -25,6 +25,7 @@ import {
   RecaptchaModule,
   RecaptchaV3Module
 } from 'ng-recaptcha';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
@@ -38,7 +39,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { VerifyComponent } from './auth/register/verify/verify.component';
 
 import { AuthService } from './auth/auth.service';
-import { PluginService } from './plugin/plugin.service';
 
 import { PlumaModule } from './pluma/pluma.module';
 import { AccountModule } from './account/account.module';
@@ -62,6 +62,10 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     RecaptchaModule,
     RecaptchaV3Module,
     RecaptchaFormsModule,
+    StorageModule.forRoot({
+      IDBDBName: 'pluma',
+      IDBDBVersion: 1
+    }),
     // Internal modules
     AuthModule,
     PlumaModule,
@@ -78,7 +82,6 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
   ],
   providers: [
     AuthService,
-    PluginService,
     {
       provide: APOLLO_CACHE,
       useValue: new InMemoryCache()
@@ -108,7 +111,11 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
         }));
 
         const auth = setContext((operation, context) => {
-          const token = localStorage.getItem('accessToken');
+          let token;
+
+          if (isBrowser) {
+            token = localStorage.getItem('accessToken');
+          }
 
           return token === null
             ? {}

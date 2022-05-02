@@ -40,12 +40,12 @@ export class AuthResolver {
     return this.$authService.verify(userId, code);
   }
 
-  @Query((returns) => Boolean)
-  public canAccess(
-    @Args('claim', { type: () => Action, nullable: false }) claim: Action,
-    @UserDecorator() user: User
-  ): boolean {
-    const ability = this.$caslAbilityFactory.createForUser(user);
-    return ability.can(Action.Read, claim as unknown as Subjects);
-  }
+  // @Query((returns) => Boolean)
+  // public canAccess(
+  //   @Args('claim', { type: () => Action, nullable: false }) claim: Action,
+  //   @UserDecorator() user: User
+  // ): boolean {
+  //   const ability = this.$caslAbilityFactory.createForUser(user);
+  //   return ability.can(Action.Read, claim as unknown as Subjects);
+  // }
 }

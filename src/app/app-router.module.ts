@@ -8,6 +8,7 @@ import { List } from 'immutable';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home/home.component';
 import { ContactComponent } from './contact/contact.component';
+import { PluginsComponent } from './admin/plugins/plugins.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { IsAdminGuard } from './is-admin.guard';
@@ -21,8 +22,8 @@ const routes: List<Route> = List([
       import('./admin/admin.module')
         .then((m) => m.AdminModule)
         .catch(console.error),
-    canActivate: [IsAdminGuard],
-    canLoad: [IsAdminGuard]
+    // canActivate: [IsAdminGuard],
+    // canLoad: [IsAdminGuard]
   },
   {
     path: 'account',

@@ -12,9 +12,17 @@
           <aside class="menu">
             <p class="menu-label">PluMA Plugin Repositories</p>
             <ul class="menu-list">
-              <li *ngFor="let category of categories; index as idx">
-                <a [ngClass]="{ 'is-active': isLinkActive(idx) }"
-                  (click)="linkActive = idx; refresh() ">{{ category }}</a>
+              <li>
+                <a
+                  [ngClass]="{'is-active': (categoryFilter | async) === undefined }"
+                  (click)="changeCategoryFilter(undefined)"
+                >
+                  All
+                </a>
+              </li>
+              <li *ngFor="let category of (categories | async)">
+                <a [ngClass]="{ 'is-active': (categoryFilter | async) === category.name }"
+                  (click)="changeCategoryFilter(category.id)">{{ category.name }}</a>
               </li>
             </ul>
           </aside>
@@ -26,8 +34,10 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Language</th>
-                <th>Author</th>
+                <th>Category</th>
                 <th>Rating</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -44,13 +54,13 @@
                   <span class="panel-block">{{ plugin.description }}</span>
                 </td>
                 <td>
-                  <span class="panel-block">{{ plugin.language }}</span>
+                  <span class="panel-block">{{ plugin.language?.name }}</span>
                 </td>
                 <td>
-                  <span class="panel-block"></span>
+                  <span class="panel-block">{{ plugin.category?.name }}</span>
                 </td>
                 <td>
-                  <span class="panel-block"></span>
+                  <span class="panel-block">{{ plugin.rating }}</span>
                 </td>
               </tr>
             </tbody>

@@ -1,26 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { User } from '../../../server/@generated/prisma-graphql/user';
+import { User } from 'prisma';
 import { Role } from './role';
-
-const defaultUser = {
-  id: '00000000-0000-0000-0000-000000000000',
-  email: 'nobody@nodbody.com',
-  displayName: 'Guest',
-  website: '',
-  role: Role.Guest,
-  avatar: '',
-  enabled: true
-};
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private userSubject: BehaviorSubject<User>;
+  private userSubject: BehaviorSubject<User | null>;
 
   constructor() {
-    this.userSubject = new BehaviorSubject(defaultUser as unknown as User);
+    this.userSubject = new BehaviorSubject(null);
   }
 
   public get user(): Observable<User> {
@@ -32,7 +22,7 @@ export class UserService {
   }
 
   public logout(): boolean {
-    this.userSubject.next(defaultUser as unknown as User);
+    this.userSubject.next(null);
     return true;
   }
 
