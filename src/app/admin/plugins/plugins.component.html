@@ -14,7 +14,7 @@
               <li>
                 <a
                   [ngClass]="{'is-active': (categoryFilter | async) === undefined }"
-                  (click)="changeCategoryFilter('')"
+                  (click)="changeCategoryFilter(undefined)"
                 >
                   All
                 </a>

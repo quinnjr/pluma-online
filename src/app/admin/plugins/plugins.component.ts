@@ -116,8 +116,8 @@ export class PluginsComponent implements OnInit {
   @ViewChild('categoryModal')
   public categoryModal!: ElementRef;
 
-  public take = 100;
-  public skip = 0;
+  public take = new BehaviorSubject(100);
+  public skip = new BehaviorSubject(0);
 
   public plugins?: Observable<List<Plugin>>;
   public categories?: Observable<List<Category>>;
@@ -156,8 +156,8 @@ export class PluginsComponent implements OnInit {
               in: this.categoryFilter.value
             }
           },
-          take: this.take,
-          skip: this.skip,
+          take: this.take.value,
+          skip: this.skip.value,
           orderBy: {
             name: SortOrder.asc
           }
@@ -258,11 +258,11 @@ export class PluginsComponent implements OnInit {
     this.categoryQuery?.refetch();
   }
 
-  public changeCategoryFilter(value: string) {
+  public changeCategoryFilter(value: string | undefined) {
     this.categoryFilter.next(value);
     this.pluginQuery?.setVariables({
-      take: this.take,
-      skip: this.skip,
+      take: this.take.value,
+      skip: this.skip.value,
       orderBy: {
         name: SortOrder.asc
       },

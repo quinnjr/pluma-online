@@ -12,9 +12,17 @@
           <aside class="menu">
             <p class="menu-label">PluMA Plugin Repositories</p>
             <ul class="menu-list">
-              <li *ngFor="let category of (categories | async); index as idx">
-                <a [ngClass]="{ 'is-active': isLinkActive(idx) }"
-                  (click)="linkActive = idx;">{{ category.name }}</a>
+              <li>
+                <a
+                  [ngClass]="{'is-active': (categoryFilter | async) === undefined }"
+                  (click)="changeCategoryFilter(undefined)"
+                >
+                  All
+                </a>
+              </li>
+              <li *ngFor="let category of (categories | async)">
+                <a [ngClass]="{ 'is-active': (categoryFilter | async) === category.name }"
+                  (click)="changeCategoryFilter(category.id)">{{ category.name }}</a>
               </li>
             </ul>
           </aside>
