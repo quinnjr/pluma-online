@@ -7,7 +7,7 @@
   "private": true,
   "main": "src/main.ts",
   "engines": {
-    "pnpm": "^7.0.0"
+    "pnpm": "^6.0.0"
   },
   "scripts": {
     "ng": "ng",
