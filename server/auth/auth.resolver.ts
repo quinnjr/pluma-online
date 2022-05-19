@@ -7,6 +7,8 @@ import { Action } from '../casl/action';
 
 import { AuthService } from './auth.service';
 import { AuthResponse } from './auth-response';
+import { CanAccess } from './dto/can-access';
+import { Verify } from './dto/verify';
 
 @Resolver()
 export class AuthResolver {
@@ -32,20 +34,24 @@ export class AuthResolver {
     return this.$authService.registerGraphQL(input, password);
   }
 
-  @Query((returns) => Boolean)
+  @Query((returns) => Verify)
   public async verify(
     @Args('userId', { type: () => String, nullable: false }) userId: string,
     @Args('code', { type: () => String, nullable: false }) code: string
-  ): Promise<boolean> {
-    return this.$authService.verify(userId, code);
+  ): Promise<Verify> {
+    const v = await this.$authService.verify(userId, code);
+    return new Verify(v);
   }
 
-  // @Query((returns) => Boolean)
-  // public canAccess(
-  //   @Args('claim', { type: () => Action, nullable: false }) claim: Action,
-  //   @UserDecorator() user: User
-  // ): boolean {
-  //   const ability = this.$caslAbilityFactory.createForUser(user);
-  //   return ability.can(Action.Read, claim as unknown as Subjects);
-  // }
+  @Query((returns) => CanAccess)
+  public canAccess(
+    @Args('claim', { type: () => Action, nullable: false }) claim: Action,
+    @UserDecorator() user: User
+  ): CanAccess {
+    const ability = this.$caslAbilityFactory.createForUser(user);
+    let canAccess = new CanAccess(
+      ability.can(Action.Read, claim as unknown as Subjects)
+    );
+    return canAccess;
+  }
 }

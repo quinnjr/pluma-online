@@ -73,8 +73,9 @@ model User {
   email        String        @unique
   /// @HideField()
   passwordHash String
-  displayName  String?
+  displayName  String?       @unique
   website      String?
+  institution  String?
   avatar       String?
   role         Role          @default(User)
   plugins      Plugin[]
