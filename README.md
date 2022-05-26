@@ -62,7 +62,6 @@ services:
       dockerfile: Dockerfile-devel
     depends_on:
       - database
-      - redis
     networks:
       - web
     ports:
