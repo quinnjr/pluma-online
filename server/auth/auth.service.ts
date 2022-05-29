@@ -3,6 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import argon2 from 'argon2';
+import { NotUniqueException } from "./not-unique.exception";
 
 import { DatabaseService } from '../database/database.service';
 import { User, UserCreateInput } from '../@generated/prisma-graphql/user';
@@ -17,6 +18,10 @@ export class AuthService {
     private readonly $emailService: EmailService,
     private readonly $configService: ConfigService
   ) {}
+
+  public E_ERR = 0;
+  public D_ERR = 1;
+  public B_ERR = 2;
 
   public async validateUser(username: string, password: string): Promise<any> {
     const user = await this.$databaseService.user.findUnique({
@@ -44,8 +49,30 @@ export class AuthService {
     };
   }
 
-  public async register(email: string, password: string): Promise<{}> {
-    return {};
+  /**
+   * Wrapper function for registerGraphQL:
+   * Creates UserCreateInput to send
+   *
+   * @param email         User email
+   * @param displayName   User display name
+   * @param website       User website (optional)
+   * @param institution   User institution (optional)
+   * @param password      User password, not hashed
+   * @returns HttpResponse Promise, will include
+   *          Success -> response.body will have user input data
+   *          Success, but user exists -> response.body will inncluse error {0,1,2}
+   */
+  public async register(email: string, displayName: string, website: string = '', institution: string = '', password: string): Promise<{}> {
+    var uci: UserCreateInput;
+    uci = {
+      'email' : email,
+      'displayName' : displayName,
+      'passwordHash':''
+    }
+    if (website != ''){uci.website = website;}
+    if (institution != ''){uci.institution = institution;}
+
+    return this.registerGraphQL(uci, password);
   }
 
   public async loginGraphQL(
@@ -86,14 +113,27 @@ export class AuthService {
     input: UserCreateInput,
     password: string
   ): Promise<User> {
-    let user = await this.$databaseService.user.findUnique({
+
+    let checkE = await this.$databaseService.user.findUnique({
       where: {
         email: input.email
       }
     });
+    let checkD = await this.$databaseService.user.findUnique({
+      where: {
+        displayName: input.displayName
+      }
+    });
 
-    if (user) {
-      throw new UnauthorizedException('User already exists');
+    //NotUniqueException error throws
+    if (checkE && checkD){
+      throw new NotUniqueException(this.B_ERR);
+    }
+    if (checkE) {
+      throw new NotUniqueException(this.E_ERR);
+    }
+    if (checkD) {
+      throw new NotUniqueException(this.D_ERR);
     }
 
     const passwordHash = await argon2.hash(password);
@@ -103,7 +143,7 @@ export class AuthService {
       passwordHash
     };
 
-    user = await this.$databaseService.user.create({
+    let user = await this.$databaseService.user.create({
       data: newUser
     });
 
