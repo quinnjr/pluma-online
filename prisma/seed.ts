@@ -118,10 +118,10 @@ async function seed() {
 
   console.log(`Seeded ${Pipelines.length} pipelines`);
 
-  const password = await argon2.hash('password');
+  const password = await argon2.hash('Password!#');
 
   let user: any = {
-    email: 'test@localhost',
+    email: 'test@localhost.dev',
     passwordHash: password,
     displayName: 'Test Account',
     role: Role.Admin,
@@ -135,6 +135,8 @@ async function seed() {
     create: user,
     update: user
   });
+
+  console.log('Seeded 1 user profile');
 }
 
 seed()

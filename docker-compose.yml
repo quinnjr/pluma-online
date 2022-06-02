@@ -1,30 +1,6 @@
 version: "3"
 
 services:
-  # nginx:
-  #   container_name: pluma-online-nginx
-  #   build:
-  #     context: ./nginx
-  #     cache_from:
-  #       - alpine:latest
-  #       - fiubiorg/nginx:latest
-  #     labels:
-  #       com.pluma-nginx.description: "Custom NGINX container for PluMA Online"
-  #       com.pluma-nginx.maintainer: "Joseph R. Quinn <quinn.josephr@protonmail.com>"
-  #     args:
-  #       - NGINX_VERSION=1.19.10
-  #   image: fiubiorg/nginx:latest
-  #   volumes:
-  #     - web:/src/http
-  #     - ./nginx/etc/nginx:/etc/nginx
-  #     - ./nginx/server-configs-nginx/h5bp:/etc/nginx/h5bp
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - webapp
-
   database:
     container_name: pluma-online-database
     build:
@@ -44,13 +20,6 @@ services:
     healthcheck:
       test: test $$(echo "rs.initiate({_id:'dbrs',members:[{_id:0,host:\"database\"}]}).ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
       interval: 100s
-
-  # redis:
-  #   container_name: pluma-online-redis
-  #   image: redis:alpine
-  #   restart: unless-stopped
-  #   networks:
-  #     - web
 
   webapp:
     container_name: pluma-online-webapp

@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.3-labs
 FROM node:lts-alpine as builder
 
 ENV ENV development

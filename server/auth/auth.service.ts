@@ -18,10 +18,10 @@ export class AuthService {
     private readonly $configService: ConfigService
   ) {}
 
-  public async validateUser(username: string, password: string): Promise<any> {
+  public async validateUser(email: string, password: string): Promise<any> {
     const user = await this.$databaseService.user.findUnique({
       where: {
-        email: username
+        email
       }
     });
 

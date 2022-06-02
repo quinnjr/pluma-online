@@ -21,12 +21,16 @@
     <a class="navbar-item" routerLink="/contact">Contact</a>
   </div>
   <div class="navbar-end">
-    <div class="navbar-item has-dropdown">
-      <a class="navbar-link">Admin</a>
-      <div class="navbar-dropdown">
-          <a class="navbar-item" routerLink="/admin/plugins">Plugin Management</a>
+    <ng-container *ngIf="(user | async)?.role === 'Admin'">
+      <div class="navbar-item has-dropdown">
+        <a class="navbar-link">Admin</a>
+        <div class="navbar-dropdown">
+            <a class="navbar-item" routerLink="/admin/plugins">Plugin Management</a>
+        </div>
       </div>
-    </div>
-    <a class="navbar-item" routerLink="/login">Login</a>
+    </ng-container>
+    <ng-container *ngIf="(user | async) === null">
+      <a class="navbar-item" routerLink="/login">Login</a>
+    </ng-container>
   </div>
 </bu-navbar>

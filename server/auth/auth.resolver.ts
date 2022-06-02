@@ -1,7 +1,7 @@
 import { Resolver, Args, Query, Mutation } from '@nestjs/graphql';
 import { User, UserCreateInput } from '../@generated/prisma-graphql/user';
 
-import { User as UserDecorator } from '../user.decorator';
+import { CurrentUser } from '../current-user.decorator';
 import { CaslAbilityFactory, Subjects } from '../casl/casl-ability.factory';
 import { Action } from '../casl/action';
 
@@ -46,7 +46,7 @@ export class AuthResolver {
   @Query((returns) => CanAccess)
   public canAccess(
     @Args('claim', { type: () => Action, nullable: false }) claim: Action,
-    @UserDecorator() user: User
+    @CurrentUser() user: User
   ): CanAccess {
     const ability = this.$caslAbilityFactory.createForUser(user);
     let canAccess = new CanAccess(

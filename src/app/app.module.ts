@@ -25,7 +25,7 @@ import {
   RecaptchaModule,
   RecaptchaV3Module
 } from 'ng-recaptcha';
-import { StorageModule } from '@ngx-pwa/local-storage';
+import { StorageMap, StorageModule } from '@ngx-pwa/local-storage';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
@@ -37,8 +37,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { VerifyComponent } from './auth/register/verify/verify.component';
-
-import { AuthService } from './auth/auth.service';
 
 import { PlumaModule } from './pluma/pluma.module';
 import { AccountModule } from './account/account.module';
@@ -81,7 +79,6 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     PageNotFoundComponent
   ],
   providers: [
-    AuthService,
     {
       provide: APOLLO_CACHE,
       useValue: new InMemoryCache()
@@ -91,7 +88,8 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
       useFactory: (
         httpLink: HttpLink,
         cache: InMemoryCache,
-        transferState: TransferState
+        transferState: TransferState,
+        storage: StorageMap
       ) => {
         const isBrowser = transferState.hasKey<any>(STATE_KEY);
 
@@ -111,16 +109,15 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
         }));
 
         const auth = setContext((operation, context) => {
-          let token;
+          const token = storage.get('accessToken').subscribe(() => {});
 
-          if (isBrowser) {
-            token = localStorage.getItem('accessToken');
-          }
+          console.log(token);
 
-          return token === null
+          return !token
             ? {}
             : {
                 headers: {
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
                   Authorization: `Bearer ${token}`
                 }
               };
@@ -139,7 +136,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
           link
         };
       },
-      deps: [HttpLink, APOLLO_CACHE, TransferState]
+      deps: [HttpLink, APOLLO_CACHE, TransferState, StorageMap]
     },
     {
       provide: RECAPTCHA_V3_SITE_KEY,
