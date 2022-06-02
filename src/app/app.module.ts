@@ -42,6 +42,8 @@ import { PlumaModule } from './pluma/pluma.module';
 import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
+import { JwtInterceptor } from './jwt.interceptor';
+import { UserService } from './user/user.service';
 
 export const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
 export const STATE_KEY = makeStateKey<any>('apollo.state');
@@ -79,6 +81,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     PageNotFoundComponent
   ],
   providers: [
+    UserService,
     {
       provide: APOLLO_CACHE,
       useValue: new InMemoryCache()
@@ -104,14 +107,13 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
 
         const basic = setContext((operation, context) => ({
           headers: {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Accept: 'charset=utf-8'
           }
         }));
 
         const auth = setContext((operation, context) => {
           const token = storage.get('accessToken').subscribe(() => {});
-
-          console.log(token);
 
           return !token
             ? {}
@@ -126,9 +128,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
         const link = ApolloLink.from([
           basic,
           auth,
-          httpLink.create({
-            uri: '/graphql'
-          })
+          httpLink.create({ uri: '/graphql' })
         ]);
 
         return {
@@ -146,6 +146,11 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
       provide: RECAPTCHA_LANGUAGE,
       useFactory: (locale: string) => locale,
       deps: [LOCALE_ID]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

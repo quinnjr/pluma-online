@@ -19,14 +19,14 @@ export class EmailService {
   }
 
   public async send(input: any): Promise<void> {
-  //   try {
-  //     await this.client.sendAsync({
-  //       ...input,
-  //       'content-type': 'text/html; charset=utf-8'
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+    //   try {
+    //     await this.client.sendAsync({
+    //       ...input,
+    //       'content-type': 'text/html; charset=utf-8'
+    //     });
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
   }
 }

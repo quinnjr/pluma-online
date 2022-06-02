@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             .subscribe(() => {});
         }),
         switchMap(() => {
-          let query = this.$apollo.query({
+          return this.$apollo.query({
             query: gql(`
               {
                 user {
@@ -88,11 +88,8 @@ export class LoginComponent implements OnInit, OnDestroy {
               }
             `)
           });
-          query.subscribe((data) => console.log(data));
-          return query;
         }),
         tap(({ data }) => {
-          console.log(data);
           this.$storage.set('user', (data as any).user).subscribe(() => {});
           return this.$userServer.update((data as any).user);
         })
