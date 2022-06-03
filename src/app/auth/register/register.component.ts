@@ -1,6 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { sameAsEmailValidator } from "./verify/validate/same-as-email.directive";
+import { notEmailValidator } from "./verify/validate/same-as-email.directive";
 import { samePassValidator } from "./verify/validate/pass-match.directive";
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { UniqueError } from "../../../../server/auth/uniqueError";
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit, DoCheck {
   ) {
     this.registerForm = this.$fb.group({
       email: ['', [Validators.required, Validators.email]],
-      displayName: ['', [Validators.required, sameAsEmailValidator("")]],
+      displayName: ['', [Validators.required, notEmailValidator("")]],
       institution: [''],
       website: [''],
       password: [
@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit, DoCheck {
 
       this.oldEmail = this.registerForm.get('email')?.value.toLowerCase();
       this.registerForm.controls['displayName'].setValidators(
-        Validators.compose([Validators.required, sameAsEmailValidator(this.registerForm.get('email')?.value.split("@", 2)[0].toLowerCase())])
+        Validators.compose([Validators.required, notEmailValidator(this.registerForm.get('email')?.value.split("@", 2)[0].toLowerCase())])
       )
       if (this.registerForm.get('email')?.value.split("@", 2)[0].toLowerCase() === this.registerForm.get('displayName')?.value.toLowerCase()){
         this.registerForm.controls['displayName'].reset();

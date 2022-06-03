@@ -6,7 +6,7 @@ import { AbstractControl, ValidatorFn, ValidationErrors, Validator, NG_VALIDATOR
  * @returns Valid -> null
  *          Invalid -> InvalidDisplayName Error
  */
-export function sameAsEmailValidator(email: string): ValidatorFn {
+export function notEmailValidator(email: string): ValidatorFn {
 
   return (control: AbstractControl): ValidationErrors | null =>
     control.value?.toLowerCase() != email ? null : {InvalidDisplayName: control.value};
