@@ -8,11 +8,10 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control">
-              <input class="input" type="email" placeholder="jdoe@fiu.edu"
+              <input class="input" type="email"
                 formControlName="email"
                 [ngClass]="{
-                  'is-danger': isSubmitted && registerForm.get('email')?.errors,
-                  'reqRed': !registerForm.get('email')?.valid
+                  'is-danger': !registerForm.get('email')?.valid
                 }" required />
             </div>
             <div *ngIf="registerForm.controls.email.dirty && registerForm.get('email')?.hasError('required')">
@@ -21,24 +20,23 @@
             <div *ngIf="registerForm.controls.email.dirty && (registerForm.get('email')?.status === 'INVALID')">
               <p class="help is-danger">Must be a valid Email.</p>
             </div>
-            <div *ngIf="registerForm.controls.email.dirty && (!uniqueE)">
+            <div *ngIf="registerForm.controls.email.dirty && (!uniqueEmailFlag)">
               <p class="help is-danger">Email is already in use.</p>
             </div>
           </div>
           <div class="field">
             <label class="label">Display Name</label>
             <div class="control">
-              <input class="input" type="text" placeholder="bob"
-                formControlName="dName"
+              <input class="input" type="text"
+                formControlName="displayName"
                 [ngClass]="{
-                  'is-danger': isSubmitted && registerForm.get('dName')?.errors,
-                  'reqRed': !registerForm.get('dName')?.valid
+                  'is-danger': !registerForm.get('displayName')?.valid
                 }" required />
             </div>
-            <div *ngIf="registerForm.controls.dName.dirty && registerForm.get('dName')?.hasError('required')">
+            <div *ngIf="registerForm.controls.displayName.dirty && registerForm.get('displayName')?.hasError('required')">
               <p class="help is-danger">Display Name is required.</p>
             </div>
-            <div *ngIf="registerForm.get('dName')?.errors?.['InvalidDisplayName']">
+            <div *ngIf="registerForm.get('displayName')?.errors?.['InvalidDisplayName']">
               <p class="help is-danger">Display Name cannot be the same as the email handle.</p>
             </div>
             <div *ngIf="registerForm.controls.email.dirty && (!uniqueD)">
@@ -48,7 +46,7 @@
           <div class="field">
             <label class="label">Institution</label>
             <div class="control">
-              <input class="input" type="institution" placeholder="FIU"
+              <input class="input" type="institution"
                 formControlName="institution"
                 [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('institution')?.errors }"/>
             </div>
@@ -56,7 +54,7 @@
           <div class="field">
             <label class="label">Website</label>
             <div class="control">
-              <input class="input" type="website" placeholder="www.fiu.com"
+              <input class="input" type="website"
                 formControlName="website"
                 [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('website')?.errors }"/>
             </div>
@@ -67,22 +65,23 @@
               <input class="input" type="password"
                 formControlName="password"
                 [ngClass]="{
-                  'is-danger': isSubmitted && registerForm.get('password')?.errors,
-                  'reqRed': !registerForm.get('password')?.valid
+                  'is-danger': !registerForm.get('password')?.valid
                 }"
                 required />
             </div>
-            <div *ngIf="registerForm.controls.password.dirty && (registerForm.get('password')?.errors?.['minlength'])">
-              <p class="help is-danger">Length of password must be at least 8.</p>
-            </div>
-            <div *ngIf="registerForm.controls.password.dirty && (registerForm.get('password')?.errors?.['pattern'])">
-              <div>
-                <p class="help is-danger">Password must include atleast one of each:</p>
+            <div *ngIf="!registerForm.get('password')?.errors?.['required'] && !registerForm.get('password')?.valid" class="box">
+              <div *ngIf="(registerForm.get('password')?.errors?.['minlength'])">
+                <p class="help is-danger">Length of password must be at least 8.</p>
               </div>
-              <div><p class="help is-danger" [ngClass]="{'greenAcpt': registerForm.get('password')?.value.match('(?=[a-z]+)')}">-lowercase</p></div>
-              <div><p class="help is-danger" [ngClass]="{'greenAcpt': registerForm.get('password')?.value.match('(?=[A-Z]+)')}">-uppercase</p></div>
-              <div><p class="help is-danger" [ngClass]="{'greenAcpt': registerForm.get('password')?.value.match('(?=[0-9]+)')}">-number</p></div>
-              <div><p class="help is-danger" [ngClass]="{'greenAcpt': registerForm.get('password')?.value.match('(?=[!@#$%^&*?]+)')}">-symbol</p></div>
+              <div *ngIf="(registerForm.get('password')?.errors?.['pattern'])">
+                <div>
+                  <p class="help is-danger">Password must include atleast one of each:</p>
+                </div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[a-z]+)') ? 'is-success' : 'is-danger']">-lowercase</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[A-Z]+)') ? 'is-success' : 'is-danger']">-uppercase</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[0-9]+)') ? 'is-success' : 'is-danger']">-number</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[!@#$%^&*?]+)') ? 'is-success' : 'is-danger']">-symbol</p></div>
+              </div>
             </div>
           </div>
           <div class="field">
@@ -91,8 +90,7 @@
               <input class="input" type="password"
                 formControlName="passwordConfirm"
                 [ngClass]="{
-                  'is-danger': isSubmitted && registerForm.get('password')?.errors,
-                  'reqRed': !registerForm.get('password')?.valid
+                  'is-danger': !registerForm.get('passwordConfirm')?.valid
                 }"
                 required />
             </div>

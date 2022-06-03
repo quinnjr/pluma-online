@@ -9,6 +9,7 @@ import { DatabaseService } from '../database/database.service';
 import { User, UserCreateInput } from '../@generated/prisma-graphql/user';
 import { AuthResponse } from './auth-response';
 import { EmailService } from '../email/email.service';
+import { UniqueError } from "./uniqueError";
 
 @Injectable()
 export class AuthService {
@@ -19,9 +20,6 @@ export class AuthService {
     private readonly $configService: ConfigService
   ) {}
 
-  public E_ERR = 0;
-  public D_ERR = 1;
-  public B_ERR = 2;
 
   public async validateUser(username: string, password: string): Promise<any> {
     const user = await this.$databaseService.user.findUnique({
@@ -59,8 +57,8 @@ export class AuthService {
    * @param institution   User institution (optional)
    * @param password      User password, not hashed
    * @returns HttpResponse Promise, will include
-   *          Success -> response.body will have user input data
-   *          Success, but user exists -> response.body will inncluse error {0,1,2}
+   *          Success -> valid JWT token
+   *          Fail, beacuse user exists -> response.body will include error {E_ERR, D_ERR, B_ERR} from UniqueError
    */
   public async register(email: string, displayName: string, website: string = '', institution: string = '', password: string): Promise<{}> {
     var uci: UserCreateInput;
@@ -69,10 +67,17 @@ export class AuthService {
       'displayName' : displayName,
       'passwordHash':''
     }
-    if (website != ''){uci.website = website;}
-    if (institution != ''){uci.institution = institution;}
+    if (true /*website != ''*/){uci.website = website;}
+    if (true /*institution != ''*/){uci.institution = institution;}
 
-    return this.registerGraphQL(uci, password);
+    const user = this.registerGraphQL(uci, password);
+    const payload = {
+      email: (await user).email,
+      sub: (await user).id
+    };
+    return {
+      accessToken: this.$jwtService.sign(payload)
+    };
   }
 
   public async loginGraphQL(
@@ -114,26 +119,29 @@ export class AuthService {
     password: string
   ): Promise<User> {
 
-    let checkE = await this.$databaseService.user.findUnique({
-      where: {
-        email: input.email
+    try {
+      let check = await this.$databaseService.user.findMany({
+        where: {
+          OR: [
+            {email: input.email},
+            {displayName: input.displayName}
+          ]
+        }
+      });
+      if (check?.length > 1){
+        throw UniqueError.B_ERR;
       }
-    });
-    let checkD = await this.$databaseService.user.findUnique({
-      where: {
-        displayName: input.displayName
+      if (check[0]?.email === input.email){
+        throw UniqueError.E_ERR;
       }
-    });
-
-    //NotUniqueException error throws
-    if (checkE && checkD){
-      throw new NotUniqueException(this.B_ERR);
-    }
-    if (checkE) {
-      throw new NotUniqueException(this.E_ERR);
-    }
-    if (checkD) {
-      throw new NotUniqueException(this.D_ERR);
+      if (check[0]?.displayName === input.displayName){
+        throw UniqueError.D_ERR;
+      }
+    }catch(e){
+      console.log(e);
+      if (e != {}){
+        throw new NotUniqueException(e as UniqueError);
+      }
     }
 
     const passwordHash = await argon2.hash(password);

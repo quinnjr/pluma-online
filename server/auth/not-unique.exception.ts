@@ -1,15 +1,14 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
+import { UniqueError } from "./uniqueError";
 
 
 /**
  * NotUniqueException: throw exception if user exists in database when attempting to register
  * @param nui NotUniqueIndex:
- *            0 -> email not uniquie
- *            1 -> display name not unique
- *            2 -> both not unique
+ *            accepts value from UniqueError.ts
  */
 export class NotUniqueException extends HttpException {
-  constructor(nui: any) {
+  constructor(nui: UniqueError) {
     super({
       "status" : HttpStatus.FORBIDDEN,
       "error" : {
