@@ -25,6 +25,21 @@
             </div>
           </div>
           <div class="field">
+            <label class="label">Email Confirmation</label>
+            <div class="control">
+              <input class="input" type="email"
+                formControlName="emailConfirm"
+                [ngClass]="{
+                  'is-danger': !registerForm.get('emailConfirm')?.valid
+                }"
+                required />
+            </div>
+            <div class="help is-danger"
+            *ngIf="registerForm.controls.emailConfirm.dirty && registerForm.errors?.['EmailMismatch']">
+              <p>Emails must match</p>
+            </div>
+          </div>
+          <div class="field">
             <label class="label">Display Name</label>
             <div class="control">
               <input class="input" type="text"
@@ -39,7 +54,7 @@
             <div *ngIf="registerForm.get('displayName')?.errors?.['InvalidDisplayName']">
               <p class="help is-danger">Display Name cannot be the same as the email handle.</p>
             </div>
-            <div *ngIf="registerForm.controls.email.dirty && (!uniqueD)">
+            <div *ngIf="registerForm.controls.email.dirty && (!uniqueDisplayNameFlag)">
               <p class="help is-danger">Display Name is already in use.</p>
             </div>
           </div>
@@ -61,13 +76,17 @@
           </div>
           <div class="field">
             <label class="label">Password</label>
-            <div class="control">
-              <input class="input" type="password"
+            <div class="control has-icons-right">
+              <input class="input"
+                type='password'
                 formControlName="password"
                 [ngClass]="{
                   'is-danger': !registerForm.get('password')?.valid
                 }"
                 required />
+              <span class="icon is-right">
+                  <i class="fas fa-eye-slash"></i>
+              </span>
             </div>
             <div *ngIf="!registerForm.get('password')?.errors?.['required'] && !registerForm.get('password')?.valid" class="box">
               <div *ngIf="(registerForm.get('password')?.errors?.['minlength'])">
@@ -95,7 +114,7 @@
                 required />
             </div>
             <div class="help is-danger"
-            *ngIf="registerForm.controls.passwordConfirm.dirty && registerForm.get('passwordConfirm')?.errors?.['PassMismatch']">
+            *ngIf="registerForm.controls.passwordConfirm.dirty && registerForm.errors?.['PassMismatch']">
               <p>Passwords must match</p>
             </div>
           </div>

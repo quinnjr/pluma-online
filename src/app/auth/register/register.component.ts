@@ -1,9 +1,9 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { notEmailValidator } from "./verify/validate/same-as-email.directive";
-import { samePassValidator } from "./verify/validate/pass-match.directive";
 import { HttpResponse, HttpClient } from '@angular/common/http';
 import { UniqueError } from "../../../../server/auth/uniqueError";
+import { AbstractControl, ValidatorFn, ValidationErrors } from "@angular/forms";
 
 @Component({
   selector: 'pluma-online-register',
@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit, DoCheck {
   ) {
     this.registerForm = this.$fb.group({
       email: ['', [Validators.required, Validators.email]],
+      emailConfirm: ['', [Validators.required]],
       displayName: ['', [Validators.required, notEmailValidator("")]],
       institution: [''],
       website: [''],
@@ -36,8 +37,26 @@ export class RegisterComponent implements OnInit, DoCheck {
           Validators.pattern(/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/)
         ]
       ],
-      passwordConfirm: ['', [Validators.required, samePassValidator("")]]
-    });
+      passwordConfirm: ['', [Validators.required]]
+    }, {validators: [this.samePassValidator, this.sameEmailValidator]});
+  }
+
+  /**
+   * Validates that both passwords match, case sensitive
+   */
+  samePassValidator: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => {
+    let pass = group.get('password')?.value;
+    let passConfirm = group.get('passwordConfirm')?.value;
+    return pass === passConfirm ? null : { PassMismatch: true }
+  }
+
+  /**
+   * Validates that both emails match, case insensitive
+   */
+  sameEmailValidator: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => {
+    let email = group.get('email')?.value.toLowerCase();
+    let confirmEmail = group.get('emailConfirm')?.value.toLowerCase();
+    return email === confirmEmail ? null : { EmailMismatch: true }
   }
 
   public ngOnInit(): void {}
@@ -62,18 +81,6 @@ export class RegisterComponent implements OnInit, DoCheck {
     if (this.registerForm.get('displayName')?.value != this.oldDisplayName){
       this.oldDisplayName = this.registerForm.get('displayName')?.value;
       this.uniqueDisplayNameFlag = true;
-    }
-
-    //On Password change
-    if (this.registerForm.get('password')?.value != this.oldPass){
-      this.oldPass = this.registerForm.get('password')?.value;
-      this.registerForm.controls['passwordConfirm'].setValidators(
-        Validators.compose([Validators.required, samePassValidator(this.registerForm.get('password')?.value)])
-      )
-      if (this.registerForm.get('password')?.value === this.registerForm.get('passwordConfirm')?.value){
-        this.registerForm.controls['passwordConfirm'].reset();
-        this.registerForm.controls['passwordConfirm'].setValue(this.registerForm.get('password')?.value);
-      }
     }
   }
 
