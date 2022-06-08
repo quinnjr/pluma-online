@@ -7,7 +7,7 @@
   "private": true,
   "main": "src/main.ts",
   "engines": {
-    "pnpm": "^6.0.0"
+    "pnpm": "^7.0.0"
   },
   "scripts": {
     "ng": "ng",
@@ -22,7 +22,7 @@
     "lint:client": "ng lint --fix",
     "lint:server": "eslint -c .eslintrc.json server/**/*.ts --fix",
     "test": "pnpm run test:client && pnpm run test:server",
-    "test:client": "ng test -- --run-in-band",
+    "test:client": "ng test --run-in-band",
     "test:server": "jest -c jest.server-config.json --run-in-band",
     "test:ci": "ng test --ci && pnpm run test:server -- --ci",
     "test:e2e": "cypress run",
