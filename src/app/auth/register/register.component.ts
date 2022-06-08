@@ -1,21 +1,17 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { notEmailValidator } from "./verify/validate/same-as-email.directive";
 import { HttpResponse, HttpClient } from '@angular/common/http';
-import { UniqueError } from "../../../../server/auth/uniqueError";
 import { AbstractControl, ValidatorFn, ValidationErrors } from "@angular/forms";
+import { UserCreateInput } from 'server/@generated/prisma-graphql/user';
 
 @Component({
   selector: 'pluma-online-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit, DoCheck {
+export class RegisterComponent {
   public registerForm: FormGroup;
   public isSubmitted: boolean = false;
-  public oldPass: string = '';
-  public oldEmail: string = '';
-  public oldDisplayName: string = '';
   public uniqueEmailFlag: boolean = true;
   public uniqueDisplayNameFlag: boolean = true;
 
@@ -26,7 +22,7 @@ export class RegisterComponent implements OnInit, DoCheck {
     this.registerForm = this.$fb.group({
       email: ['', [Validators.required, Validators.email]],
       emailConfirm: ['', [Validators.required]],
-      displayName: ['', [Validators.required, notEmailValidator("")]],
+      displayName: ['', [Validators.required]],
       institution: [''],
       website: [''],
       password: [
@@ -37,8 +33,9 @@ export class RegisterComponent implements OnInit, DoCheck {
           Validators.pattern(/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])/)
         ]
       ],
-      passwordConfirm: ['', [Validators.required]]
-    }, {validators: [this.samePassValidator, this.sameEmailValidator]});
+      passwordConfirm: ['', [Validators.required]],
+      formStatus: [null]
+    }, {validators: [this.samePassValidator, this.sameEmailValidator, this.notEmailHandleValidator]});
   }
 
   /**
@@ -59,29 +56,13 @@ export class RegisterComponent implements OnInit, DoCheck {
     return email === confirmEmail ? null : { EmailMismatch: true }
   }
 
-  public ngOnInit(): void {}
-
-  ngDoCheck(): void {
-
-    //On email change
-    if (this.registerForm.get('email')?.value.toLowerCase() != this.oldEmail){
-
-      this.oldEmail = this.registerForm.get('email')?.value.toLowerCase();
-      this.registerForm.controls['displayName'].setValidators(
-        Validators.compose([Validators.required, notEmailValidator(this.registerForm.get('email')?.value.split("@", 2)[0].toLowerCase())])
-      )
-      if (this.registerForm.get('email')?.value.split("@", 2)[0].toLowerCase() === this.registerForm.get('displayName')?.value.toLowerCase()){
-        this.registerForm.controls['displayName'].reset();
-        this.registerForm.controls['displayName'].setValue(this.registerForm.get('email')?.value.split("@", 2)[0]);
-      }
-      this.uniqueEmailFlag = true;
-    }
-
-    //On Display Name change
-    if (this.registerForm.get('displayName')?.value != this.oldDisplayName){
-      this.oldDisplayName = this.registerForm.get('displayName')?.value;
-      this.uniqueDisplayNameFlag = true;
-    }
+  /**
+   * Validates that display name is not email handle, case insensitive
+   */
+   notEmailHandleValidator: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => {
+    let email = group.get('email')?.value.toLowerCase();
+    let displayName = group.get('displayName')?.value.toLowerCase();
+    return email != displayName ? null : { InvalidDisplayName: true }
   }
 
   public onSubmit() {
@@ -92,13 +73,19 @@ export class RegisterComponent implements OnInit, DoCheck {
 
     const { email, displayName, institution, website, password } = this.registerForm.controls;
 
+    let userInput: UserCreateInput;
+    userInput = {
+      'email' : email?.value,
+      'displayName' : displayName?.value,
+      'passwordHash':''
+    }
+    if (true /*website != ''*/){userInput.website = website?.value;}
+    if (true /*institution != ''*/){userInput.institution = institution?.value;}
+
     this.$http.post('/api/auth/register',
     {
-      email:email?.value.toLowerCase(),
-      displayName:displayName?.value,
-      institution:institution?.value,
-      website:website?.value,
-      password:password?.value
+      userInput: userInput,
+      password: password?.value
     }, { observe: 'response' }).subscribe((response: HttpResponse<Object>) => {
 
       if(response.ok && (response.body?.['error'] === undefined)){
@@ -106,9 +93,10 @@ export class RegisterComponent implements OnInit, DoCheck {
       }
     },
     err => {
-      if (err.error?.['error'].message === UniqueError.E_ERR){this.uniqueEmailFlag = false}
-      if (err.error?.['error'].message === UniqueError.D_ERR){this.uniqueDisplayNameFlag = false}
-      if (err.error?.['error'].message === UniqueError.B_ERR){this.uniqueEmailFlag = false;this.uniqueDisplayNameFlag = false}
+      console.log(err)
+      if (err.status === 403){
+        this.registerForm.get('formStatus')?.setValue(err.error.message)
+      }
     })
   }
 }

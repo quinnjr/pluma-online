@@ -14,13 +14,14 @@
                   'is-danger': !registerForm.get('email')?.valid
                 }" required />
             </div>
-            <div *ngIf="registerForm.controls.email.dirty && registerForm.get('email')?.hasError('required')">
+            <div *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.hasError('required')">
               <p class="help is-danger">Email address is required.</p>
             </div>
-            <div *ngIf="registerForm.controls.email.dirty && (registerForm.get('email')?.status === 'INVALID')">
+            <div *ngIf="registerForm.get('email')?.dirty && (registerForm.get('email')?.status === 'INVALID')">
               <p class="help is-danger">Must be a valid Email.</p>
             </div>
-            <div *ngIf="registerForm.controls.email.dirty && (!uniqueEmailFlag)">
+            <!--instead of 1, 2 or 3 it would be a string enum value, but is this what you had in mind?-->>
+            <div *ngIf="registerForm.get('email')?.dirty && (registerForm.get('formStatus')?.value === 3 || registerForm.get('formStatus')?.value === 1)">
               <p class="help is-danger">Email is already in use.</p>
             </div>
           </div>
@@ -35,7 +36,7 @@
                 required />
             </div>
             <div class="help is-danger"
-            *ngIf="registerForm.controls.emailConfirm.dirty && registerForm.errors?.['EmailMismatch']">
+            *ngIf="registerForm.get('emailConfirm')?.dirty && registerForm.hasError('EmailMismatch')">
               <p>Emails must match</p>
             </div>
           </div>
@@ -48,13 +49,13 @@
                   'is-danger': !registerForm.get('displayName')?.valid
                 }" required />
             </div>
-            <div *ngIf="registerForm.controls.displayName.dirty && registerForm.get('displayName')?.hasError('required')">
+            <div *ngIf="registerForm.get('displayName')?.dirty && registerForm.get('displayName')?.hasError('required')">
               <p class="help is-danger">Display Name is required.</p>
             </div>
-            <div *ngIf="registerForm.get('displayName')?.errors?.['InvalidDisplayName']">
+            <div *ngIf="registerForm.hasError('InvalidDisplayName')">
               <p class="help is-danger">Display Name cannot be the same as the email handle.</p>
             </div>
-            <div *ngIf="registerForm.controls.email.dirty && (!uniqueDisplayNameFlag)">
+            <div *ngIf="registerForm.get('displayName')?.dirty && (registerForm.get('formStatus')?.value === 3 || registerForm.get('formStatus')?.value === 2)">
               <p class="help is-danger">Display Name is already in use.</p>
             </div>
           </div>
@@ -88,11 +89,11 @@
                   <i class="fas fa-eye-slash"></i>
               </span>
             </div>
-            <div *ngIf="!registerForm.get('password')?.errors?.['required'] && !registerForm.get('password')?.valid" class="box">
-              <div *ngIf="(registerForm.get('password')?.errors?.['minlength'])">
+            <div *ngIf="!registerForm.get('password')?.hasError('required') && !registerForm.get('password')?.valid" class="box">
+              <div *ngIf="(registerForm.get('password')?.hasError('minlength'))">
                 <p class="help is-danger">Length of password must be at least 8.</p>
               </div>
-              <div *ngIf="(registerForm.get('password')?.errors?.['pattern'])">
+              <div *ngIf="(registerForm.get('password')?.hasError('pattern'))">
                 <div>
                   <p class="help is-danger">Password must include atleast one of each:</p>
                 </div>
@@ -114,7 +115,7 @@
                 required />
             </div>
             <div class="help is-danger"
-            *ngIf="registerForm.controls.passwordConfirm.dirty && registerForm.errors?.['PassMismatch']">
+            *ngIf="registerForm.get('passwordConfirm')?.dirty && registerForm.hasError('PassMismatch')">
               <p>Passwords must match</p>
             </div>
           </div>

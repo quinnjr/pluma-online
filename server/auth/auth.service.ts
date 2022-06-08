@@ -1,15 +1,13 @@
 import { createHash } from 'node:crypto';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import argon2 from 'argon2';
-import { NotUniqueException } from "./not-unique.exception";
 
 import { DatabaseService } from '../database/database.service';
 import { User, UserCreateInput } from '../@generated/prisma-graphql/user';
 import { AuthResponse } from './auth-response';
 import { EmailService } from '../email/email.service';
-import { UniqueError } from "./uniqueError";
 
 @Injectable()
 export class AuthService {
@@ -42,39 +40,6 @@ export class AuthService {
       sub: user.id
     };
 
-    return {
-      accessToken: this.$jwtService.sign(payload)
-    };
-  }
-
-  /**
-   * Wrapper function for registerGraphQL:
-   * Creates UserCreateInput to send
-   *
-   * @param email         User email
-   * @param displayName   User display name
-   * @param website       User website (optional)
-   * @param institution   User institution (optional)
-   * @param password      User password, not hashed
-   * @returns HttpResponse Promise, will include
-   *          Success -> valid JWT token
-   *          Fail, beacuse user exists -> response.body will include error {E_ERR, D_ERR, B_ERR} from UniqueError
-   */
-  public async register(email: string, displayName: string, website: string = '', institution: string = '', password: string): Promise<{}> {
-    var uci: UserCreateInput;
-    uci = {
-      'email' : email,
-      'displayName' : displayName,
-      'passwordHash':''
-    }
-    if (true /*website != ''*/){uci.website = website;}
-    if (true /*institution != ''*/){uci.institution = institution;}
-
-    const user = this.registerGraphQL(uci, password);
-    const payload = {
-      email: (await user).email,
-      sub: (await user).id
-    };
     return {
       accessToken: this.$jwtService.sign(payload)
     };
@@ -117,31 +82,28 @@ export class AuthService {
   public async registerGraphQL(
     input: UserCreateInput,
     password: string
-  ): Promise<User> {
+  ): Promise<any> {
 
-    try {
-      let check = await this.$databaseService.user.findMany({
-        where: {
-          OR: [
-            {email: input.email},
-            {displayName: input.displayName}
-          ]
-        }
-      });
-      if (check?.length > 1){
-        throw UniqueError.B_ERR;
+
+    let check = await this.$databaseService.user.findMany({
+      where: {
+        OR: [
+          {email: input.email},
+          {displayName: input.displayName}
+        ]
       }
-      if (check[0]?.email === input.email){
-        throw UniqueError.E_ERR;
-      }
-      if (check[0]?.displayName === input.displayName){
-        throw UniqueError.D_ERR;
-      }
-    }catch(e){
-      console.log(e);
-      if (e != {}){
-        throw new NotUniqueException(e as UniqueError);
-      }
+    });
+    //Email and Display name are in use
+    if (check?.length > 1){
+      throw new ForbiddenException(3);
+    }
+    //Email is in use
+    if (check[0]?.email === input.email){
+      throw new ForbiddenException(1);
+    }
+    //Display name is in use
+    if (check[0]?.displayName === input.displayName){
+      throw new ForbiddenException(2);
     }
 
     const passwordHash = await argon2.hash(password);
@@ -209,7 +171,13 @@ export class AuthService {
       ]
     });
 
-    return user;
+    const payload = {
+      email: user.email,
+      sub: user.id
+    };
+    return {
+      accessToken: this.$jwtService.sign(payload)
+    };
   }
 
   public async verify(userId: string, code: string): Promise<boolean> {
