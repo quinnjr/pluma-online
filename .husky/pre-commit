@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-ng lint --fix
-pnpm run eslint -c .eslintrc.json server/**/*.ts --fix
+ng lint --fix --max-warnings 0
+pnpm run eslint -c .eslintrc.json server/**/*.ts --fix --max-warnings 0

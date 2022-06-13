@@ -1,0 +1,20 @@
+
+<div class="content">
+  <section class="section">
+      <h1 class="title">Publications</h1>
+  </section>
+  <section class="section" *ngFor="let section of publications" [id]="section.year">
+    <h2 class="title">{{ section.year }}</h2>
+    <hr />
+    <ul *ngFor="let publication of section.publications">
+      <li>
+        <span *ngIf="publication.isNew">
+          <figure class="image is-2by1">
+            <img src="http://www.cs.fiu.edu/~giri/gif/new2.gif" />
+          </figure>
+        </span>
+        {{ publication.authors}}, ({{ publication.publishedYear }}). {{ publication.title }}. <em>{{ publication.journal }}, {{ publication.journalVolume }}</em>({{ publication.journalIssue }}). <span *ngIf="publication.doi">DOI: {{ publication.doi }}.</span><span *ngIf="publication.url">{{ publication.url }}</span>
+      </li>
+    </ul>
+  </section>
+</div>

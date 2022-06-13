@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   public registerForm: FormGroup = new FormGroup({
     email: new FormControl(''),
     password: new FormControl('')
@@ -15,8 +15,6 @@ export class RegisterComponent implements OnInit {
   public isSubmitted: boolean = false;
 
   constructor() {}
-
-  public ngOnInit(): void {}
 
   public onSubmit() {}
 }

@@ -30,7 +30,8 @@ import { StorageMap, StorageModule } from '@ngx-pwa/local-storage';
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
 
-import { HomeComponent } from './home/home/home.component';
+import { HomeModule } from './home/home.module';
+import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { SidebarComponent } from './home/sidebar/sidebar.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -44,6 +45,10 @@ import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtInterceptor } from './jwt.interceptor';
 import { UserService } from './user/user.service';
+import { PeopleComponent } from './people/people.component';
+import { PublicationsComponent } from './publications/publications.component';
+import { TeachingComponent } from './teaching/teaching.component';
+import { ResearchComponent } from './research/research.component';
 
 export const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
 export const STATE_KEY = makeStateKey<any>('apollo.state');
@@ -67,18 +72,21 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
       IDBDBVersion: 1
     }),
     // Internal modules
-    AuthModule,
-    PlumaModule,
     AppRouterModule,
+    AuthModule,
+    HomeModule,
+    PlumaModule,
     AdminModule,
     AccountModule
   ],
   declarations: [
     AppComponent,
-    HomeComponent,
     NavigationComponent,
-    SidebarComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    PeopleComponent,
+    PublicationsComponent,
+    TeachingComponent,
+    ResearchComponent
   ],
   providers: [
     UserService,
