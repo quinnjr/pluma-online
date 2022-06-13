@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { NgModule } from '@angular/core';
-import { Route, RouterModule } from '@angular/router';
-import { List } from 'immutable';
+import { Routes, RouterModule } from '@angular/router';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
@@ -17,13 +16,12 @@ import { VerifyComponent } from './auth/register/verify/verify.component';
 import { PeopleComponent } from './people/people.component';
 import { PublicationsComponent } from './publications/publications.component';
 
-const routes: List<Route> = List([
+const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module')
         .then((m) => m.AdminModule)
-        .catch(console.error)
     // canActivate: [IsAdminGuard],
     // canLoad: [IsAdminGuard]
   },
@@ -31,17 +29,15 @@ const routes: List<Route> = List([
     path: 'account',
     loadChildren: () =>
       import('./account/account.module')
-        .then((m) => m.AccountModule)
-        .catch(console.error),
+        .then((m) => m.AccountModule),
     canActivate: [IsLoggedInGuard],
     canLoad: [IsLoggedInGuard]
   },
   {
     path: 'pluma',
     loadChildren: () =>
-      import('./pluma/pluma-router.module')
-        .then((m) => m.PlumaRouterModule)
-        .catch(console.error)
+      import('./pluma/pluma.module')
+        .then((m) => m.PlumaModule)
   },
   { path: 'login', component: LoginComponent },
   { path: 'register/verify', component: VerifyComponent },
@@ -53,10 +49,10 @@ const routes: List<Route> = List([
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', redirectTo: 'not-found' }
-]);
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes.toArray())],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRouterModule {}

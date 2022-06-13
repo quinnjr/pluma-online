@@ -13,6 +13,7 @@ import { matching } from '../../validators/matching';
 })
 export class RegisterComponent {
   public registerForm: FormGroup;
+  public isSubmitted = false;
   public hasError = new BehaviorSubject(false);
   public error?: Error;
 
@@ -61,6 +62,8 @@ export class RegisterComponent {
     }
 
     const password = this.registerForm.get('password')?.value;
+
+    this.isSubmitted = true;
 
     this.$http
       .post(
