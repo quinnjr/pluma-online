@@ -25,14 +25,14 @@ export class AuthResolver {
     return this.$authService.loginGraphQL(username, password);
   }
 
-  @Mutation((returns) => User)
-  public async register(
-    @Args('password', { type: () => String, nullable: false }) password: string,
-    @Args('input', { type: () => UserCreateInput, nullable: false })
-    input: UserCreateInput
-  ): Promise<User> {
-    return this.$authService.registerGraphQL(input, password);
-  }
+  // @Mutation((returns) => User)
+  // public async register(
+  //   @Args('password', { type: () => String, nullable: false }) password: string,
+  //   @Args('input', { type: () => UserCreateInput, nullable: false })
+  //   input: UserCreateInput
+  // ): Promise<User> {
+  // return this.$authService.registerGraphQL(input, password);
+  // }
 
   @Query((returns) => Verify)
   public async verify(

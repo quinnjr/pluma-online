@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import {
   PipelineCreateInput,
   PipelineOrderByWithRelationInput,
-  PipelineUpdateInput,
+  PipelineUncheckedUpdateInput,
   PipelineWhereUniqueInput
 } from '../@generated/prisma-graphql/pipeline';
 import { DatabaseService } from '../database/database.service';
@@ -41,8 +41,8 @@ export class PipelinesResolver {
   public async updatePipeline(
     @Args('where', { type: () => PipelineWhereUniqueInput })
     where: PipelineWhereUniqueInput,
-    @Args('pipelineData', { type: () => PipelineUpdateInput })
-    data: PipelineUpdateInput
+    @Args('pipelineData', { type: () => PipelineUncheckedUpdateInput })
+    data: PipelineUncheckedUpdateInput
   ): Promise<Pipeline> {
     return this.$database.pipeline.update({
       where,

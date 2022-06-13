@@ -30,6 +30,7 @@
       </div>
     </ng-container>
     <ng-container *ngIf="(user | async) === null">
+      <a class="navbar-item" routerLink="/register">Register</a>
       <a class="navbar-item" routerLink="/login">Login</a>
     </ng-container>
   </div>

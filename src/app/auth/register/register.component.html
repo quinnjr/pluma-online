@@ -8,27 +8,117 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control">
-              <input class="input" type="email" placeholder="jdoe@fiu.edu"
+              <input class="input" type="email"
                 formControlName="email"
-                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('emails')?.errors }" required />
+                [ngClass]="{
+                  'is-danger': registerForm.get('email')?.dirty && !registerForm.get('email')?.valid
+                }" required />
             </div>
-            <div *ngIf="registerForm.dirty && registerForm.get('email')?.hasError('required')">
+            <div *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.hasError('required')">
               <p class="help is-danger">Email address is required.</p>
+            </div>
+            <div *ngIf="registerForm.get('email')?.dirty && (registerForm.get('email')?.status === 'INVALID')">
+              <p class="help is-danger">Must be a valid Email.</p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Email Confirmation</label>
+            <div class="control">
+              <input class="input" type="email"
+                formControlName="emailConfirm"
+                [ngClass]="{
+                  'is-danger':registerForm.get('emailConfirm')?.dirty && !registerForm.get('emailConfirm')?.valid
+                }"
+                required />
+            </div>
+            <div class="help is-danger"
+            *ngIf="registerForm.get('emailConfirm')?.dirty && registerForm.hasError('isMatching')">
+              <p>Email addresses must match</p>
             </div>
           </div>
           <div class="field">
             <label class="label">Password</label>
+            <div class="control has-icons-right">
+              <input class="input"
+                type='password'
+                formControlName="password"
+                [ngClass]="{
+                  'is-danger': registerForm.get('password')?.dirty && !registerForm.get('password')?.valid
+                }"
+                required />
+              <span class="icon is-right">
+                  <i class="fas fa-eye-slash"></i>
+              </span>
+            </div>
+            <div *ngIf="!registerForm.get('password')?.hasError('required') && !registerForm.get('password')?.valid" class="box">
+              <div *ngIf="(registerForm.get('password')?.hasError('minlength'))">
+                <p class="help is-danger">Length of password must be at least 8 characters.</p>
+              </div>
+              <div *ngIf="(registerForm.get('password')?.hasError('pattern'))">
+                <div>
+                  <p class="help is-danger">Password must include at least one of each:</p>
+                </div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[a-z]+)') ? 'is-success' : 'is-danger']">- lowercase</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[A-Z]+)') ? 'is-success' : 'is-danger']">- uppercase</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[0-9]+)') ? 'is-success' : 'is-danger']">- number</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[!@#$%^&*?]+)') ? 'is-success' : 'is-danger']">- symbol</p></div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Password Confirmation</label>
             <div class="control">
               <input class="input" type="password"
-                formControlName="password"
-                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('password')?.errors }"
+                formControlName="passwordConfirm"
+                [ngClass]="{
+                  'is-danger': registerForm.get('passwordConfirm')?.dirty && !registerForm.get('passwordConfirm')?.valid
+                }"
                 required />
             </div>
+            <div class="help is-danger"
+            *ngIf="registerForm.get('passwordConfirm')?.dirty && registerForm.hasError('isMatching')">
+              <p>Passwords must match</p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Display Name</label>
+            <div class="control">
+              <input class="input" type="text"
+                formControlName="displayName"
+                [ngClass]="{
+                  'is-danger': registerForm.get('displayName')?.dirty && !registerForm.get('displayName')?.valid
+                }" required />
+            </div>
+            <div *ngIf="registerForm.get('displayName')?.dirty && registerForm.get('displayName')?.hasError('required')">
+              <p class="help is-danger">Display Name is required.</p>
+            </div>
+            <div *ngIf="registerForm.get('displayName')?.dirty && registerForm.hasError('invalidDisplayName')">
+              <p class="help is-danger">Display Name cannot be the same as your email address.</p>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Institution</label>
+            <div class="control">
+              <input class="input" type="institution"
+                formControlName="institution"
+                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('institution')?.errors }"/>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Website</label>
+            <div class="control">
+              <input class="input" type="website"
+                formControlName="website"
+                [ngClass]="{ 'is-danger': isSubmitted && registerForm.get('website')?.errors }"/>
+            </div>
+          </div>
+          <div *ngIf="hasError | async" class="notification is-danger">
+            {{ error?.message }}
           </div>
           <div class="field">
             <div class="control">
               <button class="button is-primary" type="submit"
-                [disabled]="!registerForm.valid">Submit</button>
+                [disabled]="registerForm.pristine || !registerForm.valid">Submit</button>
             </div>
           </div>
         </form>

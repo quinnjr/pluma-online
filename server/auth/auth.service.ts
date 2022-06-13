@@ -1,5 +1,9 @@
 import { createHash } from 'node:crypto';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  NotAcceptableException
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import argon2 from 'argon2';
@@ -44,10 +48,6 @@ export class AuthService {
     };
   }
 
-  public async register(email: string, password: string): Promise<{}> {
-    return {};
-  }
-
   public async loginGraphQL(
     email: string,
     password: string
@@ -82,18 +82,40 @@ export class AuthService {
     }
   }
 
-  public async registerGraphQL(
+  public async register(
     input: UserCreateInput,
     password: string
-  ): Promise<User> {
-    let user = await this.$databaseService.user.findUnique({
+  ): Promise<any> {
+    let check = await this.$databaseService.user.findMany({
       where: {
-        email: input.email
+        OR: [
+          {
+            email: input.email
+          },
+          {
+            displayName: input.displayName
+          }
+        ]
       }
     });
 
-    if (user) {
-      throw new UnauthorizedException('User already exists');
+    //Email and Display name are in use
+    if (check?.length > 1) {
+      throw new NotAcceptableException(
+        'The email and display name you are trying to use are already registered'
+      );
+    }
+
+    //Email is in use
+    if (check[0]?.email === input.email) {
+      throw new NotAcceptableException(
+        'This email address is already registered'
+      );
+    }
+
+    //Display name is in use
+    if (check[0]?.displayName === input.displayName) {
+      throw new NotAcceptableException('This display name is already in use');
     }
 
     const passwordHash = await argon2.hash(password);
@@ -103,7 +125,7 @@ export class AuthService {
       passwordHash
     };
 
-    user = await this.$databaseService.user.create({
+    let user = await this.$databaseService.user.create({
       data: newUser
     });
 
@@ -161,7 +183,13 @@ export class AuthService {
       ]
     });
 
-    return user;
+    const payload = {
+      email: user.email,
+      sub: user.id
+    };
+    return {
+      accessToken: this.$jwtService.sign(payload)
+    };
   }
 
   public async verify(userId: string, code: string): Promise<boolean> {
