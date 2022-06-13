@@ -20,24 +20,21 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
-      import('./admin/admin.module')
-        .then((m) => m.AdminModule)
+      import('./admin/admin.module').then((m) => m.AdminModule)
     // canActivate: [IsAdminGuard],
     // canLoad: [IsAdminGuard]
   },
   {
     path: 'account',
     loadChildren: () =>
-      import('./account/account.module')
-        .then((m) => m.AccountModule),
+      import('./account/account.module').then((m) => m.AccountModule),
     canActivate: [IsLoggedInGuard],
     canLoad: [IsLoggedInGuard]
   },
   {
     path: 'pluma',
     loadChildren: () =>
-      import('./pluma/pluma.module')
-        .then((m) => m.PlumaModule)
+      import('./pluma/pluma.module').then((m) => m.PlumaModule)
   },
   { path: 'login', component: LoginComponent },
   { path: 'register/verify', component: VerifyComponent },

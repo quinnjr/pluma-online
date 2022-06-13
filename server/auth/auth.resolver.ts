@@ -31,7 +31,7 @@ export class AuthResolver {
   //   @Args('input', { type: () => UserCreateInput, nullable: false })
   //   input: UserCreateInput
   // ): Promise<User> {
-    // return this.$authService.registerGraphQL(input, password);
+  // return this.$authService.registerGraphQL(input, password);
   // }
 
   @Query((returns) => Verify)

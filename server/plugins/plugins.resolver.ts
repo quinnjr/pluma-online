@@ -83,7 +83,10 @@ export class PluginsResolver {
   public async updatePlugin(
     @Args('where', { type: () => PluginWhereUniqueInput, nullable: false })
     where: PluginWhereUniqueInput,
-    @Args('pluginData', { type: () => PluginUncheckedUpdateInput, nullable: false })
+    @Args('pluginData', {
+      type: () => PluginUncheckedUpdateInput,
+      nullable: false
+    })
     data: PluginUncheckedUpdateInput
   ): Promise<Plugin> {
     return this.$database.plugin.update({
