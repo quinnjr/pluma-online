@@ -40,6 +40,7 @@ model Plugin {
   authorId     String?      @db.ObjectId
   verification PluginStatus @default(Unverified)
   comments     Comment[]
+  tags         String[]
   createdAt    DateTime     @default(now()) @db.Timestamp
   updatedAt    DateTime     @default(now()) @updatedAt @db.Timestamp
 
@@ -133,4 +134,19 @@ model Comment {
   updatedAt DateTime  @default(now()) @updatedAt @db.Timestamp
 
   @@map("comments")
+}
+
+model Publication {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  authors String
+  publishedYear Int
+  title String
+  journal String
+  journalVolume Int
+  journalIssue Int
+  pageRange String
+  url String?
+  doi String?
+  isNew Boolean
+  @@map("publications")
 }

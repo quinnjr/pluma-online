@@ -1,0 +1,49 @@
+<section class="section" id="header">
+  <h1 class="title">Bioinformatics Research Group Members</h1>
+</section>
+<section class="section content" id="faculty">
+  <h2 class="title">Faculty Members</h2>
+  <hr />
+  <div class="columns">
+    <ng-container *ngFor="let fac of faculty">
+      <div class="column is-3">
+        <div class="card" style="min-height: 337.25px">
+          <div class="card-image is-flex-direction-row is-justify-content-center" style="display: flex;">
+            <figure class="image is-128x128">
+              <img class="is-rounded" [src]="fac.portrait" />
+            </figure>
+          </div>
+          <div class="card-content">
+            <h5 class="title">{{ fac.name}}</h5>
+            <h6 class="subtitle">{{ fac.position }}</h6>
+            <em>{{ fac.expertise }}</em>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+<section class="section content">
+  <h2 class="title">Bioinformatics Research Group (BioRG)</h2>
+  <hr />
+  <div class="columns">
+    <ng-container *ngFor="let student of currentStudents">
+      <div class="column is-3">
+        <div class="card" style="min-height: 337.25px">
+          <div class="card-image is-flex-direction-row is-justify-content-center"
+            style="display: flex;"
+          >
+            <figure class="image is-128x128">
+              <img class="is-rounded" [src]="student.portrait" />
+            </figure>
+          </div>
+          <div class="card-content">
+            <h5 class="title">{{ student.name }}</h5>
+            <h6 class="subtitle">{{ student.year }}</h6>
+            <em>{{ student.expertise }}</em>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

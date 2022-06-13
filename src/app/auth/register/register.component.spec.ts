@@ -5,18 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import { CommonModule } from '@angular/common';
 
-
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        CommonModule
-      ],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, CommonModule],
       declarations: [RegisterComponent]
     }).compileComponents();
   });

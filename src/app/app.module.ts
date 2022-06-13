@@ -25,12 +25,13 @@ import {
   RecaptchaModule,
   RecaptchaV3Module
 } from 'ng-recaptcha';
-import { StorageModule } from '@ngx-pwa/local-storage';
+import { StorageMap, StorageModule } from '@ngx-pwa/local-storage';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app-router.module';
 
-import { HomeComponent } from './home/home/home.component';
+import { HomeModule } from './home/home.module';
+import { HomeComponent } from './home/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { SidebarComponent } from './home/sidebar/sidebar.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -38,12 +39,16 @@ import { RegisterComponent } from './auth/register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { VerifyComponent } from './auth/register/verify/verify.component';
 
-import { AuthService } from './auth/auth.service';
-
 import { PlumaModule } from './pluma/pluma.module';
 import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
+import { JwtInterceptor } from './jwt.interceptor';
+import { UserService } from './user/user.service';
+import { PeopleComponent } from './people/people.component';
+import { PublicationsComponent } from './publications/publications.component';
+import { TeachingComponent } from './teaching/teaching.component';
+import { ResearchComponent } from './research/research.component';
 
 export const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
 export const STATE_KEY = makeStateKey<any>('apollo.state');
@@ -67,21 +72,24 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
       IDBDBVersion: 1
     }),
     // Internal modules
-    AuthModule,
-    PlumaModule,
     AppRouterModule,
+    AuthModule,
+    HomeModule,
+    PlumaModule,
     AdminModule,
     AccountModule
   ],
   declarations: [
     AppComponent,
-    HomeComponent,
     NavigationComponent,
-    SidebarComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    PeopleComponent,
+    PublicationsComponent,
+    TeachingComponent,
+    ResearchComponent
   ],
   providers: [
-    AuthService,
+    UserService,
     {
       provide: APOLLO_CACHE,
       useValue: new InMemoryCache()
@@ -91,7 +99,8 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
       useFactory: (
         httpLink: HttpLink,
         cache: InMemoryCache,
-        transferState: TransferState
+        transferState: TransferState,
+        storage: StorageMap
       ) => {
         const isBrowser = transferState.hasKey<any>(STATE_KEY);
 
@@ -106,21 +115,19 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
 
         const basic = setContext((operation, context) => ({
           headers: {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Accept: 'charset=utf-8'
           }
         }));
 
         const auth = setContext((operation, context) => {
-          let token;
+          const token = storage.get('accessToken').subscribe(() => {});
 
-          if (isBrowser) {
-            token = localStorage.getItem('accessToken');
-          }
-
-          return token === null
+          return !token
             ? {}
             : {
                 headers: {
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
                   Authorization: `Bearer ${token}`
                 }
               };
@@ -129,9 +136,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
         const link = ApolloLink.from([
           basic,
           auth,
-          httpLink.create({
-            uri: '/graphql'
-          })
+          httpLink.create({ uri: '/graphql' })
         ]);
 
         return {
@@ -139,7 +144,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
           link
         };
       },
-      deps: [HttpLink, APOLLO_CACHE, TransferState]
+      deps: [HttpLink, APOLLO_CACHE, TransferState, StorageMap]
     },
     {
       provide: RECAPTCHA_V3_SITE_KEY,
@@ -149,6 +154,11 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
       provide: RECAPTCHA_LANGUAGE,
       useFactory: (locale: string) => locale,
       deps: [LOCALE_ID]
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

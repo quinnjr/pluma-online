@@ -20,7 +20,6 @@
             <div *ngIf="registerForm.get('email')?.dirty && (registerForm.get('email')?.status === 'INVALID')">
               <p class="help is-danger">Must be a valid Email.</p>
             </div>
-            <!--instead of 1, 2 or 3 it would be a string enum value, but is this what you had in mind?-->>
             <div *ngIf="registerForm.get('email')?.dirty && (registerForm.get('formStatus')?.value === 3 || registerForm.get('formStatus')?.value === 1)">
               <p class="help is-danger">Email is already in use.</p>
             </div>
@@ -91,16 +90,16 @@
             </div>
             <div *ngIf="!registerForm.get('password')?.hasError('required') && !registerForm.get('password')?.valid" class="box">
               <div *ngIf="(registerForm.get('password')?.hasError('minlength'))">
-                <p class="help is-danger">Length of password must be at least 8.</p>
+                <p class="help is-danger">Length of password must be at least 8 characters.</p>
               </div>
               <div *ngIf="(registerForm.get('password')?.hasError('pattern'))">
                 <div>
-                  <p class="help is-danger">Password must include atleast one of each:</p>
+                  <p class="help is-danger">Password must include at least one of each:</p>
                 </div>
-                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[a-z]+)') ? 'is-success' : 'is-danger']">-lowercase</p></div>
-                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[A-Z]+)') ? 'is-success' : 'is-danger']">-uppercase</p></div>
-                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[0-9]+)') ? 'is-success' : 'is-danger']">-number</p></div>
-                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[!@#$%^&*?]+)') ? 'is-success' : 'is-danger']">-symbol</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[a-z]+)') ? 'is-success' : 'is-danger']">- lowercase</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[A-Z]+)') ? 'is-success' : 'is-danger']">- uppercase</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[0-9]+)') ? 'is-success' : 'is-danger']">- number</p></div>
+                <div><p class="help" [ngClass]="[registerForm.get('password')?.value.match('(?=[!@#$%^&*?]+)') ? 'is-success' : 'is-danger']">- symbol</p></div>
               </div>
             </div>
           </div>
@@ -119,10 +118,13 @@
               <p>Passwords must match</p>
             </div>
           </div>
+          <div *ngIf="hasError | async" class="notification is-danger">
+            {{ error.message }}
+          </div>
           <div class="field">
             <div class="control">
               <button class="button is-primary" type="submit"
-                [disabled]="!registerForm.valid">Submit</button>
+                [disabled]="registerForm.pristine || !registerForm.valid">Submit</button>
             </div>
           </div>
         </form>

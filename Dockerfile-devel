@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.3-labs
 FROM node:lts-alpine as builder
 
 ENV ENV development
@@ -11,10 +10,10 @@ WORKDIR /app
 COPY . .
 
 RUN apk add python3 build-base && \
-  npm install -g npm "pnpm@^6.0.0" prisma @angular/cli && \
+  npm install -g npm pnpm prisma @angular/cli && \
   chown -R node:node /app && \
   pnpm config set store-dir /app/.pnpm-store && \
-  pnpm install --no-optional --unsafe-perm
+  pnpm install --no-optional --unsafe-perm --strict-peer-dependencies=false
 
 USER node
 

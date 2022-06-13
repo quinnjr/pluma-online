@@ -8,33 +8,35 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control">
-              <input class="input" type="email" placeholder="jdoe@fiu.edu"
+              <input class="input" type="email"
                 formControlName="email"
                 [ngClass]="{ 'is-danger': isSubmitted && loginForm.get('emails')?.errors }" required />
             </div>
-            <div *ngIf="loginForm.dirty && loginForm.get('email')?.hasError('required')">
-              <p class="help is-danger">Email address is required.</p>
-            </div>
+            <ng-container *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.hasError">
+              <p *ngIf="loginForm.get('email')?.hasError('email')" class="help is-danger">A valid email address is required.</p>
+            </ng-container>
           </div>
           <div class="field">
             <label class="label">Password</label>
             <div class="control">
               <input class="input" type="password"
                 formControlName="password"
-                [ngClass]="{ 'is-danger': isSubmitted && loginForm.get('password')?.errors }"
+                [ngClass]="{ 'is-danger': loginForm.get('password')?.dirty && loginForm.get('password')?.errors }"
                 required />
             </div>
-            <div *ngIf="loginForm.dirty && loginForm.get('password')?.hasError('required')">
-              <p class="help is-danger">Password is required.</p>
-            </div>
+            <ng-container *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.invalid">
+              <p *ngIf="loginForm.get('password')?.hasError('required')" class="help is-danger">Password is required.</p>
+              <p *ngIf="loginForm.get('password')?.hasError('minLength')">Password is too short.</p>
+              <p *ngIf="loginForm.get('password')?.hasError('patter')">Invalid password pattern.</p>
+            </ng-container>
           </div>
-          <div class="field">
+          <!--<div class="field">
             <re-captcha
               formControlName="recaptcha"
               name="captcha"
               required
             ></re-captcha>
-          </div>
+          </div>-->
           <div class="field">
             <div class="control">
               <button class="button is-primary" type="submit"

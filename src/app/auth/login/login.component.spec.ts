@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { ApolloTestingModule } from 'apollo-angular/testing';
 
 import { LoginComponent } from './login.component';
 import {
@@ -26,6 +29,8 @@ describe('LoginComponent', () => {
         RecaptchaModule,
         RecaptchaV3Module,
         RecaptchaFormsModule,
+        RouterTestingModule,
+        ApolloTestingModule,
         CommonModule
       ],
       declarations: [LoginComponent],

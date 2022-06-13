@@ -1,5 +1,4 @@
-import { Controller, Request, Post, Get, UseGuards, Body } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { Public } from '../public.decorator';
@@ -9,12 +8,12 @@ import { UserCreateInput } from 'server/@generated/prisma-graphql/user';
 export class AuthController {
   constructor(private readonly $authService: AuthService) {}
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
   public async login(@Request() request: any): Promise<any> {
     return this.$authService.login(request.user);
   }
-
 
   /**
    * Controller for User Registartion
@@ -33,6 +32,6 @@ export class AuthController {
     @Body('userInput') userInput: UserCreateInput,
     @Body('password') password: string
   ): Promise<any> {
-    return this.$authService.registerGraphQL(userInput, password);
+    return this.$authService.register(userInput, password);
   }
 }

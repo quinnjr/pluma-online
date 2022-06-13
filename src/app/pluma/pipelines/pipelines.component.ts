@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'pluma-online-pluma-pipelines',
   templateUrl: './pipelines.component.html'
 })
-export class PipelinesComponent implements OnInit {
+export class PipelinesComponent {
   constructor() {}
-
-  public ngOnInit(): void {}
 }

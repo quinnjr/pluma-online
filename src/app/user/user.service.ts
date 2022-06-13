@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from 'prisma';
+import merge from 'lodash.merge';
 import { Role } from './role';
 
 @Injectable({
@@ -19,6 +20,12 @@ export class UserService {
 
   public login(user: User): void {
     this.userSubject.next(user);
+  }
+
+  public update(user: User): void {
+    let oldUser = this.userSubject.value;
+    merge(oldUser, user);
+    this.userSubject.next(oldUser);
   }
 
   public logout(): boolean {

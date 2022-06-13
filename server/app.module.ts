@@ -31,8 +31,6 @@ import { DockerService } from './docker/docker.service';
 import { CategoryResolver } from './category/category.resolver';
 import { LanguageResolver } from './language/language.resolver';
 
-const isDevelopment = process.env.ENV === 'development';
-
 @Module({
   imports: [
     // Vendor Modules
@@ -68,9 +66,9 @@ const isDevelopment = process.env.ENV === 'development';
       driver: ApolloDriver,
       autoSchemaFile: true,
       sortSchema: true,
-      debug: isDevelopment,
       context: ({ req }) => ({ req }),
-      playground: false
+      debug: process.env.NODE_ENV === 'development',
+      playground: process.env.NODE_ENV === 'development'
     }),
     // Application Modules
     AuthModule,

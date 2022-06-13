@@ -10,19 +10,8 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class GqlJwtAuthGuard extends AuthGuard('jwt') implements CanActivate {
-  public canActivate(
-    context: ExecutionContext
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  public getRequest(context: ExecutionContext) {
     const context_ = GqlExecutionContext.create(context);
-    const { req } = context_.getContext();
-
-    return super.canActivate(new ExecutionContextHost([req]));
-  }
-
-  public handleRequest(error: any, user: any): any {
-    if (error || !user) {
-      throw error || new AuthenticationError('GqlJwtAuthGuard');
-    }
-    return user;
+    return context_.getContext().req;
   }
 }

@@ -6,7 +6,7 @@ import { Route, RouterModule } from '@angular/router';
 import { List } from 'immutable';
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HomeComponent } from './home/home/home.component';
+import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { PluginsComponent } from './admin/plugins/plugins.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -14,6 +14,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { IsAdminGuard } from './is-admin.guard';
 import { IsLoggedInGuard } from './is-logged-in.guard';
 import { VerifyComponent } from './auth/register/verify/verify.component';
+import { PeopleComponent } from './people/people.component';
+import { PublicationsComponent } from './publications/publications.component';
 
 const routes: List<Route> = List([
   {
@@ -45,6 +47,8 @@ const routes: List<Route> = List([
   { path: 'register/verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'people', component: PeopleComponent },
+  { path: 'publications', component: PublicationsComponent },
   { path: 'graphql', redirectTo: 'not-found' },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' },

@@ -1,8 +1,19 @@
 import { Component } from '@angular/core';
+<<<<<<< HEAD
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpResponse, HttpClient } from '@angular/common/http';
+<<<<<<< Updated upstream
 import { AbstractControl, ValidatorFn, ValidationErrors } from "@angular/forms";
 import { UserCreateInput } from 'server/@generated/prisma-graphql/user';
+=======
+import { FormControl, FormGroup } from '@angular/forms';
+>>>>>>> develop
+=======
+import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+
+import { matching } from '../../validators/matching';
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'pluma-online-register',
@@ -10,15 +21,29 @@ import { UserCreateInput } from 'server/@generated/prisma-graphql/user';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+<<<<<<< HEAD
   public registerForm: FormGroup;
+<<<<<<< Updated upstream
+=======
+  public registerForm: FormGroup = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl('')
+  });
+
+>>>>>>> develop
   public isSubmitted: boolean = false;
   public uniqueEmailFlag: boolean = true;
   public uniqueDisplayNameFlag: boolean = true;
+=======
+  public hasError = new BehaviorSubject(false);
+  public error?: Error;
+>>>>>>> Stashed changes
 
   constructor(
     private readonly $fb: FormBuilder,
     private readonly $http: HttpClient
   ) {
+<<<<<<< Updated upstream
     this.registerForm = this.$fb.group({
       email: ['', [Validators.required, Validators.email]],
       emailConfirm: ['', [Validators.required]],
@@ -38,6 +63,7 @@ export class RegisterComponent {
     }, {validators: [this.samePassValidator, this.sameEmailValidator, this.notEmailHandleValidator]});
   }
 
+<<<<<<< HEAD
   /**
    * Validates that both passwords match, case sensitive
    */
@@ -54,49 +80,72 @@ export class RegisterComponent {
     let email = group.get('email')?.value.toLowerCase();
     let confirmEmail = group.get('emailConfirm')?.value.toLowerCase();
     return email === confirmEmail ? null : { EmailMismatch: true }
+=======
+    this.registerForm = this.$fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        emailConfirm: ['', [Validators.required, matching('email')]],
+        displayName: ['', [Validators.required]],
+        institution: [''],
+        website: [''],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!#$%&*@^])/)
+          ]
+        ],
+        passwordConfirm: ['', [Validators.required, matching('password')]]
+      },
+      {
+        validators: [this.notEmailHandleValidator]
+      }
+    );
+>>>>>>> Stashed changes
   }
 
   /**
-   * Validates that display name is not email handle, case insensitive
+   * Validates that display name is not email address,
+   * case insensitive
    */
-   notEmailHandleValidator: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => {
+  notEmailHandleValidator: ValidatorFn = (
+    group: AbstractControl
+  ): ValidationErrors | null => {
     let email = group.get('email')?.value.toLowerCase();
     let displayName = group.get('displayName')?.value.toLowerCase();
-    return email != displayName ? null : { InvalidDisplayName: true }
-  }
+    return email != displayName ? null : { InvalidDisplayName: true };
+  };
 
   public onSubmit() {
-
     if (this.registerForm.pristine || this.registerForm.invalid) {
       return;
     }
 
-    const { email, displayName, institution, website, password } = this.registerForm.controls;
+    const password = this.registerForm.get('password')?.value;
 
-    let userInput: UserCreateInput;
-    userInput = {
-      'email' : email?.value,
-      'displayName' : displayName?.value,
-      'passwordHash':''
-    }
-    if (true /*website != ''*/){userInput.website = website?.value;}
-    if (true /*institution != ''*/){userInput.institution = institution?.value;}
-
-    this.$http.post('/api/auth/register',
-    {
-      userInput: userInput,
-      password: password?.value
-    }, { observe: 'response' }).subscribe((response: HttpResponse<Object>) => {
-
-      if(response.ok && (response.body?.['error'] === undefined)){
-        //User Created
-      }
-    },
-    err => {
-      console.log(err)
-      if (err.status === 403){
-        this.registerForm.get('formStatus')?.setValue(err.error.message)
-      }
-    })
+    this.$http
+      .post(
+        '/api/auth/register',
+        {
+          userInput: this.registerForm.value,
+          password: password?.value
+        },
+        { observe: 'response' }
+      )
+      .subscribe(
+        (response: HttpResponse<Object>) => {
+          if (response.ok && response.body?.['error'] === undefined) {
+            //User Created
+          }
+        },
+        (error) => {
+          this.hasError.next(true);
+          this.error = error;
+        }
+      );
   }
+=======
+  public onSubmit() {}
+>>>>>>> develop
 }

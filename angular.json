@@ -4,7 +4,8 @@
   "newProjectRoot": "projects",
   "cli": {
     "packageManager": "pnpm",
-    "defaultCollection": "@angular-eslint/schematics"
+    "defaultCollection": "@angular-eslint/schematics",
+    "analytics": "202091e0-1ba3-4064-96a9-7831fb0daf39"
   },
   "projects": {
     "pluma-online": {
@@ -62,7 +63,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.production.ts"
                 }
               ]
             },
