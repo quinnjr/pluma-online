@@ -50,7 +50,7 @@ jobs:
           ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
     - uses: pnpm/action-setup@v2.2.2
       with:
-        version: 6.23.2
+        version: 7.2.1
     - run: pnpm install --no-frozen-lockfile
     # - run: pnpx prisma migrate deploy
       # env:
