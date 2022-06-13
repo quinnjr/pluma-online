@@ -107,6 +107,12 @@ export class AuthService {
     }
 
     //Email is in use
+    if (check[0]?.email === input.email) {
+      throw new NotAcceptableException(
+        'This email address is already registered'
+      );
+    }
+
     //Display name is in use
     if (check[0]?.displayName === input.displayName) {
       throw new NotAcceptableException('This display name is already in use');

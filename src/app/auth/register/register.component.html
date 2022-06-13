@@ -20,9 +20,6 @@
             <div *ngIf="registerForm.get('email')?.dirty && (registerForm.get('email')?.status === 'INVALID')">
               <p class="help is-danger">Must be a valid Email.</p>
             </div>
-            <div *ngIf="registerForm.get('email')?.dirty && (registerForm.get('formStatus')?.value === 3 || registerForm.get('formStatus')?.value === 1)">
-              <p class="help is-danger">Email is already in use.</p>
-            </div>
           </div>
           <div class="field">
             <label class="label">Email Confirmation</label>
@@ -35,8 +32,8 @@
                 required />
             </div>
             <div class="help is-danger"
-            *ngIf="registerForm.get('emailConfirm')?.dirty && registerForm.hasError('EmailMismatch')">
-              <p>Emails must match</p>
+            *ngIf="registerForm.get('emailConfirm')?.dirty && registerForm.hasError('isMatching')">
+              <p>Email addresses must match</p>
             </div>
           </div>
           <div class="field">
@@ -51,11 +48,8 @@
             <div *ngIf="registerForm.get('displayName')?.dirty && registerForm.get('displayName')?.hasError('required')">
               <p class="help is-danger">Display Name is required.</p>
             </div>
-            <div *ngIf="registerForm.hasError('InvalidDisplayName')">
-              <p class="help is-danger">Display Name cannot be the same as the email handle.</p>
-            </div>
-            <div *ngIf="registerForm.get('displayName')?.dirty && (registerForm.get('formStatus')?.value === 3 || registerForm.get('formStatus')?.value === 2)">
-              <p class="help is-danger">Display Name is already in use.</p>
+            <div *ngIf="registerForm.hasError('invalidDisplayName')">
+              <p class="help is-danger">Display Name cannot be the same as your email address.</p>
             </div>
           </div>
           <div class="field">
@@ -114,7 +108,7 @@
                 required />
             </div>
             <div class="help is-danger"
-            *ngIf="registerForm.get('passwordConfirm')?.dirty && registerForm.hasError('PassMismatch')">
+            *ngIf="registerForm.get('passwordConfirm')?.dirty && registerForm.hasError('isMatching')">
               <p>Passwords must match</p>
             </div>
           </div>
