@@ -1,7 +1,5 @@
 import {
   PrismaClient,
-  Category,
-  Language,
   PipelineStatus
 } from '@prisma/client';
 import argon2 from 'argon2';
@@ -10,82 +8,35 @@ import { Role } from '../server/@generated/prisma-graphql/prisma';
 
 import { Plugins } from './plugins';
 import { Pipelines } from './pipelines';
-import { categories } from './categories';
-import { languages } from './languages';
 
 const prisma = new PrismaClient();
 
 async function seed() {
-  for (const index in categories) {
-    let category = categories[index];
-
-    await prisma.category.upsert({
-      where: {
-        name: category
-      },
-      create: {
-        name: category
-      },
-      update: {
-        name: category
-      }
-    });
-  }
-
-  console.log(`Seeded ${categories.length} categories`);
-
-  for (const index in languages) {
-    let language = languages[index];
-
-    await prisma.language.upsert({
-      where: {
-        name: language
-      },
-      create: {
-        name: language
-      },
-      update: {
-        name: language
-      }
-    });
-  }
-
-  console.log(`Seeded ${languages.length} languages`);
 
   for (let plugin of Plugins) {
-    const category = await prisma.category.findUnique({
-      where: {
-        name: plugin.category
-      }
-    });
-
-    if (!category || !category.id) {
-      console.log(`error: ${JSON.stringify(plugin)} ${category}`);
-    }
-
     plugin.category = {
-      connect: {
-        id: category!.id
-      }
-    };
-
-    const language = await prisma.language.findFirst({
-      where: {
-        name: {
-          contains: plugin.language
+      connectOrCreate: {
+        where: {
+          name: plugin.category
+        },
+        create: {
+          name: plugin.category
         }
       }
-    });
-
-    if (!language || !language.id) {
-      console.log('error: ' + plugin.language);
-    }
+    };
 
     plugin.language = {
-      connect: {
-        id: language!.id
+      connectOrCreate: {
+        where: {
+          name: plugin.language
+        },
+        create: {
+          name: plugin.language
+        }
       }
     };
+
+    plugin.verification = 'Verified';
 
     await prisma.plugin.upsert({
       where: {
@@ -96,6 +47,11 @@ async function seed() {
     });
   }
 
+  const numberOfCategories = await prisma.category.count();
+  const numberOfLanguages = await prisma.language.count();
+
+  console.log(`Seeded ${numberOfCategories} categories`);
+  console.log(`Seeded ${numberOfLanguages} languages`);
   console.log(`Seeded ${Plugins.length} plugins`);
 
   for (let pipeline of Pipelines) {

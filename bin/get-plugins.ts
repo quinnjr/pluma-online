@@ -7,118 +7,106 @@ import { join } from 'node:path';
 import prettier from 'prettier';
 import { ESLint } from 'eslint';
 
-const url = 'https://biorg.cs.fiu.edu/pluma/plugins.html';
+const baseUrl = 'https://biorg.cs.fiu.edu/pluma/';
 
 async function main() {
-  let pluginsPage = `
-import { PluginCreateInput } from '../server/@generated/prisma-graphql/plugin';
-import { categories } from './categories';
-import { languages } from './languages';
 
-export const Plugins: any = [
-`;
+  let pluginsPage = `export const Plugins: any = [\n`;
 
-  const data = await axios.get(url, {
+  const plugins: {
+    name: string;
+    githubUrl: string;
+    description: string;
+    language: string;
+    category: string;
+  }[] = [];
+
+  let data = await axios.get(baseUrl + 'plugins.html', {
     responseType: 'text'
   });
 
-  const window = domino.createWindow(data.data);
-  const document = window.document;
+  let window = domino.createWindow(data.data);
+  let document = window.document;
 
-  const tables = document.querySelectorAll('table');
+  let tables = document.querySelectorAll('table');
 
-  for (let index = 2; index < tables.length; index++) {
-    const section = tables[index];
+  for (let i = 0; i < tables.length; i++) {
+    const columns = tables[i].querySelectorAll('td');
 
-    const rows = section.querySelectorAll('tr');
+    for (let j = 0; j < columns.length; j++) {
+      const item = columns[j].querySelector('a');
 
-    for (let index_ = 1; index_ < rows.length; index_++) {
-      const columns = rows[index_].querySelectorAll('td');
-
-      const name = columns[0].querySelector('a')?.textContent;
-      const githubUrl = columns[0].querySelector('a')?.href;
-      const description = columns[1].innerHTML;
-
-      let language = columns[2].innerHTML;
-
-      if (name !== undefined && githubUrl !== undefined) {
-        pluginsPage += `  {
-    name: '${name}',\n`;
-
-        description.includes("'")
-          ? (pluginsPage += `    description: "${description.replace(
-              '\n',
-              ''
-            )}",\n`)
-          : (pluginsPage += `    description: '${description.replace(
-              '\n',
-              ''
-            )}',\n`);
-
-        pluginsPage += `    githubUrl: '${githubUrl}',\n`;
-
-        switch (language) {
-          case 'R':
-            pluginsPage += "    language: 'R',\n";
-            break;
-          case 'Python':
-            pluginsPage += "    language: 'Python',\n";
-            break;
-          case 'Perl':
-            pluginsPage += "    language: 'Perl',\n";
-            break;
-          case 'C++':
-            pluginsPage += "    language: 'C++',\n";
-            break;
-          default:
-            pluginsPage += "    language: 'CUDA',\n";
+      if (item) {
+        const href = baseUrl+ item.href;
+        const regexp = new RegExp('^\/(\w+)\.html')
+        const categoryInfo = /^\/(\w+)\.html/i.exec(item.href);
+        let category;
+        if (categoryInfo && categoryInfo[1]) {
+          category = categoryInfo[1];
         }
 
-        switch (index) {
-          case 2:
-            pluginsPage += "    category: 'File Converters'";
-            break;
-          case 3:
-            pluginsPage += "    category: 'Stats & Visualizations'";
-            break;
-          case 4:
-            pluginsPage += "    category: 'Transformations'";
-            break;
-          case 5:
-            pluginsPage += "    category: 'Dissimilarity'";
-            break;
-          case 6:
-            pluginsPage += "    category: 'Correlation'";
-            break;
-          case 7:
-            pluginsPage += "    category: 'Centrality'";
-            break;
-          case 8:
-            pluginsPage += "    category: 'Clustering'";
-            break;
-          case 9:
-            pluginsPage += "    category: 'Time Series'";
-            break;
-          case 10:
-            pluginsPage += "    category: 'External Tools'";
-            break;
-          case 11:
-            pluginsPage += "    category: 'Miscellaneous'";
-            break;
-          default:
-            process.exit(1);
-        }
+        const data = await axios.get(href, {
+          responseType: 'text'
+        });
 
-        pluginsPage += '\n  },\n';
-      } else {
-        continue;
+        window = domino.createWindow(data.data);
+        document = window.document;
+
+        tables = document.querySelectorAll('table');
+
+        for (let k = 0; k < tables.length; k++) {
+          const rows = tables[k].querySelectorAll('tr');
+
+          for (let l = 1; l < rows.length; l++) {
+            const columns = rows[l].querySelectorAll('td');
+
+            if (columns && columns.length === 3) {
+              const a = columns[0].querySelector('a')!;
+              const name = a!.innerHTML;
+              const githubUrl = a!.href;
+              const description = columns[1].innerHTML;
+              const language = columns[2].innerHTML;
+
+              const plugin = {
+                name,
+                githubUrl,
+                description,
+                language,
+                category
+              };
+
+              plugins.push(plugin);
+            }
+          }
+        }
       }
     }
   }
 
-  pluginsPage = pluginsPage.slice(0, -2);
+  for (const plugin of plugins) {
+    pluginsPage += `  {\n    name: '${plugin.name}',\n`;
+
+    plugin.description.includes("'")
+      ? (pluginsPage += `    description: "${plugin.description.replace(
+          '\n',
+          ''
+        )}",\n`)
+      : (pluginsPage += `    description: '${plugin.description.replace(
+          '\n',
+          ''
+        )}',\n`);
+
+    pluginsPage += `    githubUrl: '${plugin.githubUrl}',\n`;
+    pluginsPage += `    language: '${plugin.language}',\n`
+    pluginsPage += `    category: '${plugin.category}'\n`
+    pluginsPage += `  },\n`;
+  }
+
+  pluginsPage = pluginsPage.slice(0, -2); // Death to trailing commas
 
   pluginsPage += '\n];';
+
+  console.log(pluginsPage);
 
   return pluginsPage;
 }
