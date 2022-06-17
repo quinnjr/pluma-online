@@ -47,6 +47,20 @@ async function seed() {
     });
   }
 
+  const isMetatranscriptomics = await prisma.category.findFirst({
+    where: {
+      name: 'Metatranscriptomics'
+    }
+  });
+
+  if (!isMetatranscriptomics) {
+    await prisma.category.create({
+      data: {
+        name: 'Metatranscriptomics'
+      }
+    });
+  }
+
   const numberOfCategories = await prisma.category.count();
   const numberOfLanguages = await prisma.language.count();
 

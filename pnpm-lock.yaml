@@ -11,16 +11,16 @@ specifiers:
   '@angular-builders/custom-webpack': ^14.0.0
   '@angular-builders/jest': ^14.0.0
   '@angular-bulma/components': ^0.6.0
-  '@angular-devkit/architect': ^0.1400.2
-  '@angular-devkit/build-angular': ^14.0.2
-  '@angular-eslint/builder': ^14.0.0-alpha.3
-  '@angular-eslint/eslint-plugin': ^14.0.0-alpha.3
-  '@angular-eslint/eslint-plugin-template': ^14.0.0-alpha.3
-  '@angular-eslint/schematics': ^14.0.0-alpha.3
-  '@angular-eslint/template-parser': ^14.0.0-alpha.3
+  '@angular-devkit/architect': ^0.1400.0
+  '@angular-devkit/build-angular': ^14.0.1
+  '@angular-eslint/builder': ^14.0.0-alpha.2
+  '@angular-eslint/eslint-plugin': ^14.0.0-alpha.2
+  '@angular-eslint/eslint-plugin-template': ^14.0.0-alpha.2
+  '@angular-eslint/schematics': ^14.0.0-alpha.2
+  '@angular-eslint/template-parser': ^14.0.0-alpha.2
   '@angular/animations': ^14.0.1
   '@angular/cdk': ^14.0.1
-  '@angular/cli': ^14.0.2
+  '@angular/cli': ^14.0.1
   '@angular/common': ^14.0.1
   '@angular/compiler': ^14.0.1
   '@angular/compiler-cli': ^14.0.1
@@ -30,30 +30,30 @@ specifiers:
   '@angular/platform-browser-dynamic': ^14.0.1
   '@angular/platform-server': ^14.0.1
   '@angular/router': ^14.0.1
-  '@apollo/client': ^3.6.8
+  '@apollo/client': ^3.6.6
   '@apollo/federation': ^0.36.1
-  '@apollo/gateway': ^2.0.5
-  '@apollo/subgraph': ^2.0.5
+  '@apollo/gateway': ^2.0.1
+  '@apollo/subgraph': ^2.0.1
   '@casl/ability': ^5.4.4
-  '@nestjs/apollo': ^10.0.16
+  '@nestjs/apollo': ^10.0.14
   '@nestjs/axios': ^0.0.7
   '@nestjs/bull': ^0.5.5
   '@nestjs/cli': ^8.2.6
-  '@nestjs/common': ^8.4.7
+  '@nestjs/common': ^8.4.6
   '@nestjs/config': ^2.1.0
-  '@nestjs/core': ^8.4.7
-  '@nestjs/graphql': ^10.0.16
+  '@nestjs/core': ^8.4.6
+  '@nestjs/graphql': ^10.0.15
   '@nestjs/jwt': ^8.0.1
-  '@nestjs/ng-universal': ^6.1.0
-  '@nestjs/passport': ^8.2.2
-  '@nestjs/platform-express': ^8.4.7
+  '@nestjs/ng-universal': ^6.0.0
+  '@nestjs/passport': ^8.2.1
+  '@nestjs/platform-express': ^8.4.6
   '@nestjs/schedule': ^1.1.0
   '@nestjs/schematics': ^8.0.11
-  '@nestjs/testing': ^8.4.7
-  '@nguniversal/builders': ^14.0.1
-  '@nguniversal/express-engine': ^14.0.1
+  '@nestjs/testing': ^8.4.6
+  '@nguniversal/builders': ^14.0.0
+  '@nguniversal/express-engine': ^14.0.0
   '@ngx-pwa/local-storage': ^13.0.3
-  '@prisma/client': ^3.15.1
+  '@prisma/client': ^3.14.0
   '@swimlane/ngx-charts': ^20.1.0
   '@types/bull': ^3.15.8
   '@types/cache-manager': ^3.4.3
@@ -61,13 +61,13 @@ specifiers:
   '@types/express': ^4.17.13
   '@types/jest': ^27.5.2
   '@types/luxon': ^2.3.2
-  '@types/node': ^17.0.44
+  '@types/node': ^17.0.40
   '@types/passport-jwt': ^3.0.6
   '@types/passport-local': ^1.0.34
   '@types/supertest': ^2.0.12
   '@types/webpack': ^5.28.0
-  '@typescript-eslint/eslint-plugin': ^5.28.0
-  '@typescript-eslint/parser': ^5.28.0
+  '@typescript-eslint/eslint-plugin': ^5.27.0
+  '@typescript-eslint/parser': ^5.27.0
   apollo-angular: ^3.0.1
   apollo-server-core: ^3.8.2
   apollo-server-express: ^3.8.2
@@ -83,8 +83,8 @@ specifiers:
   chokidar: '*'
   class-transformer: ^0.5.1
   class-validator: ^0.13.2
-  core-js: ^3.23.1
-  cypress: ^10.1.0
+  core-js: ^3.22.8
+  cypress: ^10.0.3
   domino: ^2.1.6
   dompurify: ^2.3.8
   dotenv: ^16.0.1
@@ -103,13 +103,13 @@ specifiers:
   glob: ^8.0.3
   graphql: ^16.5.0
   graphql-type-json: ^0.3.2
-  graphql-ws: ^5.9.0
+  graphql-ws: ^5.8.2
   hammerjs: ^2.0.8
   he: ^1.2.0
   html-loader: ^3.1.0
   husky: ^7.0.4
   immutable: ^4.1.0
-  jest: ^28.1.1
+  jest: ^28.0.2
   jest-preset-angular: ^12.1.0
   lodash.merge: ^4.6.2
   lodash.startcase: ^4.4.0
@@ -119,15 +119,15 @@ specifiers:
   passport: ^0.5.3
   passport-jwt: ^4.0.0
   passport-local: ^1.0.0
-  prettier: ^2.7.0
-  prisma: ^3.15.1
+  prettier: ^2.6.2
+  prisma: ^3.14.0
   prisma-nestjs-graphql: ^15.3.3
   purgecss-webpack-plugin: ^4.1.3
   querystring: ^0.2.1
   reflect-metadata: ^0.1.13
   rxjs: ^7.5.5
   supertest: ^6.2.3
-  ts-jest: ^28.0.5
+  ts-jest: ^28.0.4
   ts-morph: ^14.0.0
   ts-node: ^10.8.1
   tsconfig-paths: ^3.14.1
@@ -137,7 +137,7 @@ specifiers:
   webpack-assets-manifest: ^5.1.0
   webpack-node-externals: ^3.0.0
   webpack-subresource-integrity: ^5.1.0
-  ws: ^8.8.0
+  ws: ^8.7.0
   zone.js: ~0.11.5
 
 dependencies:
@@ -1207,7 +1207,7 @@ packages:
     dependencies:
       '@ampproject/remapping': 2.2.0
       '@babel/code-frame': 7.16.7
-      '@babel/generator': 7.17.10
+      '@babel/generator': 7.18.2
       '@babel/helper-compilation-targets': 7.18.2_@babel+core@7.17.10
       '@babel/helper-module-transforms': 7.18.0
       '@babel/helpers': 7.18.2
@@ -5283,7 +5283,7 @@ packages:
     optional: true
 
   /async-each-series/0.1.1:
-    resolution: {integrity: sha1-dhfBkXQB/Yykooqtzj266Yr+tDI=}
+    resolution: {integrity: sha512-p4jj6Fws4Iy2m0iCmI2am2ZNZCgbdgE+P8F/8csmn2vx7ixXrO2zGcuNsD46X5uZSVecmkEy/M06X2vG8KD6dQ==}
     engines: {node: '>=0.8.0'}
     dev: true
 
@@ -5532,7 +5532,7 @@ packages:
     dev: true
 
   /batch/0.6.1:
-    resolution: {integrity: sha1-3DQxT05nkxgJP8dgJyUl+UvyXBY=}
+    resolution: {integrity: sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==}
     dev: true
 
   /bcrypt-pbkdf/1.0.2:
@@ -5716,7 +5716,7 @@ packages:
     dev: true
 
   /bs-recipes/1.3.4:
-    resolution: {integrity: sha1-DS1NSKcYyMBEdp/cT4lZLci2lYU=}
+    resolution: {integrity: sha512-BXvDkqhDNxXEjeGM8LFkSbR+jzmP/CYpCiVKYn+soB1dDldeU15EBNDkwVXndKuX35wnNUaPd0qSoQEAkmQtMw==}
     dev: true
 
   /bs-snippet-injector/2.0.1:
@@ -5792,7 +5792,7 @@ packages:
     dev: true
 
   /bytes/3.0.0:
-    resolution: {integrity: sha1-0ygVQE1olpn4Wk6k+odV3ROpYEg=}
+    resolution: {integrity: sha512-pMhOfFDPiv9t5jjIXkHosWmkSyQbvsgEVNkz0ERHbuLh2T/7j4Mqqpz523Fe8MVY89KC6Sh/QfS2sM+SjgFDcw==}
     engines: {node: '>= 0.8'}
     dev: true
 
@@ -6236,7 +6236,7 @@ packages:
     dev: true
 
   /connect/3.6.6:
-    resolution: {integrity: sha1-Ce/2xVr3I24TcTWnJXSFi2eG9SQ=}
+    resolution: {integrity: sha512-OO7axMmPpu/2XuX1+2Yrg0ddju31B6xLZMWkJ5rYBu4YRmRVlOjvlY6kw2FJKiAzyxGwnrDUAG4s1Pf0sbBMCQ==}
     engines: {node: '>= 0.10.0'}
     dependencies:
       debug: 2.6.9
@@ -6362,7 +6362,7 @@ packages:
       css-select: 4.3.0
       parse5: 6.0.1
       parse5-htmlparser2-tree-adapter: 6.0.1
-      postcss: 8.4.13
+      postcss: 8.4.14
       pretty-bytes: 5.6.0
     dev: true
 
@@ -6415,12 +6415,12 @@ packages:
     peerDependencies:
       webpack: ^5.0.0
     dependencies:
-      icss-utils: 5.1.0_postcss@8.4.13
-      postcss: 8.4.13
-      postcss-modules-extract-imports: 3.0.0_postcss@8.4.13
-      postcss-modules-local-by-default: 4.0.0_postcss@8.4.13
-      postcss-modules-scope: 3.0.0_postcss@8.4.13
-      postcss-modules-values: 4.0.0_postcss@8.4.13
+      icss-utils: 5.1.0_postcss@8.4.14
+      postcss: 8.4.14
+      postcss-modules-extract-imports: 3.0.0_postcss@8.4.14
+      postcss-modules-local-by-default: 4.0.0_postcss@8.4.14
+      postcss-modules-scope: 3.0.0_postcss@8.4.14
+      postcss-modules-values: 4.0.0_postcss@8.4.14
       postcss-value-parser: 4.2.0
       semver: 7.3.7
       webpack: 5.72.1_esbuild@0.14.38
@@ -8189,7 +8189,7 @@ packages:
       to-regex-range: 5.0.1
 
   /finalhandler/1.1.0:
-    resolution: {integrity: sha1-zgtoVbRYU+eRsvzGgARtiCU91/U=}
+    resolution: {integrity: sha512-ejnvM9ZXYzp6PUPUyQBMBf0Co5VX2gr5H2VQe2Ui2jWXNlxv+PYZo8wpAymJNJdLsG1R4p+M4aynF8KuoUEwRw==}
     engines: {node: '>= 0.8'}
     dependencies:
       debug: 2.6.9
@@ -8550,7 +8550,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -8572,7 +8572,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 5.0.1
+      minimatch: 5.1.0
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -8968,13 +8968,13 @@ packages:
     dependencies:
       safer-buffer: 2.1.2
 
-  /icss-utils/5.1.0_postcss@8.4.13:
+  /icss-utils/5.1.0_postcss@8.4.14:
     resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 8.4.13
+      postcss: 8.4.14
     dev: true
 
   /ieee754/1.2.1:
@@ -9453,7 +9453,7 @@ packages:
     resolution: {integrity: sha512-6Lthe1hqXHBNsqvgDzGO6l03XNeu3CrG4RqQ1KM9+l5+jNGpEJfIELx1NS3SEHmJQA8np/u+E4EPRKRiu6m19A==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/core': 7.17.10
+      '@babel/core': 7.18.5
       '@babel/parser': 7.18.5
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
@@ -10428,7 +10428,7 @@ packages:
     dev: true
 
   /lodash.omit/4.5.0:
-    resolution: {integrity: sha1-brGa5aHuHdnfC5aeZs4Lf6MLXmA=}
+    resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
     dev: true
 
   /lodash.once/4.1.1:
@@ -10639,7 +10639,7 @@ packages:
     dev: true
 
   /memory-cache/0.2.0:
-    resolution: {integrity: sha1-eJCwHVLADI68nVM+H46xfjA0hxo=}
+    resolution: {integrity: sha512-OcjA+jzjOYzKmKS6IQVALHLVz+rNTMPoJvCztFaZxwG14wtAW7VRZjwTQu06vKCYOxh4jVnik7ya0SXTB0W+xA==}
     dev: true
 
   /merge-descriptors/1.0.1:
@@ -11297,7 +11297,7 @@ packages:
     dev: true
 
   /openurl/1.1.1:
-    resolution: {integrity: sha1-OHW0sO96UsFW8NtB1GCduw+Us4c=}
+    resolution: {integrity: sha512-d/gTkTb1i1GKz5k3XE3XFV/PxQ1k45zDqGP2OA7YhgsaLoqm6qRvARAZOFer1fcXritWlGBRCu/UgeS4HAnXAA==}
     dev: true
 
   /opn/5.3.0:
@@ -11877,45 +11877,45 @@ packages:
       postcss: 8.4.13
     dev: true
 
-  /postcss-modules-extract-imports/3.0.0_postcss@8.4.13:
+  /postcss-modules-extract-imports/3.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-bdHleFnP3kZ4NYDhuGlVK+CMrQ/pqUm8bx/oGL93K6gVwiclvX5x0n76fYMKuIGKzlABOy13zsvqjb0f92TEXw==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 8.4.13
+      postcss: 8.4.14
     dev: true
 
-  /postcss-modules-local-by-default/4.0.0_postcss@8.4.13:
+  /postcss-modules-local-by-default/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-sT7ihtmGSF9yhm6ggikHdV0hlziDTX7oFoXtuVWeDd3hHObNkcHRo9V3yg7vCAY7cONyxJC/XXCmmiHHcvX7bQ==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: 5.1.0_postcss@8.4.13
-      postcss: 8.4.13
+      icss-utils: 5.1.0_postcss@8.4.14
+      postcss: 8.4.14
       postcss-selector-parser: 6.0.10
       postcss-value-parser: 4.2.0
     dev: true
 
-  /postcss-modules-scope/3.0.0_postcss@8.4.13:
+  /postcss-modules-scope/3.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-hncihwFA2yPath8oZ15PZqvWGkWf+XUfQgUGamS4LqoP1anQLOsOJw0vr7J7IwLpoY9fatA2qiGUGmuZL0Iqlg==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      postcss: 8.4.13
+      postcss: 8.4.14
       postcss-selector-parser: 6.0.10
     dev: true
 
-  /postcss-modules-values/4.0.0_postcss@8.4.13:
+  /postcss-modules-values/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-RDxHkAiEGI78gS2ofyvCsu7iycRv7oqw5xMWn9iMoR0N/7mf9D50ecQqUo5BZ9Zh2vH4bCUR/ktCqbB9m8vJjQ==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      icss-utils: 5.1.0_postcss@8.4.13
-      postcss: 8.4.13
+      icss-utils: 5.1.0_postcss@8.4.14
+      postcss: 8.4.14
     dev: true
 
   /postcss-nesting/10.1.8_postcss@8.4.13:
@@ -12550,7 +12550,7 @@ packages:
       adjust-sourcemap-loader: 4.0.0
       convert-source-map: 1.8.0
       loader-utils: 2.0.2
-      postcss: 8.4.13
+      postcss: 8.4.14
       source-map: 0.6.1
     dev: true
 
@@ -12569,7 +12569,7 @@ packages:
     dev: true
 
   /resp-modifier/6.0.2:
-    resolution: {integrity: sha1-sSTeXE+6/LpUH0j/pzlw9KpFa08=}
+    resolution: {integrity: sha512-U1+0kWC/+4ncRFYqQWTx/3qkfE6a4B/h3XXgmXypfa0SPZ3t7cbbaFk297PjQS/yov24R18h6OZe6iZwj3NSLw==}
     engines: {node: '>= 0.8.0'}
     dependencies:
       debug: 2.6.9
@@ -12621,7 +12621,7 @@ packages:
       queue-microtask: 1.2.3
 
   /rx/4.1.0:
-    resolution: {integrity: sha1-pfE/957zt0D+MKqAP7CfmIBdR4I=}
+    resolution: {integrity: sha512-CiaiuN6gapkdl+cZUr67W6I8jquN4lkak3vtIsIWCl4XIPP8ffsoyN6/+PuGXnQy8Cu8W2y9Xxh31Rq4M6wUug==}
     dev: true
 
   /rxjs-for-await/0.0.2_rxjs@6.6.7:
@@ -12884,7 +12884,7 @@ packages:
     dev: true
 
   /server-destroy/1.0.1:
-    resolution: {integrity: sha1-8Tv5KOQrnD55OD5hzDmYtdFObN0=}
+    resolution: {integrity: sha512-rb+9B5YBIEzYcD6x2VKidaa+cqYBJQKnU4oe4E3ANwRRN56yk/ua1YCJT1n21NTS8w6CcOclAKNP3PhdCXKYtQ==}
     dev: true
 
   /set-blocking/2.0.0:
