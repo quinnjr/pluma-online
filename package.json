@@ -33,7 +33,8 @@
     "eslint": "eslint",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "get-plugins": "pnpm run ts-node ./bin/get-plugins.ts",
-    "generate-key": "openssl rand -base64 756 > ./docker/mongodb/mongodb.key && sudo chown 999:999 ./docker/mongodb/mongodb.key && sudo chmod 0400 ./docker/mongodb/mongodb.key"
+    "generate-key": "openssl rand -base64 756 > ./docker/mongodb/mongodb.key && sudo chown 999:999 ./docker/mongodb/mongodb.key && sudo chmod 0400 ./docker/mongodb/mongodb.key",
+    "generate-schema": "pnpm run ts-node ./bin/generate-schema.ts"
   },
   "dependencies": {
     "@prisma/client": "^3.14.0",
