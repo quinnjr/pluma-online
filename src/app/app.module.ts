@@ -36,6 +36,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { SidebarComponent } from './home/sidebar/sidebar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { VerifyComponent } from './auth/register/verify/verify.component';
 
