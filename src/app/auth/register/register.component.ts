@@ -61,16 +61,17 @@ export class RegisterComponent {
       return;
     }
 
-    const password = this.registerForm.get('password')?.value;
-
+    // const password = this.registerForm.get('password')?.value;
+    const { password, emailConfirm, passwordConfirm, ...user } =
+      this.registerForm.value;
     this.isSubmitted = true;
 
     this.$http
       .post(
         '/api/auth/register',
         {
-          userInput: this.registerForm.value,
-          password: password?.value
+          userInput: user,
+          password: password
         },
         { observe: 'response' }
       )

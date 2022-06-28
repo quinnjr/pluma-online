@@ -85,9 +85,9 @@ import { LanguageResolver } from './language/language.resolver';
     // CommentResolver,
     LoggingPlugin,
     // TasksService,
-    // EmailService,
+    EmailService,
     CategoryResolver,
-    LanguageResolver,
+    LanguageResolver
     // DockerService
   ]
 })

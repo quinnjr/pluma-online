@@ -1,15 +1,42 @@
-<div class="columns">
-  <div class="column is-one-fourt">
-    <aside class="menu">
-      <p class="menu-label">General</p>
-      <ul class="menu-list"></ul>
-      <p class="menu-label">Plugins</p>
-      <ul class="menu-list">
-        <li><a routerLink="./plugins">Plugins List</a></li>
-      </ul>
-    </aside>
+<div>
+  <div class="columns is-centered is-narrow mt-3">
+      <div class="field has-addons">
+        <div class="control">
+          <input #searchString class="input" type="text" placeholder="Search by Name or Email">
+        </div>
+        <div class="control">
+          <a class="button is-info" (click)="searchBarActivate(searchString.value)">
+            Submit
+          </a>
+        </div>
+      </div>
   </div>
-  <div class="column">
-    <router-outlet></router-outlet>
+  <div class="columns is-centered is-narrow">
+    <div class="column is-centered is-narrow">
+      <table class="table is-bordered is-striped is-narrow is-hoverable">
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Website</th>
+          <th>Institution</th>
+        </tr>
+        <tr *ngFor="let user of usersToDisplay" class="{{(user.role === 'Admin') ? 'is-selected' : ''}}">
+          <td>{{ user.displayName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.website }}</td>
+          <td>{{ user.institution }}</td>
+          <pluma-online-assign-role [(usersToDisplayFromParent)]="usersToDisplay" [user]="user"></pluma-online-assign-role>
+          <pluma-online-delete-account [(skipFromParent)]="skip" [(usersToDisplayFromParent)]="usersToDisplay" [user]="user"></pluma-online-delete-account>
+          <pluma-online-deactivate-activate  [(usersToDisplayFromParent)]="usersToDisplay" [user]="user"></pluma-online-deactivate-activate>
+          <pluma-online-force-password-reset [(usersToDisplayFromParent)]="usersToDisplay" [user]="user"></pluma-online-force-password-reset>
+        </tr>
+      </table>
+      <div class="columns">
+        <div class="column is-centered">
+          <button *ngIf="canItPrevious" class="button is-small {{loading ? 'is-loading': ''}}" (click)="fetchUsers(false)"> Previous {{numberOfDisplayedUsers}}</button>
+          <button class="button is-small {{loading ? 'is-loading': ''}}" (click)="fetchUsers(true)">Next {{numberOfDisplayedUsers}}</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

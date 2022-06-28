@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from 'prisma';
 import merge from 'lodash.merge';
 import { Role } from './role';
+import { Apollo, gql } from 'apollo-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Role } from './role';
 export class UserService {
   private userSubject: BehaviorSubject<User | null>;
 
-  constructor() {
+  constructor(private readonly $apollo: Apollo) {
     this.userSubject = new BehaviorSubject(null);
   }
 
@@ -40,8 +41,18 @@ export class UserService {
   }
 
   public isAdmin(): Observable<boolean> {
-    return this.userSubject
-      .asObservable()
-      .pipe(map((user) => user.role === Role.Admin));
+    return this.$apollo
+      .query({
+        query: gql(`
+        {
+          roleCheck {
+            role
+          }
+        }
+      `)
+      })
+      .pipe(
+        map((user: User | null) => Role.Admin === user.data.roleCheck.role)
+      );
   }
 }
