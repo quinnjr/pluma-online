@@ -1,0 +1,1598 @@
+type PluginCountAggregate {
+  id: Int!
+  name: Int!
+  categoryId: Int!
+  description: Int!
+  githubUrl: Int!
+  languageId: Int!
+  rating: Int!
+  authorId: Int!
+  verification: Int!
+  tags: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  _all: Int!
+}
+
+type PluginAvgAggregate {
+  rating: Float
+}
+
+type PluginSumAggregate {
+  rating: Int
+}
+
+type PluginMinAggregate {
+  id: String
+  name: String
+  categoryId: String
+  description: String
+  githubUrl: String
+  languageId: String
+  rating: Int
+  authorId: String
+  verification: PluginStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+enum PluginStatus {
+  Verified
+  Unverified
+  Passing
+  Failing
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PluginMaxAggregate {
+  id: String
+  name: String
+  categoryId: String
+  description: String
+  githubUrl: String
+  languageId: String
+  rating: Int
+  authorId: String
+  verification: PluginStatus
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type PluginCount {
+  comments: Int!
+}
+
+type CategoryCount {
+  plugins: Int!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  plugins: [Plugin!]
+  _count: CategoryCount!
+}
+
+type LanguageCount {
+  plugins: Int!
+}
+
+type Language {
+  id: ID!
+  name: String!
+  plugins: [Plugin!]
+  _count: LanguageCount!
+}
+
+type Pipeline {
+  id: ID!
+  name: String!
+  description: String!
+  githubUrl: String!
+  status: PipelineStatus!
+  rating: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  User: User
+  userId: String
+}
+
+enum PipelineStatus {
+  Completed
+  InProgress
+  Future
+}
+
+type CommentCount {
+  children: Int!
+}
+
+type Comment {
+  id: ID!
+  author: User!
+  authorId: String!
+  content: String!
+  parent: Comment
+  parentId: String!
+  children: [Comment!]
+  plugin: Plugin!
+  pluginId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  _count: CommentCount!
+}
+
+type UserCount {
+  plugins: Int!
+  pipelines: Int!
+  comments: Int!
+}
+
+type User {
+  id: ID!
+  email: String!
+  displayName: String
+  website: String
+  institution: String
+  avatar: String
+  role: Role!
+  plugins: [Plugin!]
+  pipelines: [Pipeline!]
+  comments: [Comment!]
+  enabled: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  _count: UserCount!
+}
+
+enum Role {
+  Admin
+  User
+  Guest
+}
+
+type Plugin {
+  id: ID!
+  name: String!
+  category: Category!
+  categoryId: String!
+  description: String!
+  githubUrl: String!
+  language: Language!
+  languageId: String!
+  rating: Int!
+  author: User
+  authorId: String
+  verification: PluginStatus!
+  comments: [Comment!]
+  tags: [String!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  _count: PluginCount!
+}
+
+type PipelineCountAggregate {
+  id: Int!
+  name: Int!
+  description: Int!
+  githubUrl: Int!
+  status: Int!
+  rating: Int!
+  createdAt: Int!
+  updatedAt: Int!
+  userId: Int!
+  _all: Int!
+}
+
+type PipelineAvgAggregate {
+  rating: Float
+}
+
+type PipelineSumAggregate {
+  rating: Int
+}
+
+type PipelineMinAggregate {
+  id: String
+  name: String
+  description: String
+  githubUrl: String
+  status: PipelineStatus
+  rating: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  userId: String
+}
+
+type PipelineMaxAggregate {
+  id: String
+  name: String
+  description: String
+  githubUrl: String
+  status: PipelineStatus
+  rating: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  userId: String
+}
+
+type Query {
+  plugin(where: PluginWhereUniqueInput!): Plugin
+  plugins(where: PluginWhereInput, skip: Int, take: Int, orderBy: PluginOrderByWithRelationInput): [Plugin!]!
+  pipelines(take: Int!, skip: Int!, orderBy: PipelineOrderByWithRelationInput!): [Pipeline!]!
+  user: User!
+}
+
+input PluginWhereUniqueInput {
+  id: String
+  name: String
+  githubUrl: String
+}
+
+input PluginWhereInput {
+  AND: [PluginWhereInput!]
+  OR: [PluginWhereInput!]
+  NOT: [PluginWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  category: CategoryRelationFilter
+  categoryId: StringFilter
+  description: StringFilter
+  githubUrl: StringFilter
+  language: LanguageRelationFilter
+  languageId: StringFilter
+  rating: IntFilter
+  author: UserRelationFilter
+  authorId: StringNullableFilter
+  verification: EnumPluginStatusFilter
+  comments: CommentListRelationFilter
+  tags: StringNullableListFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input CategoryRelationFilter {
+  is: CategoryWhereInput
+  isNot: CategoryWhereInput
+}
+
+input CategoryWhereInput {
+  AND: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  NOT: [CategoryWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  plugins: PluginListRelationFilter
+}
+
+input PluginListRelationFilter {
+  every: PluginWhereInput
+  some: PluginWhereInput
+  none: PluginWhereInput
+}
+
+input LanguageRelationFilter {
+  is: LanguageWhereInput
+  isNot: LanguageWhereInput
+}
+
+input LanguageWhereInput {
+  AND: [LanguageWhereInput!]
+  OR: [LanguageWhereInput!]
+  NOT: [LanguageWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  plugins: PluginListRelationFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: StringFilter
+  email: StringFilter
+  passwordHash: StringFilter
+  displayName: StringNullableFilter
+  website: StringNullableFilter
+  institution: StringNullableFilter
+  avatar: StringNullableFilter
+  role: EnumRoleFilter
+  plugins: PluginListRelationFilter
+  pipelines: PipelineListRelationFilter
+  comments: CommentListRelationFilter
+  registration: RegistrationRelationFilter
+  enabled: BoolFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+  isSet: Boolean
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+  isSet: Boolean
+}
+
+input EnumRoleFilter {
+  equals: Role
+  in: [Role!]
+  notIn: [Role!]
+  not: NestedEnumRoleFilter
+}
+
+input NestedEnumRoleFilter {
+  equals: Role
+  in: [Role!]
+  notIn: [Role!]
+  not: NestedEnumRoleFilter
+}
+
+input PipelineListRelationFilter {
+  every: PipelineWhereInput
+  some: PipelineWhereInput
+  none: PipelineWhereInput
+}
+
+input PipelineWhereInput {
+  AND: [PipelineWhereInput!]
+  OR: [PipelineWhereInput!]
+  NOT: [PipelineWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  description: StringFilter
+  githubUrl: StringFilter
+  status: EnumPipelineStatusFilter
+  rating: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  User: UserRelationFilter
+  userId: StringNullableFilter
+}
+
+input EnumPipelineStatusFilter {
+  equals: PipelineStatus
+  in: [PipelineStatus!]
+  notIn: [PipelineStatus!]
+  not: NestedEnumPipelineStatusFilter
+}
+
+input NestedEnumPipelineStatusFilter {
+  equals: PipelineStatus
+  in: [PipelineStatus!]
+  notIn: [PipelineStatus!]
+  not: NestedEnumPipelineStatusFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input CommentListRelationFilter {
+  every: CommentWhereInput
+  some: CommentWhereInput
+  none: CommentWhereInput
+}
+
+input CommentWhereInput {
+  AND: [CommentWhereInput!]
+  OR: [CommentWhereInput!]
+  NOT: [CommentWhereInput!]
+  id: StringFilter
+  author: UserRelationFilter
+  authorId: StringFilter
+  content: StringFilter
+  parent: CommentRelationFilter
+  parentId: StringFilter
+  children: CommentListRelationFilter
+  plugin: PluginRelationFilter
+  pluginId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input CommentRelationFilter {
+  is: CommentWhereInput
+  isNot: CommentWhereInput
+}
+
+input PluginRelationFilter {
+  is: PluginWhereInput
+  isNot: PluginWhereInput
+}
+
+input RegistrationRelationFilter {
+  is: RegistrationWhereInput
+  isNot: RegistrationWhereInput
+}
+
+input RegistrationWhereInput {
+  AND: [RegistrationWhereInput!]
+  OR: [RegistrationWhereInput!]
+  NOT: [RegistrationWhereInput!]
+  id: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+  code: StringFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input EnumPluginStatusFilter {
+  equals: PluginStatus
+  in: [PluginStatus!]
+  notIn: [PluginStatus!]
+  not: NestedEnumPluginStatusFilter
+}
+
+input NestedEnumPluginStatusFilter {
+  equals: PluginStatus
+  in: [PluginStatus!]
+  notIn: [PluginStatus!]
+  not: NestedEnumPluginStatusFilter
+}
+
+input StringNullableListFilter {
+  equals: [String!]
+  has: String
+  hasEvery: [String!]
+  hasSome: [String!]
+  isEmpty: Boolean
+}
+
+input PluginOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  category: CategoryOrderByWithRelationInput
+  categoryId: SortOrder
+  description: SortOrder
+  githubUrl: SortOrder
+  language: LanguageOrderByWithRelationInput
+  languageId: SortOrder
+  rating: SortOrder
+  author: UserOrderByWithRelationInput
+  authorId: SortOrder
+  verification: SortOrder
+  comments: CommentOrderByRelationAggregateInput
+  tags: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input CategoryOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  plugins: PluginOrderByRelationAggregateInput
+}
+
+input PluginOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input LanguageOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  plugins: PluginOrderByRelationAggregateInput
+}
+
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  passwordHash: SortOrder
+  displayName: SortOrder
+  website: SortOrder
+  institution: SortOrder
+  avatar: SortOrder
+  role: SortOrder
+  plugins: PluginOrderByRelationAggregateInput
+  pipelines: PipelineOrderByRelationAggregateInput
+  comments: CommentOrderByRelationAggregateInput
+  registration: RegistrationOrderByWithRelationInput
+  enabled: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+}
+
+input PipelineOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input CommentOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input RegistrationOrderByWithRelationInput {
+  id: SortOrder
+  user: UserOrderByWithRelationInput
+  userId: SortOrder
+  code: SortOrder
+}
+
+input PipelineOrderByWithRelationInput {
+  id: SortOrder
+  name: SortOrder
+  description: SortOrder
+  githubUrl: SortOrder
+  status: SortOrder
+  rating: SortOrder
+  createdAt: SortOrder
+  updatedAt: SortOrder
+  User: UserOrderByWithRelationInput
+  userId: SortOrder
+}
+
+type Mutation {
+  createPlugin(data: PluginCreateInput): Plugin!
+  updatePlugin(where: PluginWhereUniqueInput!, pluginData: PluginUncheckedUpdateInput!): Plugin!
+  createPipeline(pipelineData: PipelineCreateInput!): Pipeline!
+  updatePipeline(where: PipelineWhereUniqueInput!, pipelineData: PipelineUncheckedUpdateInput!): Pipeline!
+}
+
+input PluginCreateInput {
+  id: String
+  name: String!
+  category: CategoryCreateNestedOneWithoutPluginsInput!
+  description: String!
+  githubUrl: String!
+  language: LanguageCreateNestedOneWithoutPluginsInput!
+  rating: Int
+  author: UserCreateNestedOneWithoutPluginsInput
+  verification: PluginStatus
+  comments: CommentCreateNestedManyWithoutPluginInput
+  tags: PluginCreatetagsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CategoryCreateNestedOneWithoutPluginsInput {
+  create: CategoryCreateWithoutPluginsInput
+  connectOrCreate: CategoryCreateOrConnectWithoutPluginsInput
+  connect: CategoryWhereUniqueInput
+}
+
+input CategoryCreateWithoutPluginsInput {
+  id: String
+  name: String!
+}
+
+input CategoryCreateOrConnectWithoutPluginsInput {
+  where: CategoryWhereUniqueInput!
+  create: CategoryCreateWithoutPluginsInput!
+}
+
+input CategoryWhereUniqueInput {
+  id: String
+  name: String
+}
+
+input LanguageCreateNestedOneWithoutPluginsInput {
+  create: LanguageCreateWithoutPluginsInput
+  connectOrCreate: LanguageCreateOrConnectWithoutPluginsInput
+  connect: LanguageWhereUniqueInput
+}
+
+input LanguageCreateWithoutPluginsInput {
+  id: String
+  name: String!
+}
+
+input LanguageCreateOrConnectWithoutPluginsInput {
+  where: LanguageWhereUniqueInput!
+  create: LanguageCreateWithoutPluginsInput!
+}
+
+input LanguageWhereUniqueInput {
+  id: String
+  name: String
+}
+
+input UserCreateNestedOneWithoutPluginsInput {
+  create: UserCreateWithoutPluginsInput
+  connectOrCreate: UserCreateOrConnectWithoutPluginsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPluginsInput {
+  id: String
+  email: String!
+  passwordHash: String!
+  displayName: String
+  website: String
+  institution: String
+  avatar: String
+  role: Role
+  pipelines: PipelineCreateNestedManyWithoutUserInput
+  comments: CommentCreateNestedManyWithoutAuthorInput
+  registration: RegistrationCreateNestedOneWithoutUserInput
+  enabled: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PipelineCreateNestedManyWithoutUserInput {
+  create: [PipelineCreateWithoutUserInput!]
+  connectOrCreate: [PipelineCreateOrConnectWithoutUserInput!]
+  createMany: PipelineCreateManyUserInputEnvelope
+  connect: [PipelineWhereUniqueInput!]
+}
+
+input PipelineCreateWithoutUserInput {
+  id: String
+  name: String!
+  description: String!
+  githubUrl: String!
+  status: PipelineStatus
+  rating: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PipelineCreateOrConnectWithoutUserInput {
+  where: PipelineWhereUniqueInput!
+  create: PipelineCreateWithoutUserInput!
+}
+
+input PipelineWhereUniqueInput {
+  id: String
+  name: String
+  githubUrl: String
+}
+
+input PipelineCreateManyUserInputEnvelope {
+  data: [PipelineCreateManyUserInput!]!
+}
+
+input PipelineCreateManyUserInput {
+  id: String
+  name: String!
+  description: String!
+  githubUrl: String!
+  status: PipelineStatus
+  rating: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CommentCreateNestedManyWithoutAuthorInput {
+  create: [CommentCreateWithoutAuthorInput!]
+  connectOrCreate: [CommentCreateOrConnectWithoutAuthorInput!]
+  createMany: CommentCreateManyAuthorInputEnvelope
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateWithoutAuthorInput {
+  id: String
+  content: String!
+  parent: CommentCreateNestedOneWithoutChildrenInput
+  children: CommentCreateNestedManyWithoutParentInput
+  plugin: PluginCreateNestedOneWithoutCommentsInput!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CommentCreateNestedOneWithoutChildrenInput {
+  create: CommentCreateWithoutChildrenInput
+  connectOrCreate: CommentCreateOrConnectWithoutChildrenInput
+  connect: CommentWhereUniqueInput
+}
+
+input CommentCreateWithoutChildrenInput {
+  id: String
+  author: UserCreateNestedOneWithoutCommentsInput!
+  content: String!
+  parent: CommentCreateNestedOneWithoutChildrenInput
+  plugin: PluginCreateNestedOneWithoutCommentsInput!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserCreateNestedOneWithoutCommentsInput {
+  create: UserCreateWithoutCommentsInput
+  connectOrCreate: UserCreateOrConnectWithoutCommentsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutCommentsInput {
+  id: String
+  email: String!
+  passwordHash: String!
+  displayName: String
+  website: String
+  institution: String
+  avatar: String
+  role: Role
+  plugins: PluginCreateNestedManyWithoutAuthorInput
+  pipelines: PipelineCreateNestedManyWithoutUserInput
+  registration: RegistrationCreateNestedOneWithoutUserInput
+  enabled: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PluginCreateNestedManyWithoutAuthorInput {
+  create: [PluginCreateWithoutAuthorInput!]
+  connectOrCreate: [PluginCreateOrConnectWithoutAuthorInput!]
+  createMany: PluginCreateManyAuthorInputEnvelope
+  connect: [PluginWhereUniqueInput!]
+}
+
+input PluginCreateWithoutAuthorInput {
+  id: String
+  name: String!
+  category: CategoryCreateNestedOneWithoutPluginsInput!
+  description: String!
+  githubUrl: String!
+  language: LanguageCreateNestedOneWithoutPluginsInput!
+  rating: Int
+  verification: PluginStatus
+  comments: CommentCreateNestedManyWithoutPluginInput
+  tags: PluginCreatetagsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CommentCreateNestedManyWithoutPluginInput {
+  create: [CommentCreateWithoutPluginInput!]
+  connectOrCreate: [CommentCreateOrConnectWithoutPluginInput!]
+  createMany: CommentCreateManyPluginInputEnvelope
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateWithoutPluginInput {
+  id: String
+  author: UserCreateNestedOneWithoutCommentsInput!
+  content: String!
+  parent: CommentCreateNestedOneWithoutChildrenInput
+  children: CommentCreateNestedManyWithoutParentInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CommentCreateNestedManyWithoutParentInput {
+  create: [CommentCreateWithoutParentInput!]
+  connectOrCreate: [CommentCreateOrConnectWithoutParentInput!]
+  createMany: CommentCreateManyParentInputEnvelope
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateWithoutParentInput {
+  id: String
+  author: UserCreateNestedOneWithoutCommentsInput!
+  content: String!
+  children: CommentCreateNestedManyWithoutParentInput
+  plugin: PluginCreateNestedOneWithoutCommentsInput!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PluginCreateNestedOneWithoutCommentsInput {
+  create: PluginCreateWithoutCommentsInput
+  connectOrCreate: PluginCreateOrConnectWithoutCommentsInput
+  connect: PluginWhereUniqueInput
+}
+
+input PluginCreateWithoutCommentsInput {
+  id: String
+  name: String!
+  category: CategoryCreateNestedOneWithoutPluginsInput!
+  description: String!
+  githubUrl: String!
+  language: LanguageCreateNestedOneWithoutPluginsInput!
+  rating: Int
+  author: UserCreateNestedOneWithoutPluginsInput
+  verification: PluginStatus
+  tags: PluginCreatetagsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PluginCreatetagsInput {
+  set: [String!]!
+}
+
+input PluginCreateOrConnectWithoutCommentsInput {
+  where: PluginWhereUniqueInput!
+  create: PluginCreateWithoutCommentsInput!
+}
+
+input CommentCreateOrConnectWithoutParentInput {
+  where: CommentWhereUniqueInput!
+  create: CommentCreateWithoutParentInput!
+}
+
+input CommentWhereUniqueInput {
+  id: String
+}
+
+input CommentCreateManyParentInputEnvelope {
+  data: [CommentCreateManyParentInput!]!
+}
+
+input CommentCreateManyParentInput {
+  id: String
+  authorId: String!
+  content: String!
+  pluginId: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input CommentCreateOrConnectWithoutPluginInput {
+  where: CommentWhereUniqueInput!
+  create: CommentCreateWithoutPluginInput!
+}
+
+input CommentCreateManyPluginInputEnvelope {
+  data: [CommentCreateManyPluginInput!]!
+}
+
+input CommentCreateManyPluginInput {
+  id: String
+  authorId: String!
+  content: String!
+  parentId: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input PluginCreateOrConnectWithoutAuthorInput {
+  where: PluginWhereUniqueInput!
+  create: PluginCreateWithoutAuthorInput!
+}
+
+input PluginCreateManyAuthorInputEnvelope {
+  data: [PluginCreateManyAuthorInput!]!
+}
+
+input PluginCreateManyAuthorInput {
+  id: String
+  name: String!
+  categoryId: String!
+  description: String!
+  githubUrl: String!
+  languageId: String!
+  rating: Int
+  verification: PluginStatus
+  tags: PluginCreatetagsInput
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input RegistrationCreateNestedOneWithoutUserInput {
+  create: RegistrationCreateWithoutUserInput
+  connectOrCreate: RegistrationCreateOrConnectWithoutUserInput
+  connect: RegistrationWhereUniqueInput
+}
+
+input RegistrationCreateWithoutUserInput {
+  id: String
+  code: String!
+}
+
+input RegistrationCreateOrConnectWithoutUserInput {
+  where: RegistrationWhereUniqueInput!
+  create: RegistrationCreateWithoutUserInput!
+}
+
+input RegistrationWhereUniqueInput {
+  id: String
+  userId: String
+}
+
+input UserCreateOrConnectWithoutCommentsInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutCommentsInput!
+}
+
+input UserWhereUniqueInput {
+  id: String
+  email: String
+  displayName: String
+}
+
+input CommentCreateOrConnectWithoutChildrenInput {
+  where: CommentWhereUniqueInput!
+  create: CommentCreateWithoutChildrenInput!
+}
+
+input CommentCreateOrConnectWithoutAuthorInput {
+  where: CommentWhereUniqueInput!
+  create: CommentCreateWithoutAuthorInput!
+}
+
+input CommentCreateManyAuthorInputEnvelope {
+  data: [CommentCreateManyAuthorInput!]!
+}
+
+input CommentCreateManyAuthorInput {
+  id: String
+  content: String!
+  parentId: String!
+  pluginId: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserCreateOrConnectWithoutPluginsInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutPluginsInput!
+}
+
+input PluginUncheckedUpdateInput {
+  name: StringFieldUpdateOperationsInput
+  categoryId: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  languageId: StringFieldUpdateOperationsInput
+  rating: IntFieldUpdateOperationsInput
+  authorId: NullableStringFieldUpdateOperationsInput
+  verification: EnumPluginStatusFieldUpdateOperationsInput
+  comments: CommentUncheckedUpdateManyWithoutPluginInput
+  tags: PluginUpdatetagsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input IntFieldUpdateOperationsInput {
+  set: Int
+  increment: Int
+  decrement: Int
+  multiply: Int
+  divide: Int
+}
+
+input NullableStringFieldUpdateOperationsInput {
+  set: String
+  unset: Boolean
+}
+
+input EnumPluginStatusFieldUpdateOperationsInput {
+  set: PluginStatus
+}
+
+input CommentUncheckedUpdateManyWithoutPluginInput {
+  create: [CommentCreateWithoutPluginInput!]
+  connectOrCreate: [CommentCreateOrConnectWithoutPluginInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutPluginInput!]
+  createMany: CommentCreateManyPluginInputEnvelope
+  set: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  connect: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutPluginInput!]
+  updateMany: [CommentUpdateManyWithWhereWithoutPluginInput!]
+  deleteMany: [CommentScalarWhereInput!]
+}
+
+input CommentUpsertWithWhereUniqueWithoutPluginInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutPluginInput!
+  create: CommentCreateWithoutPluginInput!
+}
+
+input CommentUpdateWithoutPluginInput {
+  author: UserUpdateOneRequiredWithoutCommentsInput
+  content: StringFieldUpdateOperationsInput
+  parent: CommentUpdateOneWithoutChildrenInput
+  children: CommentUpdateManyWithoutParentInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input UserUpdateOneRequiredWithoutCommentsInput {
+  create: UserCreateWithoutCommentsInput
+  connectOrCreate: UserCreateOrConnectWithoutCommentsInput
+  upsert: UserUpsertWithoutCommentsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutCommentsInput
+}
+
+input UserUpsertWithoutCommentsInput {
+  update: UserUpdateWithoutCommentsInput!
+  create: UserCreateWithoutCommentsInput!
+}
+
+input UserUpdateWithoutCommentsInput {
+  email: StringFieldUpdateOperationsInput
+  passwordHash: StringFieldUpdateOperationsInput
+  displayName: NullableStringFieldUpdateOperationsInput
+  website: NullableStringFieldUpdateOperationsInput
+  institution: NullableStringFieldUpdateOperationsInput
+  avatar: NullableStringFieldUpdateOperationsInput
+  role: EnumRoleFieldUpdateOperationsInput
+  plugins: PluginUpdateManyWithoutAuthorInput
+  pipelines: PipelineUpdateManyWithoutUserInput
+  registration: RegistrationUpdateOneWithoutUserInput
+  enabled: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input EnumRoleFieldUpdateOperationsInput {
+  set: Role
+}
+
+input PluginUpdateManyWithoutAuthorInput {
+  create: [PluginCreateWithoutAuthorInput!]
+  connectOrCreate: [PluginCreateOrConnectWithoutAuthorInput!]
+  upsert: [PluginUpsertWithWhereUniqueWithoutAuthorInput!]
+  createMany: PluginCreateManyAuthorInputEnvelope
+  set: [PluginWhereUniqueInput!]
+  disconnect: [PluginWhereUniqueInput!]
+  delete: [PluginWhereUniqueInput!]
+  connect: [PluginWhereUniqueInput!]
+  update: [PluginUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [PluginUpdateManyWithWhereWithoutAuthorInput!]
+  deleteMany: [PluginScalarWhereInput!]
+}
+
+input PluginUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PluginWhereUniqueInput!
+  update: PluginUpdateWithoutAuthorInput!
+  create: PluginCreateWithoutAuthorInput!
+}
+
+input PluginUpdateWithoutAuthorInput {
+  name: StringFieldUpdateOperationsInput
+  category: CategoryUpdateOneRequiredWithoutPluginsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  language: LanguageUpdateOneRequiredWithoutPluginsInput
+  rating: IntFieldUpdateOperationsInput
+  verification: EnumPluginStatusFieldUpdateOperationsInput
+  comments: CommentUpdateManyWithoutPluginInput
+  tags: PluginUpdatetagsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CategoryUpdateOneRequiredWithoutPluginsInput {
+  create: CategoryCreateWithoutPluginsInput
+  connectOrCreate: CategoryCreateOrConnectWithoutPluginsInput
+  upsert: CategoryUpsertWithoutPluginsInput
+  connect: CategoryWhereUniqueInput
+  update: CategoryUpdateWithoutPluginsInput
+}
+
+input CategoryUpsertWithoutPluginsInput {
+  update: CategoryUpdateWithoutPluginsInput!
+  create: CategoryCreateWithoutPluginsInput!
+}
+
+input CategoryUpdateWithoutPluginsInput {
+  name: StringFieldUpdateOperationsInput
+}
+
+input LanguageUpdateOneRequiredWithoutPluginsInput {
+  create: LanguageCreateWithoutPluginsInput
+  connectOrCreate: LanguageCreateOrConnectWithoutPluginsInput
+  upsert: LanguageUpsertWithoutPluginsInput
+  connect: LanguageWhereUniqueInput
+  update: LanguageUpdateWithoutPluginsInput
+}
+
+input LanguageUpsertWithoutPluginsInput {
+  update: LanguageUpdateWithoutPluginsInput!
+  create: LanguageCreateWithoutPluginsInput!
+}
+
+input LanguageUpdateWithoutPluginsInput {
+  name: StringFieldUpdateOperationsInput
+}
+
+input CommentUpdateManyWithoutPluginInput {
+  create: [CommentCreateWithoutPluginInput!]
+  connectOrCreate: [CommentCreateOrConnectWithoutPluginInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutPluginInput!]
+  createMany: CommentCreateManyPluginInputEnvelope
+  set: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  connect: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutPluginInput!]
+  updateMany: [CommentUpdateManyWithWhereWithoutPluginInput!]
+  deleteMany: [CommentScalarWhereInput!]
+}
+
+input CommentUpdateWithWhereUniqueWithoutPluginInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutPluginInput!
+}
+
+input CommentUpdateManyWithWhereWithoutPluginInput {
+  where: CommentScalarWhereInput!
+  data: CommentUpdateManyMutationInput!
+}
+
+input CommentScalarWhereInput {
+  AND: [CommentScalarWhereInput!]
+  OR: [CommentScalarWhereInput!]
+  NOT: [CommentScalarWhereInput!]
+  id: StringFilter
+  authorId: StringFilter
+  content: StringFilter
+  parentId: StringFilter
+  pluginId: StringFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input CommentUpdateManyMutationInput {
+  content: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input PluginUpdatetagsInput {
+  set: [String!]
+  push: [String!]
+}
+
+input PluginUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PluginWhereUniqueInput!
+  data: PluginUpdateWithoutAuthorInput!
+}
+
+input PluginUpdateManyWithWhereWithoutAuthorInput {
+  where: PluginScalarWhereInput!
+  data: PluginUpdateManyMutationInput!
+}
+
+input PluginScalarWhereInput {
+  AND: [PluginScalarWhereInput!]
+  OR: [PluginScalarWhereInput!]
+  NOT: [PluginScalarWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  categoryId: StringFilter
+  description: StringFilter
+  githubUrl: StringFilter
+  languageId: StringFilter
+  rating: IntFilter
+  authorId: StringNullableFilter
+  verification: EnumPluginStatusFilter
+  tags: StringNullableListFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+}
+
+input PluginUpdateManyMutationInput {
+  name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  rating: IntFieldUpdateOperationsInput
+  verification: EnumPluginStatusFieldUpdateOperationsInput
+  tags: PluginUpdatetagsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input PipelineUpdateManyWithoutUserInput {
+  create: [PipelineCreateWithoutUserInput!]
+  connectOrCreate: [PipelineCreateOrConnectWithoutUserInput!]
+  upsert: [PipelineUpsertWithWhereUniqueWithoutUserInput!]
+  createMany: PipelineCreateManyUserInputEnvelope
+  set: [PipelineWhereUniqueInput!]
+  disconnect: [PipelineWhereUniqueInput!]
+  delete: [PipelineWhereUniqueInput!]
+  connect: [PipelineWhereUniqueInput!]
+  update: [PipelineUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [PipelineUpdateManyWithWhereWithoutUserInput!]
+  deleteMany: [PipelineScalarWhereInput!]
+}
+
+input PipelineUpsertWithWhereUniqueWithoutUserInput {
+  where: PipelineWhereUniqueInput!
+  update: PipelineUpdateWithoutUserInput!
+  create: PipelineCreateWithoutUserInput!
+}
+
+input PipelineUpdateWithoutUserInput {
+  name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  status: EnumPipelineStatusFieldUpdateOperationsInput
+  rating: IntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input EnumPipelineStatusFieldUpdateOperationsInput {
+  set: PipelineStatus
+}
+
+input PipelineUpdateWithWhereUniqueWithoutUserInput {
+  where: PipelineWhereUniqueInput!
+  data: PipelineUpdateWithoutUserInput!
+}
+
+input PipelineUpdateManyWithWhereWithoutUserInput {
+  where: PipelineScalarWhereInput!
+  data: PipelineUpdateManyMutationInput!
+}
+
+input PipelineScalarWhereInput {
+  AND: [PipelineScalarWhereInput!]
+  OR: [PipelineScalarWhereInput!]
+  NOT: [PipelineScalarWhereInput!]
+  id: StringFilter
+  name: StringFilter
+  description: StringFilter
+  githubUrl: StringFilter
+  status: EnumPipelineStatusFilter
+  rating: IntFilter
+  createdAt: DateTimeFilter
+  updatedAt: DateTimeFilter
+  userId: StringNullableFilter
+}
+
+input PipelineUpdateManyMutationInput {
+  name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  status: EnumPipelineStatusFieldUpdateOperationsInput
+  rating: IntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input RegistrationUpdateOneWithoutUserInput {
+  create: RegistrationCreateWithoutUserInput
+  connectOrCreate: RegistrationCreateOrConnectWithoutUserInput
+  upsert: RegistrationUpsertWithoutUserInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: RegistrationWhereUniqueInput
+  update: RegistrationUpdateWithoutUserInput
+}
+
+input RegistrationUpsertWithoutUserInput {
+  update: RegistrationUpdateWithoutUserInput!
+  create: RegistrationCreateWithoutUserInput!
+}
+
+input RegistrationUpdateWithoutUserInput {
+  code: StringFieldUpdateOperationsInput
+}
+
+input BoolFieldUpdateOperationsInput {
+  set: Boolean
+}
+
+input CommentUpdateOneWithoutChildrenInput {
+  create: CommentCreateWithoutChildrenInput
+  connectOrCreate: CommentCreateOrConnectWithoutChildrenInput
+  upsert: CommentUpsertWithoutChildrenInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: CommentWhereUniqueInput
+  update: CommentUpdateWithoutChildrenInput
+}
+
+input CommentUpsertWithoutChildrenInput {
+  update: CommentUpdateWithoutChildrenInput!
+  create: CommentCreateWithoutChildrenInput!
+}
+
+input CommentUpdateWithoutChildrenInput {
+  author: UserUpdateOneRequiredWithoutCommentsInput
+  content: StringFieldUpdateOperationsInput
+  parent: CommentUpdateOneWithoutChildrenInput
+  plugin: PluginUpdateOneRequiredWithoutCommentsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input PluginUpdateOneRequiredWithoutCommentsInput {
+  create: PluginCreateWithoutCommentsInput
+  connectOrCreate: PluginCreateOrConnectWithoutCommentsInput
+  upsert: PluginUpsertWithoutCommentsInput
+  connect: PluginWhereUniqueInput
+  update: PluginUpdateWithoutCommentsInput
+}
+
+input PluginUpsertWithoutCommentsInput {
+  update: PluginUpdateWithoutCommentsInput!
+  create: PluginCreateWithoutCommentsInput!
+}
+
+input PluginUpdateWithoutCommentsInput {
+  name: StringFieldUpdateOperationsInput
+  category: CategoryUpdateOneRequiredWithoutPluginsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  language: LanguageUpdateOneRequiredWithoutPluginsInput
+  rating: IntFieldUpdateOperationsInput
+  author: UserUpdateOneWithoutPluginsInput
+  verification: EnumPluginStatusFieldUpdateOperationsInput
+  tags: PluginUpdatetagsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input UserUpdateOneWithoutPluginsInput {
+  create: UserCreateWithoutPluginsInput
+  connectOrCreate: UserCreateOrConnectWithoutPluginsInput
+  upsert: UserUpsertWithoutPluginsInput
+  disconnect: Boolean
+  delete: Boolean
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutPluginsInput
+}
+
+input UserUpsertWithoutPluginsInput {
+  update: UserUpdateWithoutPluginsInput!
+  create: UserCreateWithoutPluginsInput!
+}
+
+input UserUpdateWithoutPluginsInput {
+  email: StringFieldUpdateOperationsInput
+  passwordHash: StringFieldUpdateOperationsInput
+  displayName: NullableStringFieldUpdateOperationsInput
+  website: NullableStringFieldUpdateOperationsInput
+  institution: NullableStringFieldUpdateOperationsInput
+  avatar: NullableStringFieldUpdateOperationsInput
+  role: EnumRoleFieldUpdateOperationsInput
+  pipelines: PipelineUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutAuthorInput
+  registration: RegistrationUpdateOneWithoutUserInput
+  enabled: BoolFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CommentUpdateManyWithoutAuthorInput {
+  create: [CommentCreateWithoutAuthorInput!]
+  connectOrCreate: [CommentCreateOrConnectWithoutAuthorInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutAuthorInput!]
+  createMany: CommentCreateManyAuthorInputEnvelope
+  set: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  connect: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [CommentUpdateManyWithWhereWithoutAuthorInput!]
+  deleteMany: [CommentScalarWhereInput!]
+}
+
+input CommentUpsertWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutAuthorInput!
+  create: CommentCreateWithoutAuthorInput!
+}
+
+input CommentUpdateWithoutAuthorInput {
+  content: StringFieldUpdateOperationsInput
+  parent: CommentUpdateOneWithoutChildrenInput
+  children: CommentUpdateManyWithoutParentInput
+  plugin: PluginUpdateOneRequiredWithoutCommentsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CommentUpdateManyWithoutParentInput {
+  create: [CommentCreateWithoutParentInput!]
+  connectOrCreate: [CommentCreateOrConnectWithoutParentInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutParentInput!]
+  createMany: CommentCreateManyParentInputEnvelope
+  set: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  connect: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutParentInput!]
+  updateMany: [CommentUpdateManyWithWhereWithoutParentInput!]
+  deleteMany: [CommentScalarWhereInput!]
+}
+
+input CommentUpsertWithWhereUniqueWithoutParentInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutParentInput!
+  create: CommentCreateWithoutParentInput!
+}
+
+input CommentUpdateWithoutParentInput {
+  author: UserUpdateOneRequiredWithoutCommentsInput
+  content: StringFieldUpdateOperationsInput
+  children: CommentUpdateManyWithoutParentInput
+  plugin: PluginUpdateOneRequiredWithoutCommentsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CommentUpdateWithWhereUniqueWithoutParentInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutParentInput!
+}
+
+input CommentUpdateManyWithWhereWithoutParentInput {
+  where: CommentScalarWhereInput!
+  data: CommentUpdateManyMutationInput!
+}
+
+input CommentUpdateWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutAuthorInput!
+}
+
+input CommentUpdateManyWithWhereWithoutAuthorInput {
+  where: CommentScalarWhereInput!
+  data: CommentUpdateManyMutationInput!
+}
+
+input PipelineCreateInput {
+  id: String
+  name: String!
+  description: String!
+  githubUrl: String!
+  status: PipelineStatus
+  rating: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  User: UserCreateNestedOneWithoutPipelinesInput
+}
+
+input UserCreateNestedOneWithoutPipelinesInput {
+  create: UserCreateWithoutPipelinesInput
+  connectOrCreate: UserCreateOrConnectWithoutPipelinesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPipelinesInput {
+  id: String
+  email: String!
+  passwordHash: String!
+  displayName: String
+  website: String
+  institution: String
+  avatar: String
+  role: Role
+  plugins: PluginCreateNestedManyWithoutAuthorInput
+  comments: CommentCreateNestedManyWithoutAuthorInput
+  registration: RegistrationCreateNestedOneWithoutUserInput
+  enabled: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserCreateOrConnectWithoutPipelinesInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutPipelinesInput!
+}
+
+input PipelineUncheckedUpdateInput {
+  name: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  githubUrl: StringFieldUpdateOperationsInput
+  status: EnumPipelineStatusFieldUpdateOperationsInput
+  rating: IntFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  userId: NullableStringFieldUpdateOperationsInput
+}
