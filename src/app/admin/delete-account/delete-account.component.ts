@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { User } from '../user';
+import { User } from '@prisma/client';
 import { Apollo, gql } from 'apollo-angular';
 
 const DELETE_USER = gql`

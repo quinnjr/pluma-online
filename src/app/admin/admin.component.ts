@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { User } from 'prisma';
+import { User } from '@prisma/client';
 
 const USERS = gql`
   query users(

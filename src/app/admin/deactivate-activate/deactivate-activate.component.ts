@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { User } from '../user';
+import { User } from '@prisma/client';
 
 const USER_MUTATION = gql`
   mutation userMutation($where: UserWhereUniqueInput, $data: UserUpdateInput) {
