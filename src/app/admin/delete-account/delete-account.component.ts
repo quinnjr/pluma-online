@@ -47,11 +47,16 @@ export class DeleteAccountComponent implements OnInit {
             }
           }
         })
-        .subscribe((result: any) => {
-          console.log(result.data.deleteUser);
-          this.updateDisplayedUsers(result.data.deleteUser);
-          console.log(this.usersToDisplayFromParent);
-        });
+        .subscribe(
+          (result: any) => {
+            console.log(result.data.deleteUser);
+            this.updateDisplayedUsers(result.data.deleteUser);
+            console.log(this.usersToDisplayFromParent);
+          },
+          (error: any) => {
+            alert(error);
+          }
+        );
     }
   }
 

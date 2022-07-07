@@ -89,6 +89,7 @@ model User {
   updatedAt    DateTime      @default(now()) @updatedAt @db.Timestamp
 
   @@map("users")
+  PasswordResetCode PasswordResetCode[]
 }
 
 model Registration {
@@ -96,7 +97,7 @@ model Registration {
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique @db.ObjectId
   /// HideField()
-  code   String
+  code   String @unique
 }
 
 enum PipelineStatus {
@@ -137,16 +138,26 @@ model Comment {
 }
 
 model Publication {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  authors String
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  authors       String
   publishedYear Int
-  title String
-  journal String
+  title         String
+  journal       String
   journalVolume Int
-  journalIssue Int
-  pageRange String
-  url String?
-  doi String?
-  isNew Boolean
+  journalIssue  Int
+  pageRange     String
+  url           String?
+  doi           String?
+  isNew         Boolean
+
   @@map("publications")
+}
+
+model PasswordResetCode {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  token   String @unique
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String @db.ObjectId
+
+  @@map("passwordResetCode")
 }

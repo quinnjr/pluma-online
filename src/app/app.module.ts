@@ -5,7 +5,7 @@ declare const process: any;
 
 import { NgModule, InjectionToken, LOCALE_ID } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   BrowserModule,
@@ -55,6 +55,7 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
 
 @NgModule({
   imports: [
+    FormsModule,
     // Angular modules
     BrowserModule.withServerTransition({ appId: 'pluma-online' }),
     BrowserTransferStateModule,

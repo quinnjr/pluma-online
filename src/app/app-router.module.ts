@@ -15,6 +15,7 @@ import { IsLoggedInGuard } from './is-logged-in.guard';
 import { VerifyComponent } from './auth/register/verify/verify.component';
 import { PeopleComponent } from './people/people.component';
 import { PublicationsComponent } from './publications/publications.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pluma/pluma.module').then((m) => m.PlumaModule)
   },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register/verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent },

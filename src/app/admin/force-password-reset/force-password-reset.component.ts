@@ -3,11 +3,8 @@ import { User } from '@prisma/client';
 import { Apollo, gql } from 'apollo-angular';
 
 const FORCE_PASSWORD_RESET = gql`
-  mutation forcePasswordReset(
-    $where: UserWhereUniqueInput
-    $data: UserUpdateInput
-  ) {
-    forcePasswordReset(where: $where, data: $data) {
+  mutation forcePasswordReset($where: UserWhereUniqueInput!) {
+    forcePasswordReset(where: $where) {
       displayName
       email
       website
@@ -44,19 +41,19 @@ export class ForcePasswordResetComponent implements OnInit {
           variables: {
             where: {
               displayName: this.user.displayName
-            },
-            data: {
-              enabled: {
-                set: false
-              }
             }
           }
         })
-        .subscribe((result: any) => {
-          console.log(this.usersToDisplayFromParent);
-          this.updateDisplayedUsers(result.data.forcePasswordReset);
-          console.log(this.usersToDisplayFromParent);
-        });
+        .subscribe(
+          (result: any) => {
+            console.log(this.usersToDisplayFromParent);
+            this.updateDisplayedUsers(result.data.forcePasswordReset);
+            console.log(this.usersToDisplayFromParent);
+          },
+          (error: any) => {
+            alert(error);
+          }
+        );
     }
   }
 

@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { Args, Resolver, Query, Int, Mutation } from '@nestjs/graphql';
+import { createHash } from 'node:crypto';
 
 import { DatabaseService } from '../database/database.service';
 import { User } from '../@generated/prisma-graphql/user/user.model';
@@ -14,6 +16,7 @@ import {
   UserWhereInput
 } from 'server/@generated/prisma-graphql/user';
 import argon2 from 'argon2';
+import { PasswordResetCodeWhereUniqueInput } from 'server/@generated/prisma-graphql/password-reset-code/password-reset-code-where-unique.input';
 
 @Resolver((of) => User)
 export class UsersResolver {
@@ -74,50 +77,70 @@ export class UsersResolver {
 
   @Mutation((returns) => User)
   public async forcePasswordReset(
-    @Args('where', { nullable: true }) where: UserWhereUniqueInput,
-    @Args('data', { nullable: true }) data: UserUpdateInput
-  ): Promise<User | null> {
-    //send an email to the user
-    //set some kind of token to remember that user once he updates his password
+    @Args('where', { nullable: false }) where: UserWhereUniqueInput
+  ): Promise<User | null>{
 
-    const user = await this.$database.user.findUnique({ where: where });
+    const user = await this.$database.user.findUnique({where: where})
 
-    // await this.$emailService.send({
-    //   to: `${user?.displayName} <${user?.email}`,
-    //   from: `noreply <noreply@${this.$configService.get('APP_HOST')}>`,
-    //   subject: '[PluMA Online] Registration',
-    //   text: `Hello ${
-    //     user?.displayName
-    //   },\nThis email contains your registration code for PluMA Online.\nCode: ${registrationCode}\nPlease input your code at\nhttps://${this.$configService.get(
-    //     'APP_HOST'
-    //   )}/registation/verify?userId=${user?.id}\nto verify your account.`,
-    //   attachment: [
-    //     {
-    //       alternative: true,
-    //       data: `
-    //         <html lang="en">
-    //           <body>
-    //           <p>Hello ${user.displayName},</p>
-    //           <p>This email contains your registration code for PluMA Online.</p>
-    //           <p>
-    //             <code>Code: ${registrationCode}</code>
-    //           </p>
-    //           <p>Please click <a href="${this.$configService.get(
-    //             'APP_HOST'
-    //           )}/registration/verify?userId=${
-    //         user.id
-    //       }&code=${registrationCode}">here</a> to verify your account.</p>
-    //           </body>
-    //         </html>
-    //       `
-    //     }
-    //   ]
-    // });
+    const sha1 = createHash('sha1');
 
+    const resetCode = sha1
+    .update(
+      JSON.stringify({
+        id: user?.id,
+        email: user?.email
+      })
+    )
+    .digest('hex');
+
+    await this.$database.passwordResetCode.create({data:{
+      token: resetCode,
+      user: {
+        connect:{
+          id : user?.id
+        }
+      }
+    }})
+
+    let data: UserUpdateInput = {
+      enabled: {
+        set: false
+      }
+    }
+
+    await this.$emailService.send({
+      to: `${user?.displayName} <${user?.email}`,
+      from: `noreply <noreply@${this.$configService.get('APP_HOST')}>`,
+      subject: '[PluMA Online] password reset',
+      text: `Hello ${
+        user?.displayName
+      },\nThis link is to reset your password. Click the link to continue.\nhttps://${this.$configService.get(
+        'APP_HOST'
+      )}/reset-password?token=${resetCode}\nto reset your password.`,
+      attachment: [
+        {
+          alternative: true,
+          data: `
+            <html lang="en">
+              <body>
+              <p>Hello ${user?.displayName},</p>
+              <p>This email contains your reset password code for PluMA Online.</p>
+              <p>
+                <code>Code: ${resetCode}</code>
+              </p>
+              <p>Please click <a href="${this.$configService.get(
+                'APP_HOST'
+              )}/reset-password?token=${resetCode}">here</a> to reset your password.</p>
+              </body>
+            </html>
+          `
+        }
+      ]
+    })
     return await this.$database.user.update({
       where: where,
       data: data
-    });
+    })
   }
 
   @UseGuards(GqlJwtAuthGuard)
@@ -132,22 +155,25 @@ export class UsersResolver {
     });
   }
 
-  @Query((returns) => User)
+  @Mutation((returns) => User)
   public async changePassword(
-    @Args('where', { nullable: false }) where: UserWhereUniqueInput,
+    @Args('where', { nullable: false }) where: PasswordResetCodeWhereUniqueInput,
     @Args('password', { nullable: false }) password: string
   ): Promise<User | null> {
-    const passwordHash = await argon2.hash(password);
-    const user = await this.$database.user.findUnique({
-      where: where
-    });
 
-    if (user?.passwordHash == passwordHash) {
+    const user = await this.$database.passwordResetCode.findUnique({where: where}).user();
+    console.log(user?.passwordHash);
+    if (await argon2.verify(user?.passwordHash as string, password)) {
       return null;
     }
 
+    const passwordHash = await argon2.hash(password);
+    await this.$database.passwordResetCode.delete({where: where});
+
     return this.$database.user.update({
-      where: where,
+      where: {
+        id: user?.id
+      },
       data: {
         passwordHash: {
           set: passwordHash
@@ -155,4 +181,5 @@ export class UsersResolver {
       }
     });
   }
+
 }

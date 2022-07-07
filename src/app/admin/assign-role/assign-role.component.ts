@@ -55,11 +55,16 @@ export class AssignRoleComponent implements OnInit {
             }
           }
         })
-        .subscribe((result: any) => {
-          console.log(this.usersToDisplayFromParent);
-          this.updateDisplayedUsers(result.data.userMutation);
-          console.log(this.usersToDisplayFromParent);
-        });
+        .subscribe(
+          (result: any) => {
+            console.log(this.usersToDisplayFromParent);
+            this.updateDisplayedUsers(result.data.userMutation);
+            console.log(this.usersToDisplayFromParent);
+          },
+          (error: any) => {
+            alert(error);
+          }
+        );
     }
   }
 
