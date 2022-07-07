@@ -1,6 +1,7 @@
 import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
+import { ResetAuthGuard } from './reset-auth.guard';
 import { Public } from '../public.decorator';
 import { UserCreateInput } from 'server/@generated/prisma-graphql/user';
 

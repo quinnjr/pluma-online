@@ -96,7 +96,7 @@ model Registration {
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique @db.ObjectId
   /// HideField()
-  code   String
+  code   String @unique
 }
 
 enum PipelineStatus {
