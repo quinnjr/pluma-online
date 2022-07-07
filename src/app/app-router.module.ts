@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { IsAdminGuard } from './is-admin.guard';
 import { IsLoggedInGuard } from './is-logged-in.guard';
 import { VerifyComponent } from './auth/register/verify/verify.component';
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'register/verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'reset-password', component: ResetPasswordComponent},
   { path: 'contact', component: ContactComponent },
   { path: 'people', component: PeopleComponent },
   { path: 'publications', component: PublicationsComponent },
