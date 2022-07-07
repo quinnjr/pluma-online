@@ -7,7 +7,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
-import { PluginsComponent } from './admin/plugins/plugins.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
@@ -16,6 +15,7 @@ import { IsLoggedInGuard } from './is-logged-in.guard';
 import { VerifyComponent } from './auth/register/verify/verify.component';
 import { PeopleComponent } from './people/people.component';
 import { PublicationsComponent } from './publications/publications.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -38,6 +38,7 @@ const routes: Routes = [
       import('./pluma/pluma.module').then((m) => m.PlumaModule)
   },
   { path: 'login', component: LoginComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'register/verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'reset-password', component: ResetPasswordComponent},

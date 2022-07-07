@@ -60,15 +60,19 @@ export class ResetPasswordComponent implements OnInit {
 
     console.log(this.email);
 
+    const token = this.$router.snapshot.queryParamMap.get('token')
+
     const request = {
-      email: this.email,
-      password: password
+      // email: this.email,
+      // password: password
+      token
     };
 
     this.$http
       .post<{ accessToken: string }>('/api/auth/login', request)
       .pipe(
         tap((data) => {
+          console.log(data)
           this.$storage
             .set('accessToken', data.accessToken)
             .subscribe(() => {});

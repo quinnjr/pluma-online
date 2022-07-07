@@ -9,6 +9,7 @@ import { CaslModule } from '../casl/casl.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
+import { ResetStrategy } from './reset.strategy';
 import { AuthResolver } from './auth.resolver';
 import { RolesGuard } from './roles.guard';
 import { EmailService } from '../email/email.service';
@@ -35,6 +36,7 @@ import { DatabaseService } from '../database/database.service';
     AuthService,
     DatabaseService,
     LocalStrategy,
+    ResetStrategy,
     JwtStrategy,
     EmailService,
     RolesGuard

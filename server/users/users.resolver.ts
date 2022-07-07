@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { Args, Resolver, Query, Int, Mutation } from '@nestjs/graphql';
+import { createHash } from 'node:crypto';
 
 import { DatabaseService } from '../database/database.service';
 import { User } from '../@generated/prisma-graphql/user/user.model';
@@ -74,85 +76,59 @@ export class UsersResolver {
 
   @Mutation((returns) => User)
   public async forcePasswordReset(
-    @Args('where', { nullable: true }) where: UserWhereUniqueInput,
-    @Args('data', { nullable: true }) data: UserUpdateInput
-  ): Promise<User | null> {
+    @Args('where', { nullable: false }) where: UserWhereUniqueInput,
+    @Args('password', { nullable: false }) password: string
+  ): Promise<User | null>{
     //send an email to the user
-    //set some kind of token to remember that user once he updates his password
+    //set some kind of token to remember the user once he updates his password
+    //url for password reset should look like: https://localhost/passwordReset?qeroi124@$Fq#53%#412%3
+    const user = await this.$database.user.findUnique({where: where})
 
-    const user = await this.$database.user.findUnique({ where: where });
+    const sha1 = createHash('sha1');
 
-    // await this.$emailService.send({
-    //   to: `${user?.displayName} <${user?.email}`,
-    //   from: `noreply <noreply@${this.$configService.get('APP_HOST')}>`,
-    //   subject: '[PluMA Online] Registration',
-    //   text: `Hello ${
-    //     user?.displayName
-    //   },\nThis email contains your registration code for PluMA Online.\nCode: ${registrationCode}\nPlease input your code at\nhttps://${this.$configService.get(
-    //     'APP_HOST'
-    //   )}/registation/verify?userId=${user?.id}\nto verify your account.`,
-    //   attachment: [
-    //     {
-    //       alternative: true,
-    //       data: `
-    //         <html lang="en">
-    //           <body>
-    //           <p>Hello ${user.displayName},</p>
-    //           <p>This email contains your registration code for PluMA Online.</p>
-    //           <p>
-    //             <code>Code: ${registrationCode}</code>
-    //           </p>
-    //           <p>Please click <a href="${this.$configService.get(
-    //             'APP_HOST'
-    //           )}/registration/verify?userId=${
-    //         user.id
-    //       }&code=${registrationCode}">here</a> to verify your account.</p>
-    //           </body>
-    //         </html>
-    //       `
-    //     }
-    //   ]
-    // });
+    const resetCode = sha1
+    .update(
+      JSON.stringify({
+        id: user?.id,
+        email: user?.email
+      })
+    )
+    .digest('hex');
 
+    await this.$emailService.send({
+      to: `${user?.displayName} <${user?.email}`,
+      from: `noreply <noreply@${this.$configService.get('APP_HOST')}>`,
+      subject: '[PluMA Online] Registration',
+      text: `Hello ${
+        user?.displayName
+      },\nThis link is to reset your password. Click the link to continue.\nCode: ${resetCode}\nPlease input your code at\nhttps://${this.$configService.get(
+        'APP_HOST'
+      )}/reset-password?token=${resetCode}\nto reset your password.`,
+      attachment: [
+        {
+          alternative: true,
+          data: `
+            <html lang="en">
+              <body>
+              <p>Hello ${user.displayName},</p>
+              <p>This email contains your registration code for PluMA Online.</p>
+              <p>
+                <code>Code: ${resetCode}</code>
+              </p>
+              <p>Please click <a href="${this.$configService.get(
+                'APP_HOST'
+              )}/registration/verify?userId=${
+            user?.id
+          }&code=${resetCode}">here</a> to verify your account.</p>
+              </body>
+            </html>
+          `
+        }
+      ]
+    })
     return await this.$database.user.update({
       where: where,
       data: data
-    });
-  }
-
-  @UseGuards(GqlJwtAuthGuard)
-  @Query((returns) => User)
-  public async roleCheck(@CurrentUser() user: User): Promise<User | null> {
-    const { id } = user;
-    console.log(user);
-    return this.$database.user.findUnique({
-      where: {
-        id
-      }
-    });
-  }
-
-  @Query((returns) => User)
-  public async changePassword(
-    @Args('where', { nullable: false }) where: UserWhereUniqueInput,
-    @Args('password', { nullable: false }) password: string
-  ): Promise<User | null> {
-    const passwordHash = await argon2.hash(password);
-    const user = await this.$database.user.findUnique({
-      where: where
-    });
-
-    if (user?.passwordHash == passwordHash) {
-      return null;
-    }
-
-    return this.$database.user.update({
-      where: where,
-      data: {
-        passwordHash: {
-          set: passwordHash
-        }
-      }
-    });
+    })
   }
 }

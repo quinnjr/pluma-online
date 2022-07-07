@@ -31,10 +31,48 @@ export class AuthService {
 
     if (user) {
       const { passwordHash, ...result } = user;
+      const isValidPassword = await argon2.verify(passwordHash, password);// comment out when commiting from here
+
+      if (isValidPassword) {
+        const payload = {
+          email: result.email,
+          sub: result.id
+        };
+
+        return {
+          accessToken: this.$jwtService.sign(payload)
+        };
+      } else {
+        throw new UnauthorizedException("User's password did not match");
+      } // to here
       return result;
     }
 
     return null;
+  }
+
+  public async validateUserByToken(code: string): Promise<any> {
+    console.log(code)
+    const userByToken = await this.$databaseService.registration.findUnique({
+      where: {
+        code
+      }
+    });
+    console.log(userByToken)
+    const user = await this.$databaseService.user.findUnique({
+      where: {
+        id: userByToken?.userId
+      }
+    })
+    console.log(user)
+    const payload = {
+      email: user?.email,
+      sub: user?.id
+    };
+
+    return {
+      accessToken: this.$jwtService.sign(payload)
+    };
   }
 
   public async login(user: User): Promise<{ accessToken: string }> {
