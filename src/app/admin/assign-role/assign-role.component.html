@@ -9,7 +9,9 @@
     </div>
     <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
-            <button class="button is-info dropdown-item has-text-centered" *ngFor="let role of roles | keyvalue" (click)="changeRole(role.value)">{{ role.value }}</button>
+          <a *ngFor="let role of roles | keyvalue">
+            <button class="button is-info dropdown-item has-text-centered" *ngIf="role.value !== 'Guest'" (click)="changeRole(role.value)">{{ role.value }}</button>
+          </a>
         </div>
     </div>
 </div>

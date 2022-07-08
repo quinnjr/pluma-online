@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from 'prisma';
 import merge from 'lodash.merge';
-import { Role } from './role';
+import { Role } from '@prisma/client';
 import { Apollo, gql } from 'apollo-angular';
 
 @Injectable({
