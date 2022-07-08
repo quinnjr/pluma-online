@@ -1,0 +1,78 @@
+<button class="button" (click)="togglePluginModal()">Add Plugin</button>
+
+<div class="modal" id="pluginModal" #pluginModal>
+  <div class="modal-background" (click)="togglePluginModal()"></div>
+  <div class="modal-content has-background-white p-3 m-3">
+    <div class="modal-card">
+      <form class="form"
+        [formGroup]="createPluginForm"
+        (ngSubmit)="createPlugin()"
+      >
+        <header class="modal-card-head">
+          <p class="modal-card-title" id="pluginModalTitle">Plugin</p>
+          <button class="delete" aria-label="close" (click)="createPluginForm.reset(); togglePluginModal()"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input class="input"
+                type="text"
+                id="pluginModalName"
+                placeholder="Plugin Name"
+                formControlName="name"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Github URL</label>
+            <div class="control">
+              <input class="input"
+                type="text"
+                id="pluginModalGithubURL"
+                placeholder="Github URL"
+                formControlName="githubUrl"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Plugin Description</label>
+            <div class="control">
+              <textarea class="textarea"
+                id="pluginModalDescription"
+                placeholder="Plugin Description"
+                formControlName="description"
+              ></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Language</label>
+            <div class="select">
+              <select formControlName="language">
+                <option *ngFor="let language of (languages | async)" [value]="language.id">{{ language.name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Category</label>
+            <div class="select">
+              <select id="CategoryId" formControlName="category">
+                <option *ngFor="let category of (categories | async)" [value]="category.id" ><a>{{ category.name }}</a></option>
+              </select>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button type="submit"
+            class="button is-normal is-responsive is-link"
+          >
+            Save
+          </button>
+          <button class="button is-normal is-responsive is-danger" (click)="createPluginForm.reset(); togglePluginModal()">
+            Cancel
+          </button>
+        </footer>
+      </form>
+    </div>
+  </div>
+</div>

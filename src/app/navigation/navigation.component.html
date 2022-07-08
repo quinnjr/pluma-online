@@ -21,6 +21,14 @@
     <a class="navbar-item" routerLink="/contact">Contact</a>
   </div>
   <div class="navbar-end">
+    <ng-container *ngIf="(user | async)?.role === 'User'">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">User</a>
+        <div class="navbar-dropdown is-right" >
+          <a class="navbar-item" routerLink="/user">User Portal</a>
+        </div>
+      </div>
+    </ng-container>
     <ng-container *ngIf="(user | async)?.role === 'Admin'">
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">Admin</a>
@@ -29,6 +37,11 @@
           <a class="navbar-item" routerLink="/admin/plugins">Plugin Management</a>
         </div>
       </div>
+    </ng-container>
+    <ng-container *ngIf="(user | async)?.role !== null">
+      <a class="navbar-item" (click)="logOut()">
+        Log Out
+      </a>
     </ng-container>
     <ng-container *ngIf="(user | async) === null">
       <a class="navbar-item" routerLink="/register">Register</a>

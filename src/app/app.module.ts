@@ -49,6 +49,7 @@ import { PeopleComponent } from './people/people.component';
 import { PublicationsComponent } from './publications/publications.component';
 import { TeachingComponent } from './teaching/teaching.component';
 import { ResearchComponent } from './research/research.component';
+import { UserModule } from './user/user.module';
 
 export const APOLLO_CACHE = new InjectionToken<InMemoryCache>('apollo-cache');
 export const STATE_KEY = makeStateKey<any>('apollo.state');
@@ -78,7 +79,8 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
     HomeModule,
     PlumaModule,
     AdminModule,
-    AccountModule
+    AccountModule,
+    UserModule
   ],
   declarations: [
     AppComponent,
