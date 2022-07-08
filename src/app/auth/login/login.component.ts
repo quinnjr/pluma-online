@@ -91,7 +91,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         }),
         tap(({ data }) => {
           this.$storage.set('user', (data as any).user).subscribe(() => {});
-          return this.$userServer.update((data as any).user);
+          this.$userServer.login((data as any).user);
+          // return this.$userServer.update((data as any).user);
         })
       )
       .subscribe({
