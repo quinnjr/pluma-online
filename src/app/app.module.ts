@@ -124,16 +124,20 @@ export const STATE_KEY = makeStateKey<any>('apollo.state');
         }));
 
         const auth = setContext((operation, context) => {
-          const token = storage.get('accessToken').subscribe(() => {});
-
-          return !token
-            ? {}
-            : {
+          storage.get('accessToken').subscribe((token) => {
+            // eslint-disable-next-line unicorn/prefer-ternary
+            if (token == null) {
+              return {};
+            } else {
+              console.log('jwt is sending : ' + token);
+              return {
                 headers: {
                   // eslint-disable-next-line @typescript-eslint/naming-convention
                   Authorization: `Bearer ${token}`
                 }
               };
+            }
+          });
         });
 
         const link = ApolloLink.from([

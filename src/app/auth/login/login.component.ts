@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly $http: HttpClient,
     private readonly $apollo: Apollo,
     private readonly $storage: StorageMap,
-    private readonly $userServer: UserService,
+    private readonly $userService: UserService,
     private readonly $recaptchaService: ReCaptchaV3Service
   ) {
     this.loginForm = this.$fb.group({
@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .post<{ accessToken: string }>('/api/auth/login', this.loginForm.value)
       .pipe(
         tap((data) => {
+          console.log(data.accessToken);
           this.$storage
             .set('accessToken', data.accessToken)
             .subscribe(() => {});
@@ -91,7 +92,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }),
         tap(({ data }) => {
           this.$storage.set('user', (data as any).user).subscribe(() => {});
-          this.$userServer.login((data as any).user);
+          return this.$userService.login((data as any).user);
           // return this.$userServer.update((data as any).user);
         })
       )

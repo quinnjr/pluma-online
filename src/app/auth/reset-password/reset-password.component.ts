@@ -12,6 +12,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { matching } from '../../validators/matching';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
+import { Router } from '@angular/router';
 
 const CHANGE_PASSWORD = gql`
   mutation changePassword(
@@ -41,8 +42,9 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(
     private readonly $fb: FormBuilder,
-    private readonly $router: ActivatedRoute,
-    private readonly $apollo: Apollo
+    private readonly $activatedRouter: ActivatedRoute,
+    private readonly $apollo: Apollo,
+    private readonly $router: Router
   ) {
     //.pipe(map((data) => data.email));
 
@@ -60,8 +62,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.token = this.$router.snapshot.queryParamMap.get('token');
-    console.log(this.$router.snapshot);
+    this.token = this.$activatedRouter.snapshot.queryParamMap.get('token');
   }
 
   public onSubmit() {
@@ -69,7 +70,6 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
     this.isSubmitted = true;
-    console.log(this.token);
     const newPassword = this.resetForm.get('password')?.value;
 
     this.$apollo
@@ -85,6 +85,7 @@ export class ResetPasswordComponent implements OnInit {
       .subscribe(
         (result: any) => {
           console.log(result.data.changePassword);
+          this.$router.navigateByUrl('/');
         },
         (error) => {
           alert(error);

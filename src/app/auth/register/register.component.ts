@@ -5,6 +5,7 @@ import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 import { matching } from '../../validators/matching';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pluma-online-register',
@@ -19,7 +20,8 @@ export class RegisterComponent {
 
   constructor(
     private readonly $fb: FormBuilder,
-    private readonly $http: HttpClient
+    private readonly $http: HttpClient,
+    private readonly $router: Router
   ) {
     this.registerForm = this.$fb.group(
       {
@@ -79,6 +81,7 @@ export class RegisterComponent {
         (response: HttpResponse<Object>) => {
           if (response.ok && response.body?.['error'] === undefined) {
             //User Created
+            this.$router.navigateByUrl('/login');
           }
         },
         (error) => {
