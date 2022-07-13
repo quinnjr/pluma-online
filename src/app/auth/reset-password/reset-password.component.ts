@@ -1,14 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
-import { HttpResponse, HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, switchMap } from 'rxjs';
-import { StorageMap } from '@ngx-pwa/local-storage';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { matching } from '../../validators/matching';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
@@ -91,53 +83,5 @@ export class ResetPasswordComponent implements OnInit {
           alert(error);
         }
       );
-    // this.$http
-    //   .post<{ accessToken: string }>('/api/auth/login', request)
-    //   .pipe(
-    //     tap((data) => {
-    //       console.log(data);
-    //       this.$storage
-    //         .set('accessToken', data.accessToken)
-    //         .subscribe(() => {});
-    //     })
-    //   )
-    //   .subscribe({
-    //     next: ({ accessToken }) => {
-    //       if (!accessToken) {
-    //         //If here than user did not authenticate
-    //         // this.$router.navigateByUrl('/');
-    //       } else {
-    //         console.log(accessToken);
-    //       }
-    //     },
-    //     error: (error: any) => {
-    //       // do error handling
-    //     }
-    //   });
-
-    // this.email.subscribe((data) => {
-    //   console.log(data);
-    // });
-
-    // this.$http
-    //   .post(
-    //     '/api/auth/register',
-    //     {
-    //       userInput: this.resetForm.value,
-    //       password: password?.value
-    //     },
-    //     { observe: 'response' }
-    //   )
-    //   .subscribe(
-    //     (response: HttpResponse<Object>) => {
-    //       if (response.ok && response.body?.['error'] === undefined) {
-    //         //User Created
-    //       }
-    //     },
-    //     (error) => {
-    //       this.hasError.next(true);
-    //       this.error = error;
-    //     }
-    //   );
   }
 }

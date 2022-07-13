@@ -4,10 +4,9 @@ import { createHash } from 'node:crypto';
 
 import { DatabaseService } from '../database/database.service';
 import { User } from '../@generated/prisma-graphql/user/user.model';
-import { UseGuards } from '@nestjs/common';
+import { SetMetadata, UseGuards } from '@nestjs/common';
 import { GqlJwtAuthGuard } from '../auth/gql-jwt-auth.guard';
 import { CurrentUser } from '../current-user.decorator';
-import { Role } from 'server/@generated/prisma-graphql/prisma/role.enum';
 import { EmailService } from 'server/email/email.service';
 import { ConfigService } from '@nestjs/config';
 import { UserWhereUniqueInput } from 'server/@generated/prisma-graphql/user/user-where-unique.input';
@@ -17,6 +16,9 @@ import {
 } from 'server/@generated/prisma-graphql/user';
 import argon2 from 'argon2';
 import { PasswordResetCodeWhereUniqueInput } from 'server/@generated/prisma-graphql/password-reset-code/password-reset-code-where-unique.input';
+import { RolesGuard } from 'server/auth/roles.guard';
+import { Role } from '@prisma/client';
+import { Roles } from 'server/roles.decorator';
 
 @Resolver((of) => User)
 export class UsersResolver {
@@ -36,6 +38,8 @@ export class UsersResolver {
     });
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard, GqlJwtAuthGuard)
   @Query((returns) => [User])
   public async users(
     @Args('take', { type: () => Int }) take: number,
@@ -49,6 +53,8 @@ export class UsersResolver {
     });
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard, GqlJwtAuthGuard)
   @Mutation((returns) => User)
   public async userMutation(
     @Args('where', { nullable: true }) where: UserWhereUniqueInput,
@@ -60,6 +66,8 @@ export class UsersResolver {
     });
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard, GqlJwtAuthGuard)
   @Mutation((returns) => User)
   public async deleteUser(
     @Args('where', { nullable: true }) where: UserWhereUniqueInput
@@ -75,6 +83,8 @@ export class UsersResolver {
     return null;
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard, GqlJwtAuthGuard)
   @Mutation((returns) => User)
   public async forcePasswordReset(
     @Args('where', { nullable: false }) where: UserWhereUniqueInput
@@ -143,6 +153,8 @@ export class UsersResolver {
     })
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard, GqlJwtAuthGuard)
   @UseGuards(GqlJwtAuthGuard)
   @Query((returns) => User)
   public async roleCheck(@CurrentUser() user: User): Promise<User | null> {
@@ -155,6 +167,8 @@ export class UsersResolver {
     });
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard, GqlJwtAuthGuard)
   @Mutation((returns) => User)
   public async changePassword(
     @Args('where', { nullable: false }) where: PasswordResetCodeWhereUniqueInput,
