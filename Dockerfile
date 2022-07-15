@@ -64,4 +64,6 @@ RUN mkdir -p /app/dist/pluma-online/server/ && \
 
 EXPOSE 4200
 
+HEALTHCHECK CMD curl --fail http://localhost:4200/api/healthz || exit 1
+
 ENTRYPOINT ["./docker-entry.sh"]

@@ -30,6 +30,7 @@ import { EmailService } from './email/email.service';
 import { DockerService } from './docker/docker.service';
 import { CategoryResolver } from './category/category.resolver';
 import { LanguageResolver } from './language/language.resolver';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -74,7 +75,7 @@ import { LanguageResolver } from './language/language.resolver';
     AuthModule,
     CaslModule
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [
     // Application providers
     DatabaseService,
