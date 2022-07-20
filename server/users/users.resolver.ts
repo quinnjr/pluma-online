@@ -153,8 +153,6 @@ export class UsersResolver {
     })
   }
 
-  @Roles(Role.Admin)
-  @UseGuards(RolesGuard, GqlJwtAuthGuard)
   @UseGuards(GqlJwtAuthGuard)
   @Query((returns) => User)
   public async roleCheck(@CurrentUser() user: User): Promise<User | null> {
