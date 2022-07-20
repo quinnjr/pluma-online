@@ -8,14 +8,16 @@ import { Reflector } from '@nestjs/core';
 import { UserService } from 'src/app/user/user.service';
 //import { StorageMap } from '@ngx-pwa/local-storage';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { DatabaseService } from 'server/database/database.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
-    private $reflector: Reflector //private $storage: StorageMap //private userService: UserService
+    private $reflector: Reflector,
+    private $database: DatabaseService
   ) {}
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.$reflector.get<string[]>('roles', context.getHandler());
     if (!roles) {
       return true;
@@ -23,11 +25,12 @@ export class RolesGuard implements CanActivate {
     const context_ = GqlExecutionContext.create(context);
     const request = context_.getContext().req;
 
-    //console.log(user)
-    const user = request.user;
-    console.log(roles);
-    //return true;
-    if (roles.includes(user.role)) {
+    const user = await this.$database.user.findUnique({
+      where: {
+        id: request.user.id
+      }
+    });
+    if (roles.includes((user as any).role)) {
       return true;
     } else {
       throw new UnauthorizedException(

@@ -37,8 +37,8 @@ export class UsersResolver {
       }
     });
   }
-
-  @UseGuards(GqlJwtAuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(GqlJwtAuthGuard, RolesGuard)
   @Query((returns) => [User])
   public async users(
     @Args('take', { type: () => Int }) take: number,
@@ -156,7 +156,6 @@ export class UsersResolver {
   @Query((returns) => User)
   public async roleCheck(@CurrentUser() user: User): Promise<User | null> {
     const { id } = user;
-    console.log(user);
     return this.$database.user.findUnique({
       where: {
         id
