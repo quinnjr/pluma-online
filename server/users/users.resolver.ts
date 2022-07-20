@@ -38,8 +38,7 @@ export class UsersResolver {
     });
   }
 
-  @Roles(Role.Admin)
-  @UseGuards(RolesGuard, GqlJwtAuthGuard)
+  @UseGuards(GqlJwtAuthGuard)
   @Query((returns) => [User])
   public async users(
     @Args('take', { type: () => Int }) take: number,
