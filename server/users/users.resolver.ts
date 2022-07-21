@@ -53,7 +53,7 @@ export class UsersResolver {
   }
 
   @Roles(Role.Admin)
-  @UseGuards(RolesGuard, GqlJwtAuthGuard)
+  @UseGuards(GqlJwtAuthGuard, RolesGuard)
   @Mutation((returns) => User)
   public async userMutation(
     @Args('where', { nullable: true }) where: UserWhereUniqueInput,
@@ -66,7 +66,7 @@ export class UsersResolver {
   }
 
   @Roles(Role.Admin)
-  @UseGuards(RolesGuard, GqlJwtAuthGuard)
+  @UseGuards(GqlJwtAuthGuard, RolesGuard)
   @Mutation((returns) => User)
   public async deleteUser(
     @Args('where', { nullable: true }) where: UserWhereUniqueInput
@@ -83,7 +83,7 @@ export class UsersResolver {
   }
 
   @Roles(Role.Admin)
-  @UseGuards(RolesGuard, GqlJwtAuthGuard)
+  @UseGuards(GqlJwtAuthGuard, RolesGuard)
   @Mutation((returns) => User)
   public async forcePasswordReset(
     @Args('where', { nullable: false }) where: UserWhereUniqueInput
@@ -164,7 +164,7 @@ export class UsersResolver {
   }
 
   @Roles(Role.Admin)
-  @UseGuards(RolesGuard, GqlJwtAuthGuard)
+  @UseGuards(GqlJwtAuthGuard, RolesGuard)
   @Mutation((returns) => User)
   public async changePassword(
     @Args('where', { nullable: false }) where: PasswordResetCodeWhereUniqueInput,
