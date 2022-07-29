@@ -22,6 +22,107 @@ export class AuthService {
     private readonly $configService: ConfigService
   ) {}
 
+  public async populate(){
+
+    //users & registration codes
+    for (var i = 0; i < 26; i++){
+      for (var j = 0; j < 26; j++){
+        var a = 'a'.charCodeAt(0);
+        var displayName = String.fromCharCode(a + i) + String.fromCharCode(a + j);
+        var email = displayName + "1@fiu.edu";
+        var input = {
+          displayName: displayName,
+          email: email,
+          passwordHash: ""
+        }
+        this.register(input, "Aaaaaa1!");
+      }
+    }
+
+    const author = await this.$databaseService.user.findUnique({
+      where: {
+        email: "bb1@fiu.edu"
+      }
+    });
+
+    const { authorId, ...result } = author;
+
+    //categories & languages & plugins
+    for (var i = 0; i < 5; i++){
+
+      let cat = await this.$databaseService.category.create({
+        data: {
+          name: "category" + i
+        }
+      });
+
+      let lan = await this.$databaseService.language.create({
+        data: {
+          name: "language" + i
+        }
+      });
+
+      let plugin = await this.$databaseService.plugin.create({
+        data: {
+          name: "plugin" + i,
+          githubUrl: "plugin" + i + ".github.com",
+          description: "this is the description",
+          language: {
+            connect: {
+              name: "language" + i
+            }
+          },
+          category: {
+            connect: {
+              name: "category" + i
+            }
+          },
+          author: {
+            connect: {
+              id: authorId
+            }
+          }
+        }
+      });
+    }
+
+    //password reset token
+    const sha1 = createHash('sha1');
+
+    const resetCode = sha1
+    .update(
+      JSON.stringify({
+        id: authorId,
+        email: result.email
+      })
+    )
+    .digest('hex');
+
+    await this.$databaseService.passwordResetCode.create({data:{
+      token: resetCode,
+      user: {
+        connect:{
+          id : authorId
+        }
+      }
+    }})
+
+    let data: UserUpdateInput = {
+      enabled: {
+        set: false
+      }
+    }
+
+    await this.$databaseService.user.update({
+      where: {
+        email: "bb1@fiu.edu"
+      },
+      data: data
+    })
+
+    return;
+  }
+
   public async validateUser(email: string, password: string): Promise<any> {
     const user = await this.$databaseService.user.findUnique({
       where: {

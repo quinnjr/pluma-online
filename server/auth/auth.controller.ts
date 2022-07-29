@@ -34,4 +34,10 @@ export class AuthController {
   ): Promise<any> {
     return this.$authService.register(userInput, password);
   }
+
+  @Public()
+  @Get('populate')
+  public async populate(): Promise<any> {
+    return this.$authService.populate();
+  }
 }
