@@ -1,4 +1,4 @@
-FROM alpine:latest as builder
+FROM alpine:3.18.3 as builder
 
 ENV CC=/usr/bin/clang
 ENV CXX=/usr/bin/clang++
