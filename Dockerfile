@@ -1,4 +1,4 @@
-FROM node:lts-alpine as builder
+FROM node:20.15.1-alpine3.20 as builder
 
 ARG APP_HOST=localhost
 ENV APP_HOST ${APP_HOST}
@@ -35,7 +35,7 @@ RUN apk add zlib zlib-dev optipng pkgconfig autoconf automake libtool nasm build
   NODE_ENV="development" pnpm install --no-optional --unsafe-perm --strict-peer-dependencies=false && \
   pnpm run build
 
-FROM node:lts-alpine
+FROM node:20.15.1-alpine3.20
 
 ENV ENV production
 ENV PATH /app/node_modules/.bin/:/usr/local/bin:$PATH
