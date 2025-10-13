@@ -38,11 +38,11 @@
   },
   "dependencies": {
     "@prisma/client": "^3.14.0",
-    "argon2": "^0.28.5",
+    "argon2": "^0.40.1",
     "graphql-ws": "^5.8.2",
     "prisma-nestjs-graphql": "^15.3.3",
     "tslib": "^2.4.0",
-    "ws": "^8.7.0"
+    "ws": "^8.17.1"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^14.0.0",
