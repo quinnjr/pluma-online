@@ -1,0 +1,9 @@
+import { db } from '$lib/server/db';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async () => {
+	const publications = await db.publication.findMany({
+		orderBy: [{ year: 'desc' }, { title: 'asc' }]
+	});
+	return { publications };
+};

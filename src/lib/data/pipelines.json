@@ -1,0 +1,751 @@
+[
+  {
+    "name": "ABR",
+    "githubUrl": "https://github.com/movingpictures83/ABR",
+    "description": "Antibiotic Resistance (Stebliankin et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "ADHD",
+    "githubUrl": "https://github.com/movingpictures83/ADHD",
+    "description": "ADHD 16S gut microbiome analysis (Cickovski et al, 2023)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Alpha1",
+    "githubUrl": "https://github.com/movingpictures83/Alpha1",
+    "description": "Alpha-1 Antitrypsin Deficiency multiomics analysis (Cickovski et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Alpine",
+    "githubUrl": "https://github.com/movingpictures83/Alpine",
+    "description": "Transcript abundance estimation by modeling RNAseq fragment bias (Love et al, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "AmpliconHunter2",
+    "githubUrl": "https://github.com/movingpictures83/AmpliconHunter2",
+    "description": "High-performance amplicon prediction across multiple genome databases (Howard-Stone et al, 2026)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "AmpliconNoise",
+    "githubUrl": "https://github.com/movingpictures83/AmpliconNoise",
+    "description": "Remove noise from 454 amplicons (Quince et al, 2011)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "AmpliQue",
+    "githubUrl": "https://github.com/movingpictures83/AmpliQue",
+    "description": "Bacterial identification using 16S primer data (Gonzalez et al, 2008)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "AMR",
+    "githubUrl": "https://github.com/movingpictures83/AMR",
+    "description": "Antimicrobial resistance (Steblinakin et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Antibiotics",
+    "githubUrl": "https://github.com/movingpictures83/Antibiotics",
+    "description": "Influence of antibiotics on bacterial growth (Stebliankin et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "ASV",
+    "githubUrl": "https://github.com/movingpictures83/ASV",
+    "description": "Convert raw metagenomics data to Amplicon Sequence Variants (ASVs) (Callahan et al, 2017)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "BacterialGrowth",
+    "githubUrl": "https://github.com/movingpictures83/BacterialGrowth",
+    "description": "Bacterial growth using peak-to-trough ratio (Stebliankin et al, 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Bayes",
+    "githubUrl": "https://github.com/movingpictures83/Bayes",
+    "description": "Bayesian network (Auguet et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "BaySeq",
+    "githubUrl": "https://github.com/movingpictures83/BaySeq",
+    "description": "Empirical Bayesian methods for identifying differential expression (Hardcastle et al, 2010)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "BEDTools",
+    "githubUrl": "https://github.com/movingpictures83/BEDTools",
+    "description": "BEDTools (Quinlan et al, 2010)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Benchmark",
+    "githubUrl": "https://github.com/movingpictures83/Benchmark",
+    "description": "Challenges in benchmarking metagenomic profilers (Sun et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "BRENDA",
+    "githubUrl": "https://github.com/movingpictures83/BRENDA",
+    "description": "Multiomics analysis using the BRENDA (Casero-Cheema et al, 2017) enzyme database",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Cache",
+    "githubUrl": "https://github.com/movingpictures83/Cache",
+    "description": "Machine learning and cache block replacement (Yusuf et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Cancer",
+    "githubUrl": "https://github.com/movingpictures83/Cancer",
+    "description": "Pangenome cancer genome analysis (Poore et al, 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "CaReT",
+    "githubUrl": "https://github.com/movingpictures83/CaReT",
+    "description": "Classification And REgression Training (Kuhn et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Causality",
+    "githubUrl": "https://github.com/movingpictures83/Causality",
+    "description": "Compute causal networks from microbiome abundance data (Sazal et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "CIC",
+    "githubUrl": "https://github.com/movingpictures83/CIC",
+    "description": "Impact of \"Best Practices\" in the classroom (Cickovski et al, 2026)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "CoDiCast",
+    "githubUrl": "https://github.com/movingpictures83/CoDiCast",
+    "description": "Conditional Diffusion Model for Weather Prediction with Uncertainty Quantification (Shi et al, 2024)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "COVID19",
+    "githubUrl": "https://github.com/movingpictures83/COVID19",
+    "description": "Molecular mimicry with Covid-19 Spike protein (Nunez-Castilla et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "CQN",
+    "githubUrl": "https://github.com/movingpictures83/CQN",
+    "description": "Conditional Quantile Normalization Method for RNA-Seq (Hansen et al, 2012)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "CysticFibrosis",
+    "githubUrl": "https://github.com/movingpictures83/CysticFibrosis",
+    "description": "16SrRNA variable regions, cystic fibrosis study (Doud et al, 2010)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "DBN",
+    "githubUrl": "https://github.com/movingpictures83/DBN",
+    "description": "Build a Dynamic Bayesian Network from longitudinal microbiome data (Ruiz-Perez et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "DEGSeq",
+    "githubUrl": "https://github.com/movingpictures83/DEGSeq",
+    "description": "Identify Differentially Expressed Genes from RNASeq data (Wang et al, 2010)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Derfinder",
+    "githubUrl": "https://github.com/movingpictures83/Derfinder",
+    "description": "Annotation-agnostic differential expression analysis of RNA-seq data at base-pair resolution (Collado-Torres et al, 2017)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "DL_WaLeF",
+    "githubUrl": "https://github.com/movingpictures83/DL_WaLeF",
+    "description": "Deep Learning Models for Flood Predictions in South Florida (Shi et al, 2023)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "DRIMSeq",
+    "githubUrl": "https://github.com/movingpictures83/DRIMSeq",
+    "description": "Differential transcript usage and tuQTL analyses with Dirichlet-multinomial model in RNA-seq (Nowicka and Robinson, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "EBSeq",
+    "githubUrl": "https://github.com/movingpictures83/EBSeq",
+    "description": "Empirical Bayes Differential Expression analysis at both gene and isoform level using RNA-seq data (Ma et al, 2024)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Electricity",
+    "githubUrl": "https://github.com/movingpictures83/Electricity",
+    "description": "Apply transformers to predict electricity consumption (Li et al 2020, Sama 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "EMoMiS",
+    "githubUrl": "https://github.com/movingpictures83/EMoMiS",
+    "description": "Epitope-based molecular mimicry search pipeline (Stebliankin et al, 2026)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Environment",
+    "githubUrl": "https://github.com/movingpictures83/Environment",
+    "description": "Rubin causal model for estimating environmental exposure effects on microbiome (Sommer et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "FELLA",
+    "githubUrl": "https://github.com/movingpictures83/FELLA",
+    "description": "Interpretation and enrichment for metabolomics data (Picart-Armada et al, 2018)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "FIDLAR",
+    "githubUrl": "https://github.com/movingpictures83/FIDLAR",
+    "description": "Forecast-Informed Deep Learning Architecture for Flood Mitigation (Shi et al, 2024)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Flint",
+    "githubUrl": "https://github.com/movingpictures83/Flint",
+    "description": "Large-scale microbiome analysis in the cloud (Valdes et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Flood",
+    "githubUrl": "https://github.com/movingpictures83/Flood",
+    "description": "Flood prediction using machine learning (Shi et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "GAGE",
+    "githubUrl": "https://github.com/movingpictures83/GAGE",
+    "description": "Generally Applicable Gene-set Enrichment for Pathway Analysis (Luo et al, 2009)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Glutamine",
+    "githubUrl": "https://github.com/movingpictures83/Glutamine",
+    "description": "Analysis of glutamine metabolite (Cickovski et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "GOExpress",
+    "githubUrl": "https://github.com/movingpictures83/GOExpress",
+    "description": "Visualise microarray and RNAseq data using gene ontology annotations (Rue-Albrecht, 2024)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "GPU",
+    "githubUrl": "https://github.com/movingpictures83/GPU",
+    "description": "Miscellaneous GPU-based pipelines using NVIDIA Kits (NVIDIA, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "GulfWar",
+    "githubUrl": "https://github.com/movingpictures83/GulfWar",
+    "description": "Mouse Gulf War Illness study (Seth et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "HADDOCK",
+    "githubUrl": "https://github.com/movingpictures83/HADDOCK",
+    "description": "High Ambiguity Driven protein-protein DOCKing (Honorato et al, 2024)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "HIVEvoNets",
+    "githubUrl": "https://github.com/movingpictures83/HIVEvoNets",
+    "description": "Evolutionary networks of sequence data and application to HIV (Buendia and Narasimhan, 2006)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "IBD",
+    "githubUrl": "https://github.com/movingpictures83/IBD",
+    "description": "Irritable Bowel Disorder (IBD) cohort analysis (Schreiner et al, 2026)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Immunotherapy",
+    "githubUrl": "https://github.com/movingpictures83/Immunotherapy",
+    "description": "Impact of immunotherapy on cancer microbiome (Stebliankin et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "InfantGut",
+    "githubUrl": "https://github.com/movingpictures83/InfantGut",
+    "description": "Infant gut microbiome analysis (Ruiz-Perez et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Jasper",
+    "githubUrl": "https://github.com/movingpictures83/Jasper",
+    "description": "Microbiome map assembly (Valdes et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Kaiju",
+    "githubUrl": "https://github.com/movingpictures83/Kaiju",
+    "description": "Kaiju taxonomic classification (Menzel et al, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Kidney",
+    "githubUrl": "https://github.com/movingpictures83/Kidney",
+    "description": "Kidney microbiome analysis (Park et al, 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "LipidQ",
+    "githubUrl": "https://github.com/movingpictures83/LipidQ",
+    "description": "Lipidomics analysis pipeline (Nielsen et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "LSC",
+    "githubUrl": "https://github.com/movingpictures83/LSC",
+    "description": "Improving PacBio Long Read Accuracy by Short Read Alignment (Au et al, 2012)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "MAPLE",
+    "githubUrl": "https://github.com/movingpictures83/MAPLE",
+    "description": "MAPLE phylogenetic tree estimator (De Maio et al, 2025)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "MASH",
+    "githubUrl": "https://github.com/movingpictures83/MASH",
+    "description": "Fast genome and metagenome distance estimation (Ondov et al, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "MathTest",
+    "githubUrl": "https://github.com/rafaelcvargas22/MathTest",
+    "description": "Starter pipeline for PluMA, that performs basic arithmetic (Vargas, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "MeRRCI",
+    "githubUrl": "https://github.com/movingpictures83/MeRRCI",
+    "description": "Metagenome, Resistome, Replicome for Causal Inferencing (Stebliankin et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Metabolomics",
+    "githubUrl": "https://github.com/movingpictures83/Metabolomics",
+    "description": "Metabolomics pipeline (Stebliankin et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Metronidazole",
+    "githubUrl": "https://github.com/movingpictures83/Metronidazole",
+    "description": "Effect of metronidazole on vaginal microbiota (Ruiz-Perez et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "MOSAIC",
+    "githubUrl": "https://github.com/movingpictures83/MOSAIC",
+    "description": "MOSAIC pipeline to compute Index of Replication (Stebliankin et al, 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Mouse",
+    "githubUrl": "https://github.com/movingpictures83/Mouse",
+    "description": "Metagenomics pipeline to analyze 16S mouse gut microbiome data, from the PluMA userguide (Kozich et al, 2013)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "MSN",
+    "githubUrl": "https://github.com/movingpictures83/MSN",
+    "description": "Produce microbial social networks (Fernandez et al, 2015)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "OLego",
+    "githubUrl": "https://github.com/movingpictures83/OLego",
+    "description": "OLego DeNovo mRNA splicing (Zhang et al, 2023)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Opioid",
+    "githubUrl": "https://github.com/movingpictures83/Opioid",
+    "description": "Microbiome-related relationships between cocaine use and metabolites (Martinez et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "OriginOfReplication",
+    "githubUrl": "https://github.com/movingpictures83/OriginOfReplication",
+    "description": "Compute the origin of replication (Brown et al, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "OTU_ASV",
+    "githubUrl": "https://github.com/movingpictures83/OTU_ASV",
+    "description": "OTU-ASV comparison on 16S cohort gut microbiome dataset (Nayman et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PALM",
+    "githubUrl": "https://github.com/movingpictures83/PALM",
+    "description": "Pipeline for the Analysis of Longitudinal Multi-omics time-series data (Ruiz-Perez et al, 2021)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PanACEA",
+    "githubUrl": "https://github.com/movingpictures83/PanACEA",
+    "description": "Pan-genome Atlas with Chromosome Explorer and Analyzer (Clarke et al, 2018)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Parkinsons",
+    "githubUrl": "https://github.com/movingpictures83/Parkinsons",
+    "description": "16S gut microbiome dysbiosis in Parkinson's Disease patients (Pietrucci et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PCOS",
+    "githubUrl": "https://github.com/movingpictures83/PCOS",
+    "description": "Poly-Cystic Ovary Syndrome gut microbiome study (Menendez et al, 2026)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PetRI",
+    "githubUrl": "https://github.com/movingpictures83/PetRI",
+    "description": "PetRi pipeline for determining bacterial replication rates (Stebliankin et al, 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PIsToN",
+    "githubUrl": "https://github.com/movingpictures83/PIsToN",
+    "description": "Protein binding Interfaces with Transformer Networks (Stebliankin et al, 2023)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Plots",
+    "githubUrl": "https://github.com/movingpictures83/Plots",
+    "description": "Split a dataset, run compositional and differential analyses, compute correlations, produce plots (Aguilar-Pulido et al, 2015)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PLSDASoYouThink",
+    "githubUrl": "https://github.com/movingpictures83/PLSDASoYouThink",
+    "description": "Partial Last Square Discriminant Analysis (PLSDA) Performance (Ruiz-Perez et al, 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PM16S",
+    "githubUrl": "https://github.com/movingpictures83/PM16S",
+    "description": "Downstream 16S mouse gut microbiome analysis, pre- and post-obesity (Cickovski and Narasimhan, 2018)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PRADA",
+    "githubUrl": "https://github.com/movingpictures83/PRADA",
+    "description": "Prioritization of Regulatory Pathways based on Analysis of RNA Dynamics Alterations (Torres-Garcia et al, 2014)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "PRIMAL",
+    "githubUrl": "https://github.com/movingpictures83/PRIMAL",
+    "description": "Pipeline for Retrieval of Interactions in the Microbiome from temporAL data (Lugo-Martinez et al, 2019)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "ProcessAbund",
+    "githubUrl": "https://github.com/movingpictures83/ProcessAbund",
+    "description": "Take raw abundances, normalize and threshold them, and split into groups (Riveros et al, 2014)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Qiime2",
+    "githubUrl": "https://github.com/movingpictures83/Qiime2",
+    "description": "Qiime2 metagenomics pipeline (Polanco et al, 2020)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "RAPToR",
+    "githubUrl": "https://github.com/movingpictures83/RAPToR",
+    "description": "Resistome Abundance and Peak-to-Trough Ratio Pipeline (Stebliankin et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "RedTide",
+    "githubUrl": "https://github.com/movingpictures83/RedTide",
+    "description": "Gut microbiome analysis of red-tide microcystin exposed mice (Saha et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "REPTILE",
+    "githubUrl": "https://github.com/movingpictures83/REPTILE",
+    "description": "Regulatory DNA Element Prediction (He et al, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "RNASeq",
+    "githubUrl": "https://github.com/movingpictures83/RNASeq",
+    "description": "Microbiome and host RNAseq pipeline (Jacobsen et al, 2025)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "RNASeqComp",
+    "githubUrl": "https://github.com/movingpictures83/RNASeqComp",
+    "description": "Benchmarks for RNA-seq Quantification Pipelines (Teng et al, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "RNASeqReadSimulator",
+    "githubUrl": "https://github.com/movingpictures83/RNASeqReadSimulator",
+    "description": "Produce synthetic RNA sequences with mutations (Li et al, 2013)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "SAHMI",
+    "githubUrl": "https://github.com/movingpictures83/SAHMI",
+    "description": "Denoising sparse microbial signals from single-cell sequencing of mammalian host tissues (Ghaddar et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "SGSeq",
+    "githubUrl": "https://github.com/movingpictures83/SGSeq",
+    "description": "Prediction and Quantification of Splice Events from RNA-Seq Data (Goldstein et al, 2014)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Seurat",
+    "githubUrl": "https://github.com/movingpictures83/Seurat",
+    "description": "Single-Cell RNASeq Analysis (Hao et al, 2023)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "SIDR",
+    "githubUrl": "https://github.com/movingpictures83/SIDR",
+    "description": "Sequence Identification with Decision tRees (Fierst and Murdock, 2017)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "SINCERA",
+    "githubUrl": "https://github.com/movingpictures83/SINCERA",
+    "description": "Single-Cell RNASeq Profiling (Guo et al, 2015)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Smoking",
+    "githubUrl": "https://github.com/movingpictures83/Smoking",
+    "description": "Smoker 16S lung microbiome study (Campos et al, 2022)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "SVA",
+    "githubUrl": "https://github.com/movingpictures83/SVA",
+    "description": "Surrogate Variable Analysis (Leek et al, 2014)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Tara",
+    "githubUrl": "https://github.com/movingpictures83/Tara",
+    "description": "Structure and function of the global ocean microbiome (Sunagawa et al, 2015)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "T2D",
+    "githubUrl": "https://github.com/movingpictures83/T2D",
+    "description": "Type-2 Diabetes Mellitus (Nayman et al, 2024)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Tensorflow",
+    "githubUrl": "https://github.com/movingpictures83/Tensorflow",
+    "description": "Pipeline with miscellaneous Tensorflow utilities (Rodriguez and Riggs, 2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "TGCN",
+    "githubUrl": "https://github.com/movingpictures83/TGCN",
+    "description": "Temporal Graph Convolutional Network for Traffic Prediction (Zhao et al, 2018)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Tuxedo",
+    "githubUrl": "https://github.com/movingpictures83/Tuxedo",
+    "description": "Differential gene and transcript expression analysis (Trapnell et al, 2012)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "UMiami16S",
+    "githubUrl": "https://github.com/movingpictures83/UMiami16S",
+    "description": "16S pipeline, (Exercise, Duodenal Adenoma, Microbiota/Macrophage) with UMiami-FL (Burgueno et al, 2025)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Viral",
+    "githubUrl": "https://github.com/movingpictures83/Viral",
+    "description": "Viral challenge (2016)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "VPhyloMM",
+    "githubUrl": "https://github.com/movingpictures83/VPhyloMM",
+    "description": "Viral mutational pathways of drug resistance (Buendia et al, 2009)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Released"
+  },
+  {
+    "name": "Cohort",
+    "githubUrl": "https://github.com/movingpictures83/Cohort",
+    "description": "IHMP Cohort Analysis (Mathee et al, 2027)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Not Released"
+  },
+  {
+    "name": "Pseudomonas",
+    "githubUrl": "https://github.com/movingpictures83/Pseudomonas",
+    "description": "Pseudomonas genome evolution (Rodriguez et al, 2027)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Not Released"
+  },
+  {
+    "name": "PUMBA",
+    "githubUrl": "https://github.com/movingpictures83/PUMBA",
+    "description": "Protein-protein interface evaluation with Vision Mamba (Shirali et al, 2026)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Not Released"
+  },
+  {
+    "name": "Soil",
+    "githubUrl": "https://github.com/movingpictures83/Soil",
+    "description": "Impact of heavy metal exposure on soil microbiome (Morales et al, 2027)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Not Released"
+  },
+  {
+    "name": "Veg3CAMR",
+    "githubUrl": "https://github.com/movingpictures83/Veg3CAMR",
+    "description": "Antimicrobial resistance using 3C denovo assembly (Sakthivel et al, 2027)",
+    "status": "Completed",
+    "sectionLabel": "Completed, Not Released"
+  },
+  {
+    "name": "HGT",
+    "githubUrl": "https://github.com/movingpictures83/HGT",
+    "description": "Using machine learning to detect Horizontal Gene Transfer (Spaulding et al, 2027)",
+    "status": "InProgress",
+    "sectionLabel": "In Progress"
+  },
+  {
+    "name": "GenAI",
+    "githubUrl": "https://github.com/movingpictures83/GenAI",
+    "description": "GenAI-assisted Parkinson's pipeline (Quinn et al, 2027)",
+    "status": "Future",
+    "sectionLabel": "Future"
+  }
+]

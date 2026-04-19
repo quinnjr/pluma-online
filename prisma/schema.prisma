@@ -1,0 +1,210 @@
+// PluMA Online (Svelte) — SQLite datasource.
+// See src/lib/server/db.ts for the Prisma client singleton.
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Plugin catalog
+// ──────────────────────────────────────────────────────────────────────
+
+model Category {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  plugins Plugin[]
+}
+
+model Language {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  plugins Plugin[]
+}
+
+model Plugin {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  githubUrl   String
+  rating      Int      @default(0)
+  verified    Boolean  @default(true)
+  tags        String   @default("")
+
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  languageId Int
+  language   Language @relation(fields: [languageId], references: [id])
+
+  authorId Int?
+  author   User? @relation("AuthoredPlugins", fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, categoryId])
+  @@index([categoryId])
+  @@index([languageId])
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Pipelines
+// ──────────────────────────────────────────────────────────────────────
+
+enum PipelineStatus {
+  Completed
+  InProgress
+  Future
+}
+
+model Pipeline {
+  id          Int            @id @default(autoincrement())
+  name        String         @unique
+  description String
+  githubUrl   String         @unique
+  status      PipelineStatus @default(Completed)
+  rating      Int            @default(0)
+
+  authorId Int?
+  author   User? @relation("AuthoredPipelines", fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Identity & authorship
+// ──────────────────────────────────────────────────────────────────────
+
+enum Role {
+  Root
+  Admin
+  User
+  Guest
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
+  // argon2id hash; never returned to clients.
+  passwordHash String
+  displayName  String? @unique
+  website      String?
+  institution  String?
+  avatar       String?
+  role         Role    @default(User)
+  // enabled=true means the account has been verified and may sign in.
+  enabled      Boolean @default(false)
+
+  verifiedAt   DateTime?
+  verifiedById Int?
+  verifiedBy   User?  @relation("UserVerification", fields: [verifiedById], references: [id])
+  verifiedUsers User[] @relation("UserVerification")
+
+  // Profile page linkage (faculty/contributor entries can be authored by a user).
+  person   Person? @relation(fields: [personId], references: [id])
+  personId Int?    @unique
+
+  plugins   Plugin[]   @relation("AuthoredPlugins")
+  pipelines Pipeline[] @relation("AuthoredPipelines")
+
+  passkeys Passkey[]
+
+  // Bumped whenever the user is disabled/re-verified/promoted so outstanding JWTs
+  // become invalid on next verify without needing a server-side session store.
+  tokenVersion Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// WebAuthn / Passkeys
+// ──────────────────────────────────────────────────────────────────────
+
+model Passkey {
+  // Base64url-encoded credential ID from the authenticator.
+  id               String @id
+  // Base64url-encoded public key bytes (COSE).
+  publicKey        String
+  counter          BigInt @default(0)
+  // "singleDevice" or "multiDevice"
+  deviceType       String
+  backedUp         Boolean @default(false)
+  // COSE algorithm identifier (e.g. -7 for ES256, -257 for RS256).
+  algorithm        Int
+  // Authenticator transports the credential supports.
+  transports       String  @default("[]")
+  // Human-friendly label set by the user.
+  label            String  @default("Passkey")
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model WebAuthnChallenge {
+  id        Int      @id @default(autoincrement())
+  challenge String   @unique
+  userId    Int?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
+}
+
+enum PersonKind {
+  Faculty
+  Student
+  Contributor
+  Alumni
+}
+
+model Person {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  role      String
+  expertise String
+  portrait  String
+  kind      PersonKind @default(Contributor)
+  // JSON-encoded [{ label, href }]
+  linksJson String     @default("[]")
+  sortOrder Int        @default(0)
+
+  user User?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ──────────────────────────────────────────────────────────────────────
+// Publications
+// ──────────────────────────────────────────────────────────────────────
+
+model Publication {
+  id      Int    @id @default(autoincrement())
+  authors String
+  year    Int
+  title   String @unique
+  venue   String
+  volume  Int?
+  issue   Int?
+  pages   String?
+  doi     String?
+  url     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([year])
+}

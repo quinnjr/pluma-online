@@ -1,0 +1,79 @@
+@import 'tailwindcss';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* Self-hosted fonts — bundled via @fontsource so nothing needs a third-party
+   trust anchor. Vite content-hashes the woff2 files for cache-busting and
+   effective URL-based integrity. */
+@import '@fontsource-variable/crimson-pro';
+@import '@fontsource-variable/crimson-pro/wght-italic.css';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-sans/700.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@theme {
+	--font-serif:
+		'Crimson Pro Variable', 'Source Serif Pro', Cambria, 'Times New Roman', Times, serif;
+	--font-sans:
+		'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+	--font-mono:
+		'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	/* Academic palette: FIU-adjacent deep blue + warm gold accents, neutral ivory background */
+	--color-ink-50: #f8f7f3;
+	--color-ink-100: #eeece4;
+	--color-ink-200: #d9d5c7;
+	--color-ink-300: #b5ad96;
+	--color-ink-500: #6b6352;
+	--color-ink-700: #3a3328;
+	--color-ink-900: #1a1710;
+
+	--color-primary-50: #eef4fa;
+	--color-primary-100: #d5e3f1;
+	--color-primary-500: #2d5988;
+	--color-primary-700: #1a3a52;
+	--color-primary-900: #0e2234;
+
+	--color-accent-500: #a47517;
+	--color-accent-600: #8a6112;
+}
+
+html {
+	font-family: var(--font-serif);
+	color: var(--color-ink-900);
+	background-color: var(--color-ink-50);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	font-feature-settings: 'kern', 'liga', 'onum';
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--font-serif);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+/* UI chrome (nav, buttons, small meta text) uses the sans */
+nav, button, input, select, textarea, .ui-sans, [data-ui] {
+	font-family: var(--font-sans);
+}
+
+code, pre, kbd, samp {
+	font-family: var(--font-mono);
+}
+
+/* subtle underline treatment for academic links */
+a.prose-link {
+	text-decoration: underline;
+	text-decoration-color: var(--color-accent-500);
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1px;
+}
