@@ -177,8 +177,6 @@ model Person {
   id        Int        @id @default(autoincrement())
   name      String     @unique
   role      String
-  expertise String
-  portrait  String
   kind      PersonKind @default(Contributor)
   // JSON-encoded [{ label, href }]
   linksJson String     @default("[]")

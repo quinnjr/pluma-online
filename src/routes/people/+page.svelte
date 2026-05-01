@@ -29,18 +29,10 @@
 	<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 		{#each data.faculty as person (person.name)}
 			<article class="flex flex-col border-t border-ink-200 pt-6">
-				<img
-					src={person.portrait}
-					alt="Portrait of {person.name}"
-					class="h-28 w-28 rounded-full border border-ink-200 object-cover grayscale transition hover:grayscale-0"
-					loading="lazy"
-					referrerpolicy="no-referrer"
-				/>
-				<h3 class="mt-5 font-serif text-xl font-semibold text-primary-900">{person.name}</h3>
+				<h3 class="font-serif text-xl font-semibold text-primary-900">{person.name}</h3>
 				<p class="mt-1 font-sans text-[11px] uppercase tracking-[0.14em] text-accent-600" data-ui>
 					{person.role}
 				</p>
-				<p class="mt-3 text-[15px] leading-relaxed text-ink-700">{person.expertise}</p>
 				{#if person.links && person.links.length}
 					<ul class="mt-4 flex flex-wrap gap-3 text-sm" data-ui>
 						{#each person.links as link (link.href)}
@@ -72,18 +64,10 @@
 			<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 				{#each data.students as person (person.name)}
 					<article class="flex flex-col border-t border-ink-200 pt-6">
-						<img
-							src={person.portrait}
-							alt="Portrait of {person.name}"
-							class="h-24 w-24 rounded-full border border-ink-200 object-cover"
-							loading="lazy"
-							referrerpolicy="no-referrer"
-						/>
-						<h3 class="mt-4 font-serif text-lg font-semibold text-primary-900">{person.name}</h3>
+						<h3 class="font-serif text-lg font-semibold text-primary-900">{person.name}</h3>
 						<p class="mt-1 font-sans text-[11px] uppercase tracking-[0.14em] text-ink-500" data-ui>
 							{person.role}
 						</p>
-						<p class="mt-2 text-sm leading-relaxed text-ink-700">{person.expertise}</p>
 					</article>
 				{/each}
 			</div>
@@ -103,18 +87,11 @@
 		<ul class="divide-y divide-ink-200 border-y border-ink-200">
 			{#each data.contributors as person (person.name)}
 				<li class="flex items-center gap-6 py-5">
-					<img
-						src={person.portrait}
-						alt="Portrait of {person.name}"
-						class="h-14 w-14 rounded-full border border-ink-200 object-cover"
-						loading="lazy"
-					/>
 					<div class="flex-1">
 						<p class="font-serif text-lg font-semibold text-primary-900">{person.name}</p>
 						<p class="font-sans text-[11px] uppercase tracking-[0.14em] text-accent-600" data-ui>
 							{person.role}
 						</p>
-						<p class="mt-1 text-sm text-ink-700">{person.expertise}</p>
 					</div>
 					{#if person.links && person.links.length}
 						<div class="flex gap-4 text-sm" data-ui>

@@ -24,8 +24,6 @@
 	<PersonForm
 		name={p.name}
 		role={p.role}
-		expertise={p.expertise}
-		portrait={p.portrait}
 		kind={p.kind}
 		sortOrder={p.sortOrder}
 		links={data.links}

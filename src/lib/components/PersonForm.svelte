@@ -5,8 +5,6 @@
 	type Props = {
 		name?: string;
 		role?: string;
-		expertise?: string;
-		portrait?: string;
 		kind?: string;
 		sortOrder?: number;
 		links?: Link[];
@@ -15,8 +13,6 @@
 	let {
 		name = '',
 		role = '',
-		expertise = '',
-		portrait = '',
 		kind = 'Contributor',
 		sortOrder = 100,
 		links = []
@@ -42,14 +38,6 @@
 <div>
 	<label class="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-500" for="role">Role / position</label>
 	<input id="role" name="role" required value={role} class="mt-2 w-full rounded-sm border border-ink-300 bg-white px-3 py-2 text-sm" />
-</div>
-<div>
-	<label class="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-500" for="expertise">Expertise / bio</label>
-	<textarea id="expertise" name="expertise" required rows="3" class="mt-2 w-full rounded-sm border border-ink-300 bg-white px-3 py-2 text-sm">{expertise}</textarea>
-</div>
-<div>
-	<label class="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-500" for="portrait">Portrait URL</label>
-	<input id="portrait" name="portrait" type="url" value={portrait} placeholder="/images/blank-profile-picture.webp" class="mt-2 w-full rounded-sm border border-ink-300 bg-white px-3 py-2 text-sm font-mono" />
 </div>
 <div class="grid gap-5 sm:grid-cols-2">
 	<div>

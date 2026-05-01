@@ -27,8 +27,7 @@
 	<tbody>
 		{#each data.people as p (p.id)}
 			<tr class="border-b border-ink-100 align-top">
-				<td class="py-2.5 pr-4 flex items-center gap-3">
-					<img src={p.portrait} alt={p.name} class="h-8 w-8 rounded-full border border-ink-200 object-cover" referrerpolicy="no-referrer" />
+				<td class="py-2.5 pr-4">
 					<a class="font-medium text-primary-900 hover:underline" href="/admin/people/{p.id}">{p.name}</a>
 				</td>
 				<td class="py-2.5 pr-4 text-ink-700">{p.kind}</td>

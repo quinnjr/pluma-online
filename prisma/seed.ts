@@ -319,10 +319,6 @@ async function seedPeopleAndPublications() {
 		const links = person.homepage ? [{ label: 'Homepage', href: person.homepage }] : [];
 		const data = {
 			role: person.role,
-			// The home page does not carry expertise blurbs or portraits; admins
-			// can fill these in from the UI without the seed clobbering them.
-			expertise: '',
-			portrait: '',
 			kind: person.kind,
 			linksJson: JSON.stringify(links),
 			sortOrder: person.sortOrder

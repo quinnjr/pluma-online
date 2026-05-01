@@ -3,8 +3,6 @@ import { PersonKind } from '@prisma/client';
 export type PersonInput = {
 	name: string;
 	role: string;
-	expertise: string;
-	portrait: string;
 	kind: PersonKind;
 	linksJson: string;
 	sortOrder: number;
@@ -15,12 +13,10 @@ export function parsePersonForm(
 ): { ok: true; data: PersonInput } | { ok: false; error: string } {
 	const name = String(form.get('name') ?? '').trim();
 	const role = String(form.get('role') ?? '').trim();
-	const expertise = String(form.get('expertise') ?? '').trim();
-	const portrait = String(form.get('portrait') ?? '').trim() || '/images/blank-profile-picture.webp';
 	const kindRaw = String(form.get('kind') ?? 'Contributor');
 	const sortOrder = Number(form.get('sortOrder') ?? 100);
 
-	if (!name || !role || !expertise) return { ok: false, error: 'Name, role, and expertise are required.' };
+	if (!name || !role) return { ok: false, error: 'Name and role are required.' };
 	if (!(kindRaw in PersonKind)) return { ok: false, error: 'Invalid person kind.' };
 
 	// Links: pairs of labels[] + hrefs[]
@@ -36,8 +32,6 @@ export function parsePersonForm(
 		data: {
 			name,
 			role,
-			expertise,
-			portrait,
 			kind: kindRaw as PersonKind,
 			linksJson: JSON.stringify(links),
 			sortOrder: Number.isFinite(sortOrder) ? sortOrder : 100
