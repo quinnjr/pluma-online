@@ -1,0 +1,32 @@
+# syntax=docker/dockerfile:1.7
+#
+# Development image for pluma-online. Used by docker-compose.yml.
+# The repo is bind-mounted at /app so source edits trigger Vite HMR.
+
+ARG NODE_VERSION=22
+
+FROM node:${NODE_VERSION}-alpine
+ENV PNPM_HOME=/pnpm \
+    PATH=/pnpm:$PATH \
+    NODE_ENV=development
+RUN corepack enable \
+ && apk add --no-cache \
+        build-base \
+        python3 \
+        libc6-compat \
+        openssl \
+        openssl-dev \
+        ca-certificates \
+        git
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY prisma ./prisma
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile \
+ && pnpm exec prisma generate
+
+EXPOSE 5173
+# Regenerate the Prisma client at start so schema edits made on the host are
+# picked up against the bind-mounted prisma/ directory before Vite spins up.
+CMD ["sh", "-c", "pnpm exec prisma generate && exec pnpm dev --host 0.0.0.0"]

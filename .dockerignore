@@ -1,0 +1,43 @@
+# VCS / editor
+.git
+.gitignore
+.github
+.husky
+.vscode
+.angular
+
+# Local artefacts
+node_modules
+.pnpm-store
+.svelte-kit
+build
+dist
+.output
+.vercel
+.netlify
+.wrangler
+
+# Env (never bake secrets into the image)
+.env
+.env.*
+!.env.example
+
+# Local SQLite / dev DB
+prisma/dev.db
+prisma/dev.db-journal
+prisma/*.db
+prisma/*.db-journal
+
+# Coverage and timestamps
+**/coverage*
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Compose / Docker (only the production Dockerfile is needed inside the image)
+docker-compose*.yml
+Dockerfile.dev
+.dockerignore
+
+# OS junk
+.DS_Store
+Thumbs.db

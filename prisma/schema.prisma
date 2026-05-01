@@ -1,13 +1,16 @@
-// PluMA Online (Svelte) — SQLite datasource.
+// PluMA Online (Svelte) — Postgres datasource.
 // See src/lib/server/db.ts for the Prisma client singleton.
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // native: matches whoever runs `prisma generate` locally.
+  // linux-musl-openssl-3.0.x: alpine-based production/dev images.
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 // ──────────────────────────────────────────────────────────────────────

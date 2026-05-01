@@ -16,7 +16,7 @@
 		"db:studio": "prisma studio"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/adapter-node": "^5.3.3",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@tailwindcss/forms": "^0.5.11",
@@ -39,7 +39,17 @@
 		"@fontsource/ibm-plex-sans": "^5.2.8",
 		"@fortawesome/fontawesome-free": "^7.2.0",
 		"@prisma/client": "^6.19.3",
+		"@simplewebauthn/browser": "^13.2.4",
+		"@simplewebauthn/server": "^13.2.4",
 		"argon2": "^0.44.0",
 		"jose": "^6.2.2"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@prisma/client",
+			"@prisma/engines",
+			"argon2",
+			"prisma"
+		]
 	}
 }
