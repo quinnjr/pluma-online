@@ -7,6 +7,12 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+/dist
+
+# Caches / legacy artifacts
+.angular/
+.pnpm-store/
+/server
 
 # Worktrees
 .worktrees/
