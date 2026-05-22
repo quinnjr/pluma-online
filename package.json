@@ -7,9 +7,12 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
+		"prepare": "svelte-kit sync || echo '' ; husky || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"db:push": "prisma db push",
 		"db:seed": "prisma db seed",
 		"db:reset": "prisma migrate reset --force",
@@ -25,13 +28,15 @@
 		"@types/node": "^25.6.0",
 		"cheerio": "^1.1.4",
 		"dotenv": "^17.4.2",
+		"husky": "^9.1.7",
 		"prisma": "^6.19.3",
 		"svelte": "^5.55.2",
 		"svelte-check": "^4.4.6",
 		"tailwindcss": "^4.2.2",
 		"tsx": "^4.21.0",
 		"typescript": "^6.0.2",
-		"vite": "^8.0.7"
+		"vite": "^8.0.7",
+		"vitest": "^2.1.8"
 	},
 	"dependencies": {
 		"@casl/ability": "^6.8.0",
@@ -44,13 +49,5 @@
 		"@simplewebauthn/server": "^13.2.4",
 		"argon2": "^0.44.0",
 		"jose": "^6.2.2"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@prisma/client",
-			"@prisma/engines",
-			"argon2",
-			"prisma"
-		]
 	}
 }

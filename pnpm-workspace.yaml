@@ -1,3 +1,7 @@
-onlyBuiltDependencies:
-  - esbuild
-  - '@tailwindcss/oxide'
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  '@tailwindcss/oxide': true
+  argon2: true
+  esbuild: true
+  prisma: true
