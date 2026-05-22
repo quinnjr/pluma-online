@@ -1,7 +1,7 @@
 {
 	"name": "pluma-online-new",
 	"private": true,
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
@@ -29,13 +29,10 @@
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.2.2",
 		"@types/node": "^25.6.0",
-		"cheerio": "^1.1.4",
-		"dotenv": "^17.4.2",
 		"husky": "^9.1.7",
 		"svelte": "^5.55.2",
 		"svelte-check": "^4.4.6",
 		"tailwindcss": "^4.2.2",
-		"tsx": "^4.21.0",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.7",
 		"vitest": "^2.1.8"
@@ -50,7 +47,10 @@
 		"@simplewebauthn/browser": "^13.2.4",
 		"@simplewebauthn/server": "^13.2.4",
 		"argon2": "^0.44.0",
+		"cheerio": "^1.1.4",
+		"dotenv": "^17.4.2",
 		"jose": "^6.2.2",
-		"prisma": "^6.19.3"
+		"prisma": "^6.19.3",
+		"tsx": "^4.21.0"
 	}
 }

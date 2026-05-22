@@ -60,7 +60,7 @@ WORKDIR /app
 COPY --from=build --chown=app:app /app/node_modules ./node_modules
 COPY --from=build --chown=app:app /app/build        ./build
 COPY --from=build --chown=app:app /app/prisma       ./prisma
-COPY --chown=app:app  package.json ./
+COPY --chown=app:app  package.json prisma.config.ts ./
 USER app
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
