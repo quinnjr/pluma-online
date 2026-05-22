@@ -1,6 +1,5 @@
 import 'dotenv/config';
-import { PrismaClient, PipelineStatus, PersonKind, Role } from '@prisma/client';
-import argon2 from 'argon2';
+import { PrismaClient, PipelineStatus, PersonKind } from '@prisma/client';
 import * as cheerio from 'cheerio';
 
 const db = new PrismaClient();
@@ -340,38 +339,10 @@ async function seedPeopleAndPublications() {
 	}
 }
 
-async function seedRootUser() {
-	const email = (process.env.ROOT_EMAIL ?? '').trim().toLowerCase();
-	if (!email) {
-		console.log('Skipping Root user seed (ROOT_EMAIL not set).');
-		return;
-	}
-	const existing = await db.user.findUnique({ where: { email } });
-	if (existing) {
-		console.log(`Root user already exists: ${email}`);
-		return;
-	}
-	const plain = process.env.ROOT_PASSWORD ?? 'ChangeMeNow!';
-	const passwordHash = await argon2.hash(plain, { type: argon2.argon2id });
-
-	await db.user.create({
-		data: {
-			email,
-			passwordHash,
-			displayName: 'PluMA Root',
-			role: Role.Root,
-			enabled: true,
-			verifiedAt: new Date()
-		}
-	});
-	console.log(`Seeded Root user: ${email} (password: ${plain}) — rotate before deploy.`);
-}
-
 async function main() {
 	await seedPlugins();
 	await seedPipelines();
 	await seedPeopleAndPublications();
-	await seedRootUser();
 
 	const [plugins, categories, languages, pipelines, people, pubs, users] = await Promise.all([
 		db.plugin.count(),

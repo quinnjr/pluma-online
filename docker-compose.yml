@@ -50,7 +50,6 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-pluma}:${POSTGRES_PASSWORD:-pluma}@database:5432/${POSTGRES_DB:-pluma}?schema=public
       JWT_SECRET: ${JWT_SECRET:-dev-insecure-change-me-in-production-at-least-32-chars}
       ROOT_EMAIL: ${ROOT_EMAIL:-root@pluma.local}
-      ROOT_PASSWORD: ${ROOT_PASSWORD:-ChangeMeNow!}
       CHOKIDAR_USEPOLLING: "true"
     restart: unless-stopped
     networks:
