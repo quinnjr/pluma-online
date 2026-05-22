@@ -14,7 +14,9 @@
 		"lint": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"test": "vitest run --passWithNoTests",
 		"test:watch": "vitest",
-		"db:push": "prisma db push",
+		"db:migrate": "prisma migrate dev",
+		"db:migrate:deploy": "prisma migrate deploy",
+		"db:migrate:status": "prisma migrate status",
 		"db:seed": "prisma db seed",
 		"db:reset": "prisma migrate reset --force",
 		"db:studio": "prisma studio"

@@ -29,4 +29,4 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 EXPOSE 5173
 # Regenerate the Prisma client at start so schema edits made on the host are
 # picked up against the bind-mounted prisma/ directory before Vite spins up.
-CMD ["sh", "-c", "pnpm exec prisma generate && exec pnpm dev --host 0.0.0.0"]
+CMD ["sh", "-c", "pnpm exec prisma generate && pnpm exec prisma migrate deploy && exec pnpm dev --host 0.0.0.0"]

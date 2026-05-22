@@ -29,7 +29,7 @@ This brings up Postgres (`pluma-online-db`) and the SvelteKit dev server with Vi
 ```sh
 pnpm install
 pnpm exec prisma generate
-pnpm exec prisma db push      # apply schema to a running Postgres
+pnpm db:migrate:deploy        # apply migrations against a running Postgres
 pnpm db:seed                  # scrape plugin/pipeline/people data into the DB
 pnpm dev
 ```
@@ -62,7 +62,9 @@ There is no pre-seeded admin account. The **first user to sign up with the addre
 | `pnpm lint` | `svelte-kit sync` + `svelte-check` (strict TS + Svelte) |
 | `pnpm test` | Run the vitest unit suite |
 | `pnpm test:watch` | Vitest in watch mode |
-| `pnpm db:push` | Push Prisma schema to the database |
+| `pnpm db:migrate` | Create + apply a new migration in dev (`prisma migrate dev`) |
+| `pnpm db:migrate:deploy` | Apply pending migrations (`prisma migrate deploy`) — production-safe, idempotent |
+| `pnpm db:migrate:status` | Show which migrations are applied / pending |
 | `pnpm db:seed` | Scrape catalogue + people data from the canonical PluMA site |
 | `pnpm db:reset` | Force-reset the database (destructive) |
 | `pnpm db:studio` | Open Prisma Studio |
@@ -94,6 +96,7 @@ There are no database or browser tests yet.
 
 ## Architecture notes
 
+- Schema changes go through versioned Prisma migrations in `prisma/migrations/`. The production Docker image runs `prisma migrate deploy` at container start before booting the app, so new releases self-apply pending migrations. To author a new migration locally, edit `prisma/schema.prisma` then run `pnpm db:migrate` against a dev Postgres — Prisma will generate a timestamped SQL file, apply it, and regenerate the client.
 - The plugin/pipeline/people catalogue is materialised by `prisma/seed.ts`, which scrapes the canonical PluMA site (`PLUMA_BASE_URL` defaults to <https://biorg.cs.fiu.edu/pluma>) and upserts into Postgres. Re-running the seed is idempotent.
 - A custom Vite plugin (see `vite.config.ts`) walks the client build output at the end of `pnpm build` and writes a SHA-384 SRI manifest into both client and server outputs. The server hook (`src/lib/server/sri.ts`) reads it at startup and rewrites SvelteKit-injected `<script>`/`<link>` tags with `integrity` + `crossorigin` attributes via `transformPageChunk`.
 - Auth is JWT-in-httpOnly-cookie. Token version is part of the claim, letting `tokenVersion` bumps on the `User` row invalidate all live sessions for that user.

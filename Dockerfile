@@ -66,4 +66,8 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:'+(process.env.PORT||3000)+'/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["node", "build/index.js"]
+# Apply any pending Prisma migrations on startup, then hand off to the
+# SvelteKit adapter-node server. `prisma migrate deploy` is idempotent and
+# safe to run on every container boot — it only applies migrations not yet
+# recorded in `_prisma_migrations`.
+CMD ["sh", "-c", "node node_modules/prisma/build/index.js migrate deploy && exec node build/index.js"]
