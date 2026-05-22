@@ -1,42 +1,103 @@
-# sv
+# pluma-online
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Web front end for the [PluMA](https://biorg.cs.fiu.edu/pluma) plugin-based bioinformatics framework — a catalogue of plugins, pipelines, contributors, and publications, with role-based admin tools for editing them.
 
-## Creating a project
+This is a full rewrite (v2.x) of the original Angular + NestJS site as a single SvelteKit 5 application backed by Postgres via Prisma.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Stack
 
-```sh
-# create a new project
-npx sv create my-app
-```
+- **SvelteKit 5** (runes mode) on the [`adapter-node`](https://svelte.dev/docs/kit/adapter-node) runtime
+- **Prisma 6** + **Postgres 17**
+- **Auth**: argon2id password hashing, HS256 JWT cookies, WebAuthn passkeys (`@simplewebauthn`)
+- **Authorization**: [CASL](https://casl.js.org) abilities with Root / Admin / User / Guest roles
+- **Security**: strict CSP, build-time SHA-384 Subresource Integrity manifest injected at SSR
+- **Styling**: Tailwind v4 + self-hosted IBM Plex / Crimson Pro / Font Awesome
 
-To recreate this project with the same configuration:
+## Quick start
 
-```sh
-# recreate this project
-pnpm dlx sv@0.15.1 create --template minimal --types ts --install pnpm pluma-online-new
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### With Docker Compose (recommended for local dev)
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+cp .env.example .env       # edit secrets
+docker compose up --build
 ```
 
-## Building
+This brings up Postgres (`pluma-online-db`) and the SvelteKit dev server with Vite HMR (`pluma-online`) at <http://localhost:5173>. The webapp container uses `Dockerfile.dev` and bind-mounts the source tree.
 
-To create a production version of your app:
+### Local install
 
 ```sh
-npm run build
+pnpm install
+pnpm exec prisma generate
+pnpm exec prisma db push      # apply schema to a running Postgres
+pnpm db:seed                  # scrape plugin/pipeline/people data into the DB
+pnpm dev
 ```
 
-You can preview the production build with `npm run preview`.
+### Production image
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+The standalone `Dockerfile` produces a hardened multi-stage image that runs `adapter-node` on `PORT` (default `3000`). Published automatically to GHCR by `.github/workflows/docker-publish.yml`:
+
+```sh
+docker pull ghcr.io/quinnjr/pluma-online:latest
+docker run --rm -p 3000:3000 \
+  -e DATABASE_URL=postgresql://user:pass@host:5432/pluma \
+  -e JWT_SECRET=... -e ROOT_EMAIL=... -e ORIGIN=https://pluma.example \
+  ghcr.io/quinnjr/pluma-online:latest
+```
+
+Tags published per release: `2.0.1`, `2.0`, `latest`, `sha-<commit>`. Built for `linux/amd64` and `linux/arm64`.
+
+## Root user provisioning
+
+There is no pre-seeded admin account. The **first user to sign up with the address that matches `ROOT_EMAIL`** is created as the Root user with whatever password they choose. Root accounts are auto-verified and can promote others to Admin from `/admin/users`.
+
+## Scripts
+
+| Command | What it does |
+|---|---|
+| `pnpm dev` | Vite dev server with HMR |
+| `pnpm build` | Production build into `build/` (consumed by the prod Dockerfile) |
+| `pnpm preview` | Preview the production build locally |
+| `pnpm lint` | `svelte-kit sync` + `svelte-check` (strict TS + Svelte) |
+| `pnpm test` | Run the vitest unit suite |
+| `pnpm test:watch` | Vitest in watch mode |
+| `pnpm db:push` | Push Prisma schema to the database |
+| `pnpm db:seed` | Scrape catalogue + people data from the canonical PluMA site |
+| `pnpm db:reset` | Force-reset the database (destructive) |
+| `pnpm db:studio` | Open Prisma Studio |
+
+## Environment variables
+
+See [`.env.example`](.env.example) for the full set with comments. Required in production:
+
+- `DATABASE_URL` — Postgres connection string
+- `JWT_SECRET` — HS256 signing secret, ≥ 32 chars
+- `ROOT_EMAIL` — address that auto-becomes Root on first signup
+- `ORIGIN` — public origin used as the WebAuthn Relying Party origin (passkey registration silently fails if unset in prod)
+
+Optional: `PORT` (adapter-node listen port), `PLUMA_BASE_URL` (catalogue scrape source override).
+
+The `POSTGRES_*` and `WEBAPP_PORT` variables only affect the dev `docker-compose.yml` stack.
+
+## Tests
+
+`pnpm test` runs the vitest unit suite — 55 tests covering JWT sign/verify, argon2 hashing, the RBAC `enforce` helper, the CASL abilities matrix, publication and person form parsers, the SRI manifest injector, and WebAuthn helpers. SvelteKit virtual modules (`$env/dynamic/{private,public}`, `$app/environment`) are stubbed for node via `src/__test__/stubs/`.
+
+There are no database or browser tests yet.
+
+## CI / hooks
+
+- **`.github/workflows/ci.yml`** — runs `pnpm lint` and `pnpm test` on push/PR to `develop` and `main`.
+- **`.github/workflows/docker-publish.yml`** — multi-arch Docker build + push to GHCR on push to `develop` / `main` and on `v*.*.*` tags.
+- **Husky** — `pre-commit` runs `pnpm lint`; `pre-push` runs `pnpm test`.
+
+## Architecture notes
+
+- The plugin/pipeline/people catalogue is materialised by `prisma/seed.ts`, which scrapes the canonical PluMA site (`PLUMA_BASE_URL` defaults to <https://biorg.cs.fiu.edu/pluma>) and upserts into Postgres. Re-running the seed is idempotent.
+- A custom Vite plugin (see `vite.config.ts`) walks the client build output at the end of `pnpm build` and writes a SHA-384 SRI manifest into both client and server outputs. The server hook (`src/lib/server/sri.ts`) reads it at startup and rewrites SvelteKit-injected `<script>`/`<link>` tags with `integrity` + `crossorigin` attributes via `transformPageChunk`.
+- Auth is JWT-in-httpOnly-cookie. Token version is part of the claim, letting `tokenVersion` bumps on the `User` row invalidate all live sessions for that user.
+
+## License
+
+GPL-3.0 — see the upstream [`PluMA`](https://github.com/FIUBioRG/PluMA) project for citation and acknowledgements.
