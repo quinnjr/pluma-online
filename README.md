@@ -100,4 +100,4 @@ There are no database or browser tests yet.
 
 ## License
 
-GPL-3.0 — see the upstream [`PluMA`](https://github.com/FIUBioRG/PluMA) project for citation and acknowledgements.
+MIT — see [`LICENSE`](LICENSE). For citation of the underlying PluMA framework, see the upstream [`FIUBioRG/PluMA`](https://github.com/FIUBioRG/PluMA) project.
