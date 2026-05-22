@@ -70,4 +70,4 @@ ENTRYPOINT ["/sbin/tini", "--"]
 # SvelteKit adapter-node server. `prisma migrate deploy` is idempotent and
 # safe to run on every container boot — it only applies migrations not yet
 # recorded in `_prisma_migrations`.
-CMD ["sh", "-c", "node node_modules/prisma/build/index.js migrate deploy && exec node build/index.js"]
+CMD ["sh", "-c", "./node_modules/.bin/prisma migrate deploy && exec node build/index.js"]
