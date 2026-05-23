@@ -137,6 +137,39 @@ model PluginEdge {
 }
 
 // ──────────────────────────────────────────────────────────────────────
+// README cache
+//
+// Independent of Plugin/Pipeline rows (no FK back) so renames or
+// deletions don't cascade. Rows are upserted by readme.ts and pruned
+// out-of-band if their owner disappears.
+// ──────────────────────────────────────────────────────────────────────
+
+enum ReadmeOwner {
+  Plugin
+  Pipeline
+}
+
+model ReadmeCache {
+  ownerType     ReadmeOwner
+  ownerId       Int
+  // Sanitized HTML body served straight into the page. Empty until a
+  // non-304 success has landed at least once.
+  html          String?
+  // GitHub ETag for conditional GET; null until first non-304 response.
+  etag          String?
+  // Cached repo default branch (looked up via /repos/{owner}/{repo}).
+  // Used by sanitize-html transformTags to rewrite relative links.
+  defaultBranch String?
+  // Last GitHub response status (200, 304, 404, 403, 0 for network error).
+  lastStatus    Int
+  fetchedAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@id([ownerType, ownerId])
+  @@index([fetchedAt])
+}
+
+// ──────────────────────────────────────────────────────────────────────
 // Identity & authorship
 // ──────────────────────────────────────────────────────────────────────
 
