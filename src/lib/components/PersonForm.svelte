@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PersonKind } from '@prisma/client';
+	import { PERSON_KINDS } from '$lib/personKinds';
 
 	type Link = { label: string; href: string };
 	type Props = {
@@ -43,7 +43,7 @@
 	<div>
 		<label class="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-ink-500" for="kind">Kind</label>
 		<select id="kind" name="kind" class="mt-2 w-full rounded-sm border-ink-300 bg-white px-3 py-2 text-sm">
-			{#each Object.values(PersonKind) as k (k)}<option value={k} selected={k === kind}>{k}</option>{/each}
+			{#each PERSON_KINDS as k (k)}<option value={k} selected={k === kind}>{k}</option>{/each}
 		</select>
 	</div>
 	<div>
