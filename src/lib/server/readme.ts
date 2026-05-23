@@ -70,6 +70,24 @@ function absolutize(
 	return `https://github.com/${ctx.owner}/${ctx.repo}/blob/${ctx.defaultBranch}/${path}`;
 }
 
+const GITHUB_HEADERS = {
+	'X-GitHub-Api-Version': '2022-11-28',
+	'User-Agent': 'pluma-online'
+};
+
+export async function getDefaultBranch(owner: string, repo: string): Promise<string | null> {
+	try {
+		const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+			headers: { ...GITHUB_HEADERS, Accept: 'application/vnd.github+json' }
+		});
+		if (res.status !== 200) return null;
+		const body = (await res.json()) as { default_branch?: string };
+		return body.default_branch ?? null;
+	} catch {
+		return null;
+	}
+}
+
 export function parseGithubUrl(url: string): GithubRepo | null {
 	try {
 		const u = new URL(url);

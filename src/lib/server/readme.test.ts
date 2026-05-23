@@ -1,6 +1,13 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { parseGithubUrl } from './readme';
 import { sanitizeReadmeHtml } from './readme';
+import { getDefaultBranch } from './readme';
+
+const fetchMock = vi.fn();
+beforeEach(() => {
+	fetchMock.mockReset();
+	vi.stubGlobal('fetch', fetchMock);
+});
 
 describe('parseGithubUrl', () => {
 	it('parses https://github.com/owner/repo', () => {
@@ -96,5 +103,30 @@ describe('sanitizeReadmeHtml', () => {
 			defaultBranch: null
 		});
 		expect(out).not.toContain('docs/foo.png');
+	});
+});
+
+describe('getDefaultBranch', () => {
+	it('returns default_branch from /repos/{owner}/{repo}', async () => {
+		fetchMock.mockResolvedValueOnce(
+			new Response(JSON.stringify({ default_branch: 'develop' }), { status: 200 })
+		);
+		expect(await getDefaultBranch('a', 'b')).toBe('develop');
+		expect(fetchMock).toHaveBeenCalledWith(
+			'https://api.github.com/repos/a/b',
+			expect.objectContaining({
+				headers: expect.objectContaining({ Accept: 'application/vnd.github+json' })
+			})
+		);
+	});
+
+	it('returns null on non-200', async () => {
+		fetchMock.mockResolvedValueOnce(new Response('', { status: 404 }));
+		expect(await getDefaultBranch('a', 'b')).toBeNull();
+	});
+
+	it('returns null on network error', async () => {
+		fetchMock.mockRejectedValueOnce(new Error('boom'));
+		expect(await getDefaultBranch('a', 'b')).toBeNull();
 	});
 });
