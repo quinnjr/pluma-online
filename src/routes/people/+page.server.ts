@@ -5,7 +5,8 @@ type PersonLink = { label: string; href: string };
 
 export const load: PageServerLoad = async () => {
 	const people = await db.person.findMany({
-		orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }]
+		orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+		select: { name: true, role: true, kind: true, linksJson: true }
 	});
 
 	const shaped = people.map((p) => ({

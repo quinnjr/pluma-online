@@ -5,7 +5,10 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	enforce(locals.ability, 'read', 'Person');
-	const people = await db.person.findMany({ orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }] });
+	const people = await db.person.findMany({
+		orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+		select: { id: true, name: true, kind: true, role: true, sortOrder: true }
+	});
 	return { people };
 };
 

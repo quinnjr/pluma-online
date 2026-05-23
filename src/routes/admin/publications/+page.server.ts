@@ -5,7 +5,10 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	enforce(locals.ability, 'read', 'Publication');
-	const publications = await db.publication.findMany({ orderBy: [{ year: 'desc' }, { title: 'asc' }] });
+	const publications = await db.publication.findMany({
+		orderBy: [{ year: 'desc' }, { title: 'asc' }],
+		select: { id: true, title: true, authors: true, year: true, venue: true }
+	});
 	return { publications };
 };
 

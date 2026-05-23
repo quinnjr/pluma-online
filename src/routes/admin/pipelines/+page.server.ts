@@ -5,7 +5,10 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	enforce(locals.ability, 'read', 'Pipeline');
-	const pipelines = await db.pipeline.findMany({ orderBy: [{ status: 'asc' }, { name: 'asc' }] });
+	const pipelines = await db.pipeline.findMany({
+		orderBy: [{ status: 'asc' }, { name: 'asc' }],
+		select: { id: true, name: true, description: true, status: true, githubUrl: true }
+	});
 	return { pipelines };
 };
 
