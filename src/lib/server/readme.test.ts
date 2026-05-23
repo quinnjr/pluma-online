@@ -217,7 +217,7 @@ describe('getReadme — happy path', () => {
 	it('warm cache (< TTL): returns stored html without any fetch', async () => {
 		state.rows.push({
 			ownerType: 'Plugin', ownerId: 1, html: '<p>cached</p>', etag: '"x"',
-			defaultBranch: 'main', lastStatus: 200, fetchedAt: new Date(), updatedAt: new Date()
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: new Date(Date.now() - 1000), updatedAt: new Date()
 		});
 		const result = await getReadme(ENTITY);
 		expect(result.status).toBe('ok');
@@ -230,5 +230,28 @@ describe('getReadme — happy path', () => {
 		expect(result.status).toBe('error');
 		expect(result.html).toBeUndefined();
 		expect(fetchMock).not.toHaveBeenCalled();
+	});
+
+	it('maps a 200 with empty sanitized html to missing (not error)', async () => {
+		fetchMock
+			.mockResolvedValueOnce(repoOk('main'))
+			.mockResolvedValueOnce(readmeOk('<script>only unsafe content</script>'));
+		const result = await getReadme(ENTITY);
+		expect(result.status).toBe('missing');
+		expect(result.html).toBeUndefined();
+	});
+
+	it('stale cache (> TTL): re-fetches and refreshes stored html', async () => {
+		const stale = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>old</p>', etag: '"e"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: stale, updatedAt: stale
+		});
+		fetchMock.mockResolvedValueOnce(readmeOk('<p>fresh</p>', '"e2"'));
+		const result = await getReadme(ENTITY);
+		expect(result.html).toContain('<p>fresh</p>');
+		expect(state.rows[0].etag).toBe('"e2"');
+		// defaultBranch already known → only the readme endpoint is hit, not /repos
+		expect(fetchMock).toHaveBeenCalledTimes(1);
 	});
 });

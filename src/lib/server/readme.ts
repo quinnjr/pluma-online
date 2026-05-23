@@ -123,6 +123,9 @@ function rowToResult(row: { html: string | null; lastStatus: number }): ReadmeRe
 	if (row.html) return { html: row.html, status: 'ok' };
 	if (row.lastStatus === 404) return { status: 'missing' };
 	if (row.lastStatus === 403) return { status: 'rate_limited' };
+	// A 200 with no usable html means the README rendered empty after
+	// sanitization — treat it as missing content, not a fetch failure.
+	if (row.lastStatus === 200) return { status: 'missing' };
 	return { status: 'error' };
 }
 
@@ -130,7 +133,7 @@ async function refresh(
 	ownerType: 'Plugin' | 'Pipeline',
 	ownerId: number,
 	repo: GithubRepo,
-	prior: { defaultBranch: string | null; etag: string | null; html: string | null; lastStatus: number } | null
+	prior: { defaultBranch: string | null; etag: string | null } | null
 ): Promise<ReadmeResult> {
 	const defaultBranch = prior?.defaultBranch ?? (await getDefaultBranch(repo.owner, repo.repo));
 
@@ -147,12 +150,15 @@ async function refresh(
 		if (status === 200) {
 			const raw = await res.text();
 			html = sanitizeReadmeHtml(raw, { owner: repo.owner, repo: repo.repo, defaultBranch });
+			if (html === '') html = undefined;
 			etag = res.headers.get('ETag') ?? etag;
 		}
 	} catch {
 		status = 0;
 	}
 
+	// Only overwrite html/etag on a 200. On 304/4xx/network errors we keep the
+	// prior row's content so a transient GitHub blip doesn't blank the page.
 	const update = {
 		defaultBranch,
 		lastStatus: status,
