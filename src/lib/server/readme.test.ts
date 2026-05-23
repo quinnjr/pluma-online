@@ -1,4 +1,62 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+type CacheRow = {
+	ownerType: 'Plugin' | 'Pipeline';
+	ownerId: number;
+	html: string | null;
+	etag: string | null;
+	defaultBranch: string | null;
+	lastStatus: number;
+	fetchedAt: Date;
+	updatedAt: Date;
+};
+
+const state = vi.hoisted(() => ({ rows: [] as CacheRow[] }));
+
+const db = vi.hoisted(() => ({
+	readmeCache: {
+		findUnique: vi.fn(async (args: { where: { ownerType_ownerId: { ownerType: 'Plugin' | 'Pipeline'; ownerId: number } } }) =>
+			state.rows.find(
+				(r) =>
+					r.ownerType === args.where.ownerType_ownerId.ownerType &&
+					r.ownerId === args.where.ownerType_ownerId.ownerId
+			) ?? null
+		),
+		upsert: vi.fn(
+			async (args: {
+				where: { ownerType_ownerId: { ownerType: 'Plugin' | 'Pipeline'; ownerId: number } };
+				create: Partial<CacheRow>;
+				update: Partial<CacheRow>;
+			}) => {
+				const idx = state.rows.findIndex(
+					(r) =>
+						r.ownerType === args.where.ownerType_ownerId.ownerType &&
+						r.ownerId === args.where.ownerType_ownerId.ownerId
+				);
+				if (idx === -1) {
+					const row = {
+						ownerType: args.where.ownerType_ownerId.ownerType,
+						ownerId: args.where.ownerType_ownerId.ownerId,
+						html: null,
+						etag: null,
+						defaultBranch: null,
+						lastStatus: 0,
+						fetchedAt: new Date(),
+						updatedAt: new Date(),
+						...args.create
+					} as CacheRow;
+					state.rows.push(row);
+					return row;
+				}
+				state.rows[idx] = { ...state.rows[idx], ...args.update, updatedAt: new Date() };
+				return state.rows[idx];
+			}
+		)
+	}
+}));
+
+vi.mock('./db', () => ({ db }));
+
 import { parseGithubUrl } from './readme';
 import { sanitizeReadmeHtml } from './readme';
 import { getDefaultBranch } from './readme';
@@ -6,6 +64,7 @@ import { getDefaultBranch } from './readme';
 const fetchMock = vi.fn();
 beforeEach(() => {
 	fetchMock.mockReset();
+	state.rows = [];
 	vi.stubGlobal('fetch', fetchMock);
 });
 
@@ -128,5 +187,48 @@ describe('getDefaultBranch', () => {
 	it('returns null on network error', async () => {
 		fetchMock.mockRejectedValueOnce(new Error('boom'));
 		expect(await getDefaultBranch('a', 'b')).toBeNull();
+	});
+});
+
+import { getReadme } from './readme';
+
+const ENTITY = { ownerType: 'Plugin' as const, ownerId: 1, githubUrl: 'https://github.com/o/r' };
+
+function repoOk(branch = 'main') {
+	return new Response(JSON.stringify({ default_branch: branch }), { status: 200 });
+}
+
+function readmeOk(html: string, etag = '"abc"') {
+	return new Response(html, { status: 200, headers: { ETag: etag } });
+}
+
+describe('getReadme — happy path', () => {
+	it('cold cache: fetches repo metadata + readme html and stores both', async () => {
+		fetchMock.mockResolvedValueOnce(repoOk('main')).mockResolvedValueOnce(readmeOk('<h1>Hi</h1>'));
+		const result = await getReadme(ENTITY);
+		expect(result.status).toBe('ok');
+		expect(result.html).toContain('<h1>Hi</h1>');
+		expect(state.rows).toHaveLength(1);
+		expect(state.rows[0].defaultBranch).toBe('main');
+		expect(state.rows[0].etag).toBe('"abc"');
+		expect(state.rows[0].lastStatus).toBe(200);
+	});
+
+	it('warm cache (< TTL): returns stored html without any fetch', async () => {
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>cached</p>', etag: '"x"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: new Date(), updatedAt: new Date()
+		});
+		const result = await getReadme(ENTITY);
+		expect(result.status).toBe('ok');
+		expect(result.html).toBe('<p>cached</p>');
+		expect(fetchMock).not.toHaveBeenCalled();
+	});
+
+	it('returns status=error for a malformed githubUrl', async () => {
+		const result = await getReadme({ ...ENTITY, githubUrl: 'not a url' });
+		expect(result.status).toBe('error');
+		expect(result.html).toBeUndefined();
+		expect(fetchMock).not.toHaveBeenCalled();
 	});
 });

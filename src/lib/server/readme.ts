@@ -1,4 +1,5 @@
 import sanitizeHtml from 'sanitize-html';
+import { db } from './db';
 
 export type GithubRepo = { owner: string; repo: string };
 
@@ -86,6 +87,95 @@ export async function getDefaultBranch(owner: string, repo: string): Promise<str
 	} catch {
 		return null;
 	}
+}
+
+export type ReadmeStatus = 'ok' | 'missing' | 'rate_limited' | 'error';
+
+export interface ReadmeResult {
+	html?: string;
+	status: ReadmeStatus;
+}
+
+export interface GetReadmeArgs {
+	ownerType: 'Plugin' | 'Pipeline';
+	ownerId: number;
+	githubUrl: string;
+}
+
+const TTL_MS = 24 * 60 * 60 * 1000;
+
+export async function getReadme(args: GetReadmeArgs): Promise<ReadmeResult> {
+	const parsed = parseGithubUrl(args.githubUrl);
+	if (!parsed) return { status: 'error' };
+
+	const row = await db.readmeCache.findUnique({
+		where: { ownerType_ownerId: { ownerType: args.ownerType, ownerId: args.ownerId } }
+	});
+
+	if (row && Date.now() - row.fetchedAt.getTime() < TTL_MS) {
+		return rowToResult(row);
+	}
+
+	return refresh(args.ownerType, args.ownerId, parsed, row);
+}
+
+function rowToResult(row: { html: string | null; lastStatus: number }): ReadmeResult {
+	if (row.html) return { html: row.html, status: 'ok' };
+	if (row.lastStatus === 404) return { status: 'missing' };
+	if (row.lastStatus === 403) return { status: 'rate_limited' };
+	return { status: 'error' };
+}
+
+async function refresh(
+	ownerType: 'Plugin' | 'Pipeline',
+	ownerId: number,
+	repo: GithubRepo,
+	prior: { defaultBranch: string | null; etag: string | null; html: string | null; lastStatus: number } | null
+): Promise<ReadmeResult> {
+	const defaultBranch = prior?.defaultBranch ?? (await getDefaultBranch(repo.owner, repo.repo));
+
+	const headers: Record<string, string> = { ...GITHUB_HEADERS, Accept: 'application/vnd.github.html' };
+	if (prior?.etag) headers['If-None-Match'] = prior.etag;
+
+	let status = 0;
+	let html: string | undefined;
+	let etag: string | null = prior?.etag ?? null;
+
+	try {
+		const res = await fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/readme`, { headers });
+		status = res.status;
+		if (status === 200) {
+			const raw = await res.text();
+			html = sanitizeReadmeHtml(raw, { owner: repo.owner, repo: repo.repo, defaultBranch });
+			etag = res.headers.get('ETag') ?? etag;
+		}
+	} catch {
+		status = 0;
+	}
+
+	const update = {
+		defaultBranch,
+		lastStatus: status,
+		fetchedAt: new Date(),
+		...(status === 200 && html !== undefined ? { html, etag } : {})
+	};
+	const created = {
+		ownerType,
+		ownerId,
+		html: status === 200 ? html ?? null : null,
+		etag: status === 200 ? etag : null,
+		defaultBranch,
+		lastStatus: status,
+		fetchedAt: new Date()
+	};
+
+	const after = await db.readmeCache.upsert({
+		where: { ownerType_ownerId: { ownerType, ownerId } },
+		create: created,
+		update
+	});
+
+	return rowToResult(after);
 }
 
 export function parseGithubUrl(url: string): GithubRepo | null {
