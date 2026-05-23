@@ -5,6 +5,9 @@ import { resolveCurrentUser } from '$lib/server/auth';
 import { defineAbilityFor } from '$lib/abilities';
 import { injectSri } from '$lib/server/sri';
 
+const EDITOR_SESSION_COOKIE = 'pluma_editor_session';
+const EDITOR_SESSION_TTL_S = 60 * 60 * 24 * 30;
+
 const authHandle: Handle = async ({ event, resolve }) => {
 	// Skip auth resolution for immutable asset requests.
 	if (event.url.pathname.startsWith('/_app/')) {
@@ -16,6 +19,21 @@ const authHandle: Handle = async ({ event, resolve }) => {
 	event.locals.ability = defineAbilityFor(
 		user ? { id: user.id, role: user.role, enabled: user.enabled } : null
 	);
+
+	// Server-issued opaque key for grouping editor activity. Lets recommendation
+	// events be tied to a stable origin without trusting a client-supplied id.
+	let editorSession = event.cookies.get(EDITOR_SESSION_COOKIE);
+	if (!editorSession) {
+		editorSession = crypto.randomUUID();
+		event.cookies.set(EDITOR_SESSION_COOKIE, editorSession, {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+			secure: event.url.protocol === 'https:',
+			maxAge: EDITOR_SESSION_TTL_S
+		});
+	}
+	event.locals.editorSession = editorSession;
 
 	if (event.url.pathname.startsWith('/admin')) {
 		if (!user) {

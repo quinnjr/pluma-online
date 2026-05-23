@@ -9,6 +9,7 @@ declare global {
 		interface Locals {
 			user: User | null;
 			ability: AppAbility;
+			editorSession: string;
 		}
 		// interface PageData {}
 		// interface PageState {}
