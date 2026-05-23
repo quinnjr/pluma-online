@@ -375,4 +375,35 @@ describe('getReadme — refresh timeout', () => {
 
 		vi.useRealTimers();
 	});
+
+	it('background refresh eventually writes the upsert after the timeout', async () => {
+		vi.useFakeTimers();
+		const old = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>stale</p>', etag: '"x"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: old, updatedAt: old
+		});
+
+		fetchMock.mockImplementation(
+			() => new Promise((resolve) => setTimeout(() => resolve(readmeOk('<p>fresh</p>', '"y"')), 5000))
+		);
+
+		const pending = getReadme(ENTITY);
+		await vi.advanceTimersByTimeAsync(2100);
+		const result = await pending;
+		expect(result.html).toBe('<p>stale</p>');
+
+		// Drive the timer past the 5s mock delay, then let the background
+		// upsert flush its microtasks.
+		await vi.advanceTimersByTimeAsync(4000);
+		await vi.runAllTimersAsync();
+		// Allow the chained .then() in refresh() to settle.
+		await Promise.resolve();
+		await Promise.resolve();
+
+		expect(state.rows[0].html).toContain('<p>fresh</p>');
+		expect(state.rows[0].etag).toBe('"y"');
+
+		vi.useRealTimers();
+	});
 });

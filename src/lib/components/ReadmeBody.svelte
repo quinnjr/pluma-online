@@ -19,7 +19,7 @@
 </script>
 
 {#if status === 'ok' && html}
-	<article class="prose-pluma">
+	<article class="prose prose-pluma">
 		{@html html}
 	</article>
 {:else}

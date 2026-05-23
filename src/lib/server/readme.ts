@@ -123,6 +123,11 @@ export async function getReadme(args: GetReadmeArgs): Promise<ReadmeResult> {
 	// its result is still upserted on completion. Cold caches must wait — there's
 	// nothing to serve in the meantime.
 	if (row) {
+		// Race against a 2s budget — slow GitHub never blocks the page.
+		// The background refresh may settle long after; attach a catch so a
+		// late rejection (DB error mid-upsert) doesn't become an unhandled
+		// rejection in the runtime.
+		refreshPromise.catch(() => {});
 		const timeout = new Promise<ReadmeResult>((resolve) =>
 			setTimeout(() => resolve(rowToResult(row)), 2000)
 		);
