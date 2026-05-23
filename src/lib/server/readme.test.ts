@@ -202,6 +202,12 @@ function readmeOk(html: string, etag = '"abc"') {
 	return new Response(html, { status: 200, headers: { ETag: etag } });
 }
 
+// 304 is a null-body status the WHATWG Response constructor rejects, so stub
+// the shape refresh() actually reads (status only on the non-200 path).
+function notModified(): Response {
+	return { status: 304, headers: { get: () => null }, text: async () => '' } as unknown as Response;
+}
+
 describe('getReadme — happy path', () => {
 	it('cold cache: fetches repo metadata + readme html and stores both', async () => {
 		fetchMock.mockResolvedValueOnce(repoOk('main')).mockResolvedValueOnce(readmeOk('<h1>Hi</h1>'));
@@ -253,5 +259,43 @@ describe('getReadme — happy path', () => {
 		expect(state.rows[0].etag).toBe('"e2"');
 		// defaultBranch already known → only the readme endpoint is hit, not /repos
 		expect(fetchMock).toHaveBeenCalledTimes(1);
+	});
+});
+
+describe('getReadme — ETag flow', () => {
+	it('expired cache + 304 keeps html and etag, bumps fetchedAt', async () => {
+		const oldFetchedAt = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>old</p>', etag: '"prev"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: oldFetchedAt, updatedAt: oldFetchedAt
+		});
+
+		fetchMock.mockResolvedValueOnce(notModified());
+
+		const result = await getReadme(ENTITY);
+
+		expect(result.status).toBe('ok');
+		expect(result.html).toBe('<p>old</p>');
+		expect(fetchMock).toHaveBeenCalledTimes(1);
+		expect((fetchMock.mock.calls[0][1] as RequestInit).headers).toMatchObject({
+			'If-None-Match': '"prev"'
+		});
+		expect(state.rows[0].fetchedAt.getTime()).toBeGreaterThan(oldFetchedAt.getTime());
+		expect(state.rows[0].etag).toBe('"prev"');
+	});
+
+	it('expired cache + 200 replaces html and etag', async () => {
+		const oldFetchedAt = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>old</p>', etag: '"prev"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: oldFetchedAt, updatedAt: oldFetchedAt
+		});
+
+		fetchMock.mockResolvedValueOnce(readmeOk('<p>new</p>', '"next"'));
+
+		const result = await getReadme(ENTITY);
+
+		expect(result.html).toContain('<p>new</p>');
+		expect(state.rows[0].etag).toBe('"next"');
 	});
 });
