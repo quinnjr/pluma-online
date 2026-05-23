@@ -29,6 +29,7 @@
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.2.2",
+		"@testing-library/jest-dom": "^6.9.1",
 		"@testing-library/svelte": "^5.3.1",
 		"@types/node": "^25.6.0",
 		"@types/sanitize-html": "^2.16.1",
@@ -39,6 +40,7 @@
 		"tailwindcss": "^4.2.2",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.9",
+		"vite-plugin-svelte-4": "npm:@sveltejs/vite-plugin-svelte@^4.0.4",
 		"vitest": "^2.1.8"
 	},
 	"dependencies": {
