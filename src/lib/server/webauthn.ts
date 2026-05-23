@@ -2,7 +2,7 @@ import { env } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
 import { dev } from '$app/environment';
 import { db } from './db';
-import type { Passkey } from '@prisma/client';
+import { Prisma, type Passkey } from '@prisma/client';
 import type { AuthenticatorTransportFuture } from '@simplewebauthn/server';
 
 function getRpConfig() {
@@ -55,12 +55,19 @@ export async function createChallenge(userId?: number): Promise<string> {
 }
 
 export async function consumeChallenge(challenge: string, userId?: number): Promise<boolean> {
-	const row = await db.webAuthnChallenge.findUnique({ where: { challenge } });
-	if (!row) return false;
-	await db.webAuthnChallenge.delete({ where: { id: row.id } });
-	if (row.expiresAt < new Date()) return false;
-	if (userId !== undefined && row.userId !== null && row.userId !== userId) return false;
-	return true;
+	// Atomic delete-and-validate avoids the findUnique+delete race. P2025
+	// (record not found) is the legitimate "already consumed or never existed"
+	// case; any other error is operational and must propagate so transient DB
+	// failures don't masquerade as challenge mismatches and lock users out.
+	try {
+		const row = await db.webAuthnChallenge.delete({ where: { challenge } });
+		if (row.expiresAt < new Date()) return false;
+		if (userId !== undefined && row.userId !== null && row.userId !== userId) return false;
+		return true;
+	} catch (err) {
+		if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2025') return false;
+		throw err;
+	}
 }
 
 export function passkeyToAuthenticator(passkey: Passkey) {
