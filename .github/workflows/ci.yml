@@ -13,6 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # setup-node must run before pnpm/action-setup so pnpm 11+ has Node 22.13
+      # to install against. cache: pnpm is added in a second setup-node pass
+      # after pnpm is on PATH.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
@@ -30,6 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
       - uses: pnpm/action-setup@v4
 
