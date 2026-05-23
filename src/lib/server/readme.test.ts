@@ -299,3 +299,80 @@ describe('getReadme — ETag flow', () => {
 		expect(state.rows[0].etag).toBe('"next"');
 	});
 });
+
+describe('getReadme — fallback statuses', () => {
+	it('404 with prior html preserves and still serves the stale html', async () => {
+		const old = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>stale</p>', etag: '"x"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: old, updatedAt: old
+		});
+		fetchMock.mockResolvedValueOnce(new Response('', { status: 404 }));
+
+		const result = await getReadme(ENTITY);
+
+		expect(state.rows[0].html).toBe('<p>stale</p>');
+		expect(result.status).toBe('ok');
+		expect(result.html).toBe('<p>stale</p>');
+		expect(state.rows[0].lastStatus).toBe(404);
+	});
+
+	it('404 with no prior row returns status=missing and html undefined', async () => {
+		fetchMock
+			.mockResolvedValueOnce(repoOk('main'))
+			.mockResolvedValueOnce(new Response('', { status: 404 }));
+
+		const result = await getReadme(ENTITY);
+
+		expect(result.status).toBe('missing');
+		expect(result.html).toBeUndefined();
+	});
+
+	it('403 returns rate_limited when no prior html exists', async () => {
+		fetchMock
+			.mockResolvedValueOnce(repoOk('main'))
+			.mockResolvedValueOnce(new Response('', { status: 403 }));
+
+		const result = await getReadme(ENTITY);
+
+		expect(result.status).toBe('rate_limited');
+	});
+
+	it('network error returns stale html and records lastStatus 0', async () => {
+		const old = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>stale</p>', etag: null,
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: old, updatedAt: old
+		});
+		fetchMock.mockRejectedValueOnce(new Error('boom'));
+
+		const result = await getReadme(ENTITY);
+
+		expect(result.html).toBe('<p>stale</p>');
+		expect(state.rows[0].lastStatus).toBe(0);
+	});
+});
+
+describe('getReadme — refresh timeout', () => {
+	it('serves stale cache when GitHub takes longer than 2s', async () => {
+		vi.useFakeTimers();
+		const old = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>stale</p>', etag: '"x"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: old, updatedAt: old
+		});
+
+		fetchMock.mockImplementation(
+			() => new Promise((resolve) => setTimeout(() => resolve(readmeOk('<p>new</p>')), 5000))
+		);
+
+		const pending = getReadme(ENTITY);
+		await vi.advanceTimersByTimeAsync(2100);
+		const result = await pending;
+
+		expect(result.status).toBe('ok');
+		expect(result.html).toBe('<p>stale</p>');
+
+		vi.useRealTimers();
+	});
+});

@@ -116,7 +116,20 @@ export async function getReadme(args: GetReadmeArgs): Promise<ReadmeResult> {
 		return rowToResult(row);
 	}
 
-	return refresh(args.ownerType, args.ownerId, parsed, row);
+	const refreshPromise = refresh(args.ownerType, args.ownerId, parsed, row);
+
+	// With a stale row to fall back on, race the refresh against a 2s budget so
+	// a slow GitHub never blocks the page load. The refresh keeps running and
+	// its result is still upserted on completion. Cold caches must wait — there's
+	// nothing to serve in the meantime.
+	if (row) {
+		const timeout = new Promise<ReadmeResult>((resolve) =>
+			setTimeout(() => resolve(rowToResult(row)), 2000)
+		);
+		return Promise.race([refreshPromise, timeout]);
+	}
+
+	return refreshPromise;
 }
 
 function rowToResult(row: { html: string | null; lastStatus: number }): ReadmeResult {
