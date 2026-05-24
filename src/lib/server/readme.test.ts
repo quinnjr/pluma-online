@@ -234,7 +234,7 @@ describe('getReadme — happy path', () => {
 	it('returns status=error for a malformed githubUrl', async () => {
 		const result = await getReadme({ ...ENTITY, githubUrl: 'not a url' });
 		expect(result.status).toBe('error');
-		expect(result.html).toBeUndefined();
+		expect(result.html).toBeNull();
 		expect(fetchMock).not.toHaveBeenCalled();
 	});
 
@@ -244,7 +244,21 @@ describe('getReadme — happy path', () => {
 			.mockResolvedValueOnce(readmeOk('<script>only unsafe content</script>'));
 		const result = await getReadme(ENTITY);
 		expect(result.status).toBe('missing');
-		expect(result.html).toBeUndefined();
+		expect(result.html).toBeNull();
+	});
+
+	it('stale cache + 200 with empty sanitized html flips to missing and clears stored html', async () => {
+		const stale = new Date(Date.now() - 25 * 60 * 60 * 1000);
+		state.rows.push({
+			ownerType: 'Plugin', ownerId: 1, html: '<p>old</p>', etag: '"prev"',
+			defaultBranch: 'main', lastStatus: 200, fetchedAt: stale, updatedAt: stale
+		});
+		// All-script content sanitizes to empty.
+		fetchMock.mockResolvedValueOnce(readmeOk('<script>alert(1)</script>', '"next"'));
+		const result = await getReadme(ENTITY);
+		expect(result.status).toBe('missing');
+		expect(state.rows[0].html).toBeNull();
+		expect(state.rows[0].lastStatus).toBe(200);
 	});
 
 	it('stale cache (> TTL): re-fetches and refreshes stored html', async () => {
@@ -317,7 +331,7 @@ describe('getReadme — fallback statuses', () => {
 		expect(state.rows[0].lastStatus).toBe(404);
 	});
 
-	it('404 with no prior row returns status=missing and html undefined', async () => {
+	it('404 with no prior row returns status=missing and html null', async () => {
 		fetchMock
 			.mockResolvedValueOnce(repoOk('main'))
 			.mockResolvedValueOnce(new Response('', { status: 404 }));
@@ -325,7 +339,7 @@ describe('getReadme — fallback statuses', () => {
 		const result = await getReadme(ENTITY);
 
 		expect(result.status).toBe('missing');
-		expect(result.html).toBeUndefined();
+		expect(result.html).toBeNull();
 	});
 
 	it('403 returns rate_limited when no prior html exists', async () => {
@@ -337,6 +351,8 @@ describe('getReadme — fallback statuses', () => {
 
 		expect(result.status).toBe('rate_limited');
 	});
+
+	it.todo('sanitize-html throwing yields status=0 and preserves prior html — requires runtime mock of sanitize-html module');
 
 	it('network error returns stale html and records lastStatus 0', async () => {
 		const old = new Date(Date.now() - 25 * 60 * 60 * 1000);
