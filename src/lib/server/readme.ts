@@ -6,8 +6,7 @@ export type GithubRepo = { owner: string; repo: string };
 export type SanitizeCtx = {
 	owner: string;
 	repo: string;
-	// null when we haven't yet resolved the repo's default branch; relative
-	// URLs are then dropped rather than guessed.
+	// null → drop relative URLs rather than guess.
 	defaultBranch: string | null;
 };
 
@@ -39,6 +38,9 @@ export function sanitizeReadmeHtml(input: string, ctx: SanitizeCtx): string {
 			a: (tagName, attribs) => {
 				const href = absolutize(attribs.href, ctx, 'blob');
 				if (!href) return { tagName, attribs: {} };
+				// Fragment-only links stay in-page; injecting target=_blank would
+				// pop them into a new tab and lose the anchor scroll.
+				if (href.startsWith('#')) return { tagName, attribs: { ...attribs, href } };
 				return {
 					tagName,
 					attribs: { ...attribs, href, rel: 'noopener noreferrer', target: '_blank' }
@@ -47,6 +49,14 @@ export function sanitizeReadmeHtml(input: string, ctx: SanitizeCtx): string {
 			img: (tagName, attribs) => {
 				const src = absolutize(attribs.src, ctx, 'raw');
 				if (!src) return { tagName: 'span', attribs: {} };
+				try {
+					const host = new URL(src).hostname;
+					if (host !== 'github.com' && !host.endsWith('.githubusercontent.com')) {
+						return { tagName: 'span', attribs: {} };
+					}
+				} catch {
+					return { tagName: 'span', attribs: {} };
+				}
 				return { tagName, attribs: { ...attribs, src } };
 			}
 		}
@@ -61,7 +71,6 @@ function absolutize(
 	if (!url) return null;
 	if (/^(https?:|mailto:)/i.test(url)) return url;
 	if (url.startsWith('#')) return url;
-	// Reject any other scheme (javascript:, data:, vbscript:, etc.)
 	if (/^[a-zA-Z][a-zA-Z0-9+\-.]*:/.test(url)) return null;
 	if (!ctx.defaultBranch) return null;
 	const path = url.replace(/^\.?\/+/, '');
@@ -79,12 +88,22 @@ const GITHUB_HEADERS = {
 export async function getDefaultBranch(owner: string, repo: string): Promise<string | null> {
 	try {
 		const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
-			headers: { ...GITHUB_HEADERS, Accept: 'application/vnd.github+json' }
+			headers: { ...GITHUB_HEADERS, Accept: 'application/vnd.github+json' },
+			signal: AbortSignal.timeout(8000)
 		});
 		if (res.status !== 200) return null;
 		const body = (await res.json()) as { default_branch?: string };
-		return body.default_branch ?? null;
-	} catch {
+		const branch = body.default_branch;
+		if (!branch) return null;
+		// Git allows wild branch names; restrict to the safe subset so an
+		// unusual branch can't inject path chars into the rewritten URLs.
+		if (!/^[A-Za-z0-9._/-]+$/.test(branch) || branch.includes('..')) {
+			console.warn('[readme] rejecting unusual default branch', { owner, repo, branch });
+			return null;
+		}
+		return branch;
+	} catch (err) {
+		console.error('[readme] getDefaultBranch failed', { owner, repo, err });
 		return null;
 	}
 }
@@ -92,7 +111,7 @@ export async function getDefaultBranch(owner: string, repo: string): Promise<str
 export type ReadmeStatus = 'ok' | 'missing' | 'rate_limited' | 'error';
 
 export interface ReadmeResult {
-	html?: string;
+	html: string | null;
 	status: ReadmeStatus;
 }
 
@@ -106,7 +125,7 @@ const TTL_MS = 24 * 60 * 60 * 1000;
 
 export async function getReadme(args: GetReadmeArgs): Promise<ReadmeResult> {
 	const parsed = parseGithubUrl(args.githubUrl);
-	if (!parsed) return { status: 'error' };
+	if (!parsed) return { html: null, status: 'error' };
 
 	const row = await db.readmeCache.findUnique({
 		where: { ownerType_ownerId: { ownerType: args.ownerType, ownerId: args.ownerId } }
@@ -118,20 +137,21 @@ export async function getReadme(args: GetReadmeArgs): Promise<ReadmeResult> {
 
 	const refreshPromise = refresh(args.ownerType, args.ownerId, parsed, row);
 
-	// With a stale row to fall back on, race the refresh against a 2s budget so
-	// a slow GitHub never blocks the page load. The refresh keeps running and
-	// its result is still upserted on completion. Cold caches must wait — there's
-	// nothing to serve in the meantime.
 	if (row) {
-		// Race against a 2s budget — slow GitHub never blocks the page.
-		// The background refresh may settle long after; attach a catch so a
-		// late rejection (DB error mid-upsert) doesn't become an unhandled
-		// rejection in the runtime.
-		refreshPromise.catch(() => {});
-		const timeout = new Promise<ReadmeResult>((resolve) =>
-			setTimeout(() => resolve(rowToResult(row)), 2000)
-		);
-		return Promise.race([refreshPromise, timeout]);
+		const stale = rowToResult(row);
+		// Make the refresh promise resolve to the stale fallback on any failure
+		// so a mid-race upsert/DB error never propagates out of Promise.race.
+		const raceableRefresh = refreshPromise.catch((err) => {
+			console.error('[readme] background refresh failed', err);
+			return stale;
+		});
+		let timer: ReturnType<typeof setTimeout> | undefined;
+		const timeout = new Promise<ReadmeResult>((resolve) => {
+			timer = setTimeout(() => resolve(stale), 2000);
+		});
+		return Promise.race([raceableRefresh, timeout]).finally(() => {
+			if (timer) clearTimeout(timer);
+		});
 	}
 
 	return refreshPromise;
@@ -139,12 +159,11 @@ export async function getReadme(args: GetReadmeArgs): Promise<ReadmeResult> {
 
 function rowToResult(row: { html: string | null; lastStatus: number }): ReadmeResult {
 	if (row.html) return { html: row.html, status: 'ok' };
-	if (row.lastStatus === 404) return { status: 'missing' };
-	if (row.lastStatus === 403) return { status: 'rate_limited' };
-	// A 200 with no usable html means the README rendered empty after
-	// sanitization — treat it as missing content, not a fetch failure.
-	if (row.lastStatus === 200) return { status: 'missing' };
-	return { status: 'error' };
+	if (row.lastStatus === 404) return { html: null, status: 'missing' };
+	if (row.lastStatus === 403) return { html: null, status: 'rate_limited' };
+	// sanitization stripped everything — treat as missing, not a fetch error.
+	if (row.lastStatus === 200) return { html: null, status: 'missing' };
+	return { html: null, status: 'error' };
 }
 
 async function refresh(
@@ -162,26 +181,48 @@ async function refresh(
 	let html: string | undefined;
 	let etag: string | null = prior?.etag ?? null;
 
+	const MAX_BYTES = 2 * 1024 * 1024;
+
 	try {
-		const res = await fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/readme`, { headers });
+		const res = await fetch(
+			`https://api.github.com/repos/${repo.owner}/${repo.repo}/readme`,
+			{ headers, signal: AbortSignal.timeout(8000) }
+		);
 		status = res.status;
 		if (status === 200) {
-			const raw = await res.text();
-			html = sanitizeReadmeHtml(raw, { owner: repo.owner, repo: repo.repo, defaultBranch });
-			if (html === '') html = undefined;
-			etag = res.headers.get('ETag') ?? etag;
+			const contentLength = Number(res.headers.get('content-length') ?? 0);
+			if (contentLength > MAX_BYTES) {
+				status = 0;
+				console.warn('[readme] response too large', { owner: repo.owner, repo: repo.repo, contentLength });
+			} else {
+				const raw = await res.text();
+				if (raw.length > MAX_BYTES) {
+					status = 0;
+					console.warn('[readme] response body exceeded cap after read', { owner: repo.owner, repo: repo.repo, length: raw.length });
+				} else {
+					try {
+						html = sanitizeReadmeHtml(raw, { owner: repo.owner, repo: repo.repo, defaultBranch });
+					} catch (err) {
+						console.error('[readme] sanitization failed', { owner: repo.owner, repo: repo.repo, err });
+						html = undefined;
+						status = 0;
+					}
+					if (html === '') html = undefined;
+					etag = res.headers.get('ETag') ?? etag;
+				}
+			}
 		}
-	} catch {
+	} catch (err) {
 		status = 0;
+		console.error('[readme] fetch failed', { owner: repo.owner, repo: repo.repo, err });
 	}
 
-	// Only overwrite html/etag on a 200. On 304/4xx/network errors we keep the
-	// prior row's content so a transient GitHub blip doesn't blank the page.
+	// Preserve prior html on 304/4xx/network errors so a transient blip doesn't blank the page.
 	const update = {
 		defaultBranch,
 		lastStatus: status,
 		fetchedAt: new Date(),
-		...(status === 200 && html !== undefined ? { html, etag } : {})
+		...(status === 200 ? { html: html ?? null, etag } : {})
 	};
 	const created = {
 		ownerType,
@@ -211,6 +252,10 @@ export function parseGithubUrl(url: string): GithubRepo | null {
 		const owner = parts[0];
 		const repo = parts[1].replace(/\.git$/, '');
 		if (!owner || !repo) return null;
+		// GitHub usernames/repos: alphanumerics, dot, underscore, hyphen.
+		// Stricter than git allows, but matches what GitHub actually accepts.
+		const safe = /^[A-Za-z0-9._-]+$/;
+		if (!safe.test(owner) || !safe.test(repo)) return null;
 		return { owner, repo };
 	} catch {
 		return null;

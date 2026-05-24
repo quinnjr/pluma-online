@@ -16,7 +16,7 @@
 		{ label: 'Status', value: STATUS_PILL[data.entity.status]?.label ?? data.entity.status },
 		...(data.entity.author?.displayName ? [{ label: 'Author', value: data.entity.author.displayName }] : []),
 		{ label: 'Rating', value: data.entity.rating.toString() },
-		{ label: 'Updated', value: data.entity.updatedAt.toString().slice(0, 10) }
+		{ label: 'Updated', value: new Date(data.entity.updatedAt).toISOString().slice(0, 10) }
 	]);
 </script>
 

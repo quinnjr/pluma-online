@@ -11,7 +11,7 @@
 		{ label: 'Language', value: data.entity.language.name },
 		{ label: 'Rating', value: data.entity.rating.toString() },
 		...(data.entity.author?.displayName ? [{ label: 'Author', value: data.entity.author.displayName }] : []),
-		{ label: 'Updated', value: data.entity.updatedAt.toString().slice(0, 10) }
+		{ label: 'Updated', value: new Date(data.entity.updatedAt).toISOString().slice(0, 10) }
 	]);
 
 	const badges = $derived([

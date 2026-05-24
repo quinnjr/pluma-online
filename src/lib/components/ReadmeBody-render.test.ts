@@ -29,4 +29,17 @@ describe('ReadmeBody', () => {
 		expect(screen.getByText(/unavailable/i)).toBeInTheDocument();
 		expect(screen.getByText('A short plugin description.')).toBeInTheDocument();
 	});
+
+	it('renders the rate-limit notice when status=rate_limited', () => {
+		render(ReadmeBody, {
+			props: {
+				html: null,
+				status: 'rate_limited',
+				fallbackDescription: 'A short plugin description.',
+				githubUrl: 'https://github.com/o/r'
+			}
+		});
+		expect(screen.getByText(/rate limit reached/i)).toBeInTheDocument();
+		expect(screen.getByText('A short plugin description.')).toBeInTheDocument();
+	});
 });
