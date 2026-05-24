@@ -19,7 +19,6 @@ export const load: PageServerLoad = async ({ params }) => {
 			category: { select: { name: true } },
 			language: { select: { name: true } },
 			author: { select: { displayName: true } },
-			createdAt: true,
 			updatedAt: true
 		}
 	});
@@ -27,7 +26,10 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	const [readme, recommendations] = await Promise.all([
 		getReadme({ ownerType: 'Plugin', ownerId: id, githubUrl: entity.githubUrl }),
-		recommendationsFor(id, { direction: 'both', limit: 6 })
+		recommendationsFor(id, { direction: 'both', limit: 6 }).catch((err) => {
+			console.error('[plugins/detail] recommendationsFor failed', err);
+			return [];
+		})
 	]);
 
 	return {

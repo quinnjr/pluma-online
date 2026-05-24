@@ -59,4 +59,19 @@ describe('plugins/[id] load', () => {
 		});
 		expect(recommendationsFor).toHaveBeenCalledWith(42, { direction: 'both', limit: 6 });
 	});
+
+	it('returns empty recommendations when recommendationsFor throws', async () => {
+		db.plugin.findUnique.mockResolvedValueOnce({
+			id: 42, name: 'X', description: 'd', githubUrl: 'https://github.com/o/r',
+			rating: 0, category: { name: 'C' }, language: { name: 'L' }, author: null,
+			createdAt: new Date(), updatedAt: new Date()
+		});
+		getReadme.mockResolvedValueOnce({ html: '<p>x</p>', status: 'ok' });
+		recommendationsFor.mockRejectedValueOnce(new Error('DB down'));
+
+		const result = (await load(fakeEvent('42')))!;
+
+		expect(result.recommendations).toEqual([]);
+		expect(result.readmeStatus).toBe('ok');
+	});
 });

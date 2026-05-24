@@ -17,7 +17,6 @@ export const load: PageServerLoad = async ({ params }) => {
 			status: true,
 			rating: true,
 			author: { select: { displayName: true } },
-			createdAt: true,
 			updatedAt: true
 		}
 	});
