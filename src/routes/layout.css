@@ -80,12 +80,12 @@ a.prose-link {
 
 /* Avoid @tailwindcss/typography; equivalent prose rules via project tokens. */
 .prose-pluma {
-	@apply text-[15px] leading-relaxed text-ink-800;
+	@apply text-[15px] leading-relaxed text-ink-700;
 }
 .prose-pluma h1 { @apply mt-8 mb-4 font-serif text-3xl font-semibold text-primary-900; }
 .prose-pluma h2 { @apply mt-8 mb-3 font-serif text-2xl font-semibold text-primary-900; }
 .prose-pluma h3 { @apply mt-6 mb-2 font-serif text-xl font-semibold text-primary-900; }
-.prose-pluma h4 { @apply mt-6 mb-2 font-sans text-base font-semibold text-ink-800; }
+.prose-pluma h4 { @apply mt-6 mb-2 font-sans text-base font-semibold text-ink-700; }
 .prose-pluma p  { @apply my-4; }
 .prose-pluma a  { @apply text-primary-700 underline-offset-2 hover:underline; }
 .prose-pluma ul { @apply my-4 list-disc pl-6; }
