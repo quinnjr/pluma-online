@@ -152,10 +152,7 @@ enum ReadmeOwner {
 model ReadmeCache {
   ownerType     ReadmeOwner
   ownerId       Int
-  // Sanitized HTML body served straight into the page. Empty until a
-  // non-304 success has landed at least once.
   html          String?
-  // GitHub ETag for conditional GET; null until first non-304 response.
   etag          String?
   // Cached repo default branch (looked up via /repos/{owner}/{repo}).
   // Used by sanitize-html transformTags to rewrite relative links.

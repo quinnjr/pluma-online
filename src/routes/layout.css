@@ -78,8 +78,7 @@ a.prose-link {
 	text-decoration-thickness: 1px;
 }
 
-/* README-rendered content. Matches the rest of the site's serif body
- * and mono code without pulling in the @tailwindcss/typography plugin. */
+/* Avoid @tailwindcss/typography; equivalent prose rules via project tokens. */
 .prose-pluma {
 	@apply text-[15px] leading-relaxed text-ink-800;
 }
