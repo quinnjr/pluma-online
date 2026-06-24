@@ -15,6 +15,11 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    # The multi-arch build cross-compiles argon2 (a native module) for
+    # linux/arm64 under QEMU emulation, which is occasionally slow enough to
+    # hang. Cap the job so a stuck emulated build fails fast and can be re-run
+    # instead of burning the full 6h default and blocking PRs.
+    timeout-minutes: 30
     permissions:
       contents: read
       packages: write
