@@ -4,9 +4,18 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { resolveCurrentUser } from '$lib/server/auth';
 import { defineAbilityFor } from '$lib/abilities';
 import { injectSri } from '$lib/server/sri';
+import { ensureRootUser } from '$lib/server/root-user';
 
 const EDITOR_SESSION_COOKIE = 'pluma_editor_session';
 const EDITOR_SESSION_TTL_S = 60 * 60 * 24 * 30;
+
+// Provision the Root account from ROOT_EMAIL/ROOT_PASSWORD once at server start.
+// Migrations have already been applied by the container entrypoint before the
+// adapter-node server boots (see Dockerfile CMD). Fire-and-forget: it logs its
+// own failures and must never block request handling.
+void ensureRootUser().catch((err) => {
+	console.error('[auth] Root account provisioning failed:', err);
+});
 
 const authHandle: Handle = async ({ event, resolve }) => {
 	// Skip auth resolution for immutable asset requests.
@@ -34,6 +43,17 @@ const authHandle: Handle = async ({ event, resolve }) => {
 		});
 	}
 	event.locals.editorSession = editorSession;
+
+	// Force a password change before a flagged account (e.g. the auto-provisioned
+	// Root) can use the rest of the app. Allow only the change-password page
+	// itself and logout so the user isn't trapped.
+	if (
+		user?.mustChangePassword &&
+		!event.url.pathname.startsWith('/change-password') &&
+		event.url.pathname !== '/logout'
+	) {
+		throw redirect(303, '/change-password');
+	}
 
 	if (event.url.pathname.startsWith('/admin')) {
 		if (!user) {
