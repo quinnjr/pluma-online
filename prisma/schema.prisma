@@ -159,6 +159,10 @@ model User {
   role         Role    @default(User)
   // enabled=true means the account has been verified and may sign in.
   enabled      Boolean @default(false)
+  // Forces a password change on next sign-in. Set on the auto-provisioned Root
+  // account (created from ROOT_EMAIL/ROOT_PASSWORD) and cleared once the user
+  // chooses a new password via /change-password.
+  mustChangePassword Boolean @default(false)
 
   verifiedAt    DateTime?
   verifiedById  Int?

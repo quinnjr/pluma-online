@@ -18,6 +18,7 @@ export default defineConfig({
 		env: {
 			JWT_SECRET: 'test-secret-please-do-not-use-in-production-1234567890',
 			ROOT_EMAIL: 'root@pluma.local',
+			ROOT_PASSWORD: 'test-root-password-123',
 			ORIGIN: 'http://localhost:5173',
 			NODE_ENV: 'test'
 		}
