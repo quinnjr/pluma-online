@@ -96,9 +96,7 @@
 				<li class="py-5">
 					<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
 						<a
-							href={pipeline.githubUrl}
-							target="_blank"
-							rel="noopener"
+							href="/pipelines/{pipeline.id}"
 							class="font-serif text-lg font-semibold text-primary-900 hover:text-primary-700 hover:underline"
 						>
 							{pipeline.name}

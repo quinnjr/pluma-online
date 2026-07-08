@@ -6,6 +6,7 @@ export const load: PageServerLoad = async () => {
 		db.plugin.findMany({
 			orderBy: [{ category: { name: 'asc' } }, { name: 'asc' }],
 			select: {
+				id: true,
 				name: true,
 				description: true,
 				githubUrl: true,
@@ -25,6 +26,7 @@ export const load: PageServerLoad = async () => {
 
 	return {
 		plugins: plugins.map((p) => ({
+			id: p.id,
 			name: p.name,
 			description: p.description,
 			githubUrl: p.githubUrl,

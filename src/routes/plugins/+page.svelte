@@ -186,9 +186,7 @@
 						<li class="py-5">
 							<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
 								<a
-									href={plugin.githubUrl}
-									target="_blank"
-									rel="noopener"
+									href="/plugins/{plugin.id}"
 									class="font-serif text-lg font-semibold text-primary-900 hover:text-primary-700 hover:underline"
 								>
 									{plugin.name}

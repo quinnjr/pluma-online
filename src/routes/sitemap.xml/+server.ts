@@ -30,11 +30,13 @@ export const GET: RequestHandler = async ({ url, setHeaders }) => {
 	const select = { updatedAt: true } as const;
 	const orderBy = { updatedAt: 'desc' } as const;
 
-	const [person, pipeline, plugin, publication] = await Promise.all([
+	const [person, pipeline, plugin, publication, allPlugins, allPipelines] = await Promise.all([
 		db.person.findFirst({ orderBy, select }),
 		db.pipeline.findFirst({ orderBy, select }),
 		db.plugin.findFirst({ orderBy, select }),
-		db.publication.findFirst({ orderBy, select })
+		db.publication.findFirst({ orderBy, select }),
+		db.plugin.findMany({ select: { id: true, updatedAt: true } }),
+		db.pipeline.findMany({ select: { id: true, updatedAt: true } })
 	]);
 
 	const entries: UrlEntry[] = [
@@ -50,6 +52,13 @@ export const GET: RequestHandler = async ({ url, setHeaders }) => {
 			priority: 0.8
 		}
 	];
+
+	for (const p of allPlugins) {
+		entries.push({ path: `/plugins/${p.id}`, lastmod: p.updatedAt, changefreq: 'weekly', priority: 0.7 });
+	}
+	for (const p of allPipelines) {
+		entries.push({ path: `/pipelines/${p.id}`, lastmod: p.updatedAt, changefreq: 'weekly', priority: 0.7 });
+	}
 
 	const lines: string[] = [
 		'<?xml version="1.0" encoding="UTF-8"?>',

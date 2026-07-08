@@ -32,9 +32,9 @@ const config = {
 				'style-src': ['self'],
 				'style-src-elem': ['self'],
 				'font-src': ['self'],
-				// Portraits still come from biorg.cs.fiu.edu / a WordPress CDN. Allow
-				// any https source for images, plus data: for favicons.
-				'img-src': ['self', 'data:', 'https:'],
+				// Images in README content are GitHub-hosted; restrict to those
+				// origins rather than allowing all https sources.
+				'img-src': ['self', 'data:', 'https://*.githubusercontent.com', 'https://github.com'],
 				'connect-src': ['self'],
 				'manifest-src': ['self'],
 				'worker-src': ['self'],

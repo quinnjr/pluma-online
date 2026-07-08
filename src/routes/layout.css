@@ -77,3 +77,25 @@ a.prose-link {
 	text-underline-offset: 3px;
 	text-decoration-thickness: 1px;
 }
+
+/* Avoid @tailwindcss/typography; equivalent prose rules via project tokens. */
+.prose-pluma {
+	@apply text-[15px] leading-relaxed text-ink-700;
+}
+.prose-pluma h1 { @apply mt-8 mb-4 font-serif text-3xl font-semibold text-primary-900; }
+.prose-pluma h2 { @apply mt-8 mb-3 font-serif text-2xl font-semibold text-primary-900; }
+.prose-pluma h3 { @apply mt-6 mb-2 font-serif text-xl font-semibold text-primary-900; }
+.prose-pluma h4 { @apply mt-6 mb-2 font-sans text-base font-semibold text-ink-700; }
+.prose-pluma p  { @apply my-4; }
+.prose-pluma a  { @apply text-primary-700 underline-offset-2 hover:underline; }
+.prose-pluma ul { @apply my-4 list-disc pl-6; }
+.prose-pluma ol { @apply my-4 list-decimal pl-6; }
+.prose-pluma li { @apply my-1; }
+.prose-pluma code { @apply rounded bg-ink-100 px-1 py-0.5 font-mono text-[13px]; }
+.prose-pluma pre  { @apply my-4 overflow-x-auto rounded-sm border border-ink-200 bg-ink-50 p-4 text-[13px]; }
+.prose-pluma pre code { @apply bg-transparent p-0; }
+.prose-pluma blockquote { @apply my-4 border-l-4 border-ink-200 pl-4 italic text-ink-700; }
+.prose-pluma table { @apply my-4 w-full border-collapse text-sm; }
+.prose-pluma th, .prose-pluma td { @apply border border-ink-200 px-3 py-2 text-left; }
+.prose-pluma img { @apply my-4 max-w-full rounded-sm; }
+.prose-pluma hr { @apply my-8 border-ink-200; }

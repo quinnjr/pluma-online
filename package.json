@@ -29,13 +29,18 @@
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.2.2",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/svelte": "^5.3.1",
 		"@types/node": "^25.6.0",
+		"@types/sanitize-html": "^2.16.1",
 		"husky": "^9.1.7",
+		"jsdom": "^25.0.1",
 		"svelte": "^5.55.7",
 		"svelte-check": "^4.4.6",
 		"tailwindcss": "^4.2.2",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.9",
+		"vite-plugin-svelte-4": "npm:@sveltejs/vite-plugin-svelte@^4.0.4",
 		"vitest": "^2.1.8"
 	},
 	"dependencies": {
@@ -52,6 +57,7 @@
 		"dotenv": "^17.4.2",
 		"jose": "^6.2.2",
 		"prisma": "^6.19.3",
+		"sanitize-html": "^2.17.4",
 		"tsx": "^4.21.0"
 	}
 }

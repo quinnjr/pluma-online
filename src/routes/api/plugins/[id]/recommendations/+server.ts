@@ -12,7 +12,7 @@ export const GET: RequestHandler = async ({ params, url }) => {
 		throw error(400, 'Invalid limit');
 	}
 
-	const directionParam = (url.searchParams.get('direction') ?? 'after') as Direction;
+	const directionParam = (url.searchParams.get('direction') ?? 'both') as Direction;
 	if (!DIRECTIONS.includes(directionParam)) throw error(400, 'Invalid direction');
 
 	const recs = await recommendationsFor(pluginId, { limit, direction: directionParam });
